@@ -27,5 +27,6 @@ public class ForceDepartmentApplication implements CommandLineRunner {
 		//System.out.println(databaseManager.getWorkersByRating());
 		//System.out.println(databaseManager.getWorkersByProfession("Heating and Cooling System Mechanic"));
 		//System.out.println(databaseManager.getWorkersByWorkObject("Terrace"));
+		System.out.println(databaseManager.getWorkersByNamePart("ha")); // had to refactor for lower case - does not work for Haynes
 	}
 }

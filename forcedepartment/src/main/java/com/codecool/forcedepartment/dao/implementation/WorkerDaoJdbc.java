@@ -126,7 +126,38 @@ public class WorkerDaoJdbc implements WorkerDao {
 
     @Override
     public List<Worker> getAllByName(String name) {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT\n" +
+                    "    website_user.first_name,\n" +
+                    "    website_user.last_name,\n" +
+                    "    website_user.age,\n" +
+                    "    website_user.phone_number,\n" +
+                    "    website_user.is_admin,\n" +
+                    "    website_user.group_name,\n" +
+                    "    worker.is_available,\n" +
+                    "    worker.rate,\n" +
+                    "    worker.description,\n" +
+                    "    ARRAY_AGG(profession.profession_name)\n" +
+                    "FROM worker\n" +
+                    "    FULL JOIN website_user ON worker.user_id = website_user.id\n" +
+                    "    FULL JOIN worker_experience ON website_user.id = worker_experience.worker_id\n" +
+                    "    FULL JOIN profession ON profession.id = worker_experience.profession_id\n" +
+                    "WHERE website_user.group_name = 'worker' AND website_user.first_name LIKE ? OR website_user.last_name LIKE ?\n" +
+                    "GROUP BY website_user.first_name, website_user.last_name, website_user.age, website_user.phone_number, website_user.is_admin, website_user.group_name, worker.is_available, worker.rate, worker.description;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            String namePart = "%" + name + "%";
+            st.setString(1, namePart);
+            st.setString(2, namePart);
+            ResultSet rs = st.executeQuery();
+            List<Worker> result = new ArrayList<>();
+            while (rs.next()) {
+                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(9));
+                result.add(worker);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all suppliers", e);
+        }
     }
 
     @Override

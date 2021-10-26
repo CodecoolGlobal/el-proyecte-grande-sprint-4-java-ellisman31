@@ -40,4 +40,8 @@ public class DatabaseManager {
         return workerDao.getAllByWorkObject(workObject);
     }
 
+    public List<Worker> getWorkersByNamePart(String namePart) {
+        return workerDao.getAllByName(namePart);
+    }
+
 }
