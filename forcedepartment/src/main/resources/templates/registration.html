@@ -2,37 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/register.css}"/>
     <title>Registration</title>
 </head>
 <body>
 
 <div class="register-form">
+    <h1>Registration</h1>
+    <h3 th:text="${passwordWarning}"></h3>
     <form th:action="@{/register}" th:object="${User}" method="post">
-        <div class="register-panel">
-            <label for="firstName">First name: </label>
-            <input type="text" id="firstName" name="lastName" th:field="*{firstName}" required>
+        <hr>
+        <input type="text" id="firstName" name="lastName" placeholder="First Name" th:field="*{firstName}" required>
+
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name" th:field="*{lastName}" required>
+
+        <input type="text" id="email" name="email" placeholder="Email" th:field="*{email}" required>
+
+        <input type="date" id="userBirthOfDate" name="userBirthOfDate" placeholder="Birth of date" th:field="*{birthOfDate}" required>
+
+        <div class="password">
+            <input type="password" id="password" name="password" placeholder="Password" th:field="*{password}" required>
+            <input type="password" id="passwordAgain" name="passwordAgain" placeholder="Password again" required>
         </div>
-        <div class="register-panel">
-            <label for="lastName">Last name: </label>
-            <input type="text" id="lastName"  name="lastName" th:field="*{lastName}" required>
+
+        <div class="userType" th:each="group: ${T(com.codecool.forcedepartment.model.util.UserTypes).values()}">
+            <input type="radio" th:value="${group}" th:field="*{userType}" id="radio" name="groupType" required/>
+            <label for="radio" class="radio" th:text="${group}"></label>
         </div>
-        <div class="register-panel">
-            <label for="userAge">Your age: </label>
-            <input type="number" id="userAge" name="userAge" min=0 max=200 th:field="*{age}" minrequired>
-        </div>
-        <div class="register-panel">
-            <label for="role">Role: </label>
-            <select id="role" name="groupName" required th:field="*{groupType}">
-                <option value="" hidden>Select a role</option>
-                <option th:each="group: ${T(com.codecool.forcedepartment.model.util.GroupTypes).values()}"
-                        th:value="${group}"
-                        th:text="${group}"></option>
-            </select>
-        </div>
-        <div class="register-panel-button">
-            <button type="submit">Submit</button>
-        </div>
+
+        <button type="submit">Submit</button>
     </form>
 </div>
+
 </body>
 </html>
