@@ -19,18 +19,13 @@ public class ForceDepartmentApplication implements CommandLineRunner {
 	}
 
 	public static void main(String[] args) throws SQLException {
-
 		SpringApplication.run(ForceDepartmentApplication.class, args);
-
-
-
-		//System.out.println(databaseManager.getWorkersByRating());
-
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		System.out.println(databaseManager.getWorkersByProfession("Heating and Cooling System Mechanic"));
+		//System.out.println(databaseManager.getWorkersByRating());
+		//System.out.println(databaseManager.getWorkersByProfession("Heating and Cooling System Mechanic"));
+		//System.out.println(databaseManager.getWorkersByWorkObject("Terrace"));
 	}
 }

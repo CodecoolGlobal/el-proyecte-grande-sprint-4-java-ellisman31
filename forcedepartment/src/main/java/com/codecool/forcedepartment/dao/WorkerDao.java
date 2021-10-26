@@ -10,7 +10,7 @@ public interface WorkerDao {
 
     List<Worker> getAllByRating();
     List<Worker> getAllByProfession(String profession);
-    List<Worker> getAllByWorkObject(WorkObject workObject);
+    List<Worker> getAllByWorkObject(String workObject);
     List<Worker> getAllByName(String name);
     List<Worker> getAllByFilter();
 

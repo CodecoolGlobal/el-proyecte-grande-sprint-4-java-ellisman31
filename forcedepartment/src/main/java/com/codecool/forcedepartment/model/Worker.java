@@ -21,6 +21,6 @@ public class Worker extends User {
                 ", last_name='" + last_name + '\'' +
                 ", age=" + age +
                 ", description='" + description + '\'' +
-                '}';
+                "} \n";
     }
 }
