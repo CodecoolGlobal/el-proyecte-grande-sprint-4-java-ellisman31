@@ -100,6 +100,7 @@ INSERT INTO public.worker VALUES (5, 7, false, 7.8, 'At vero eos et accusamus et
 INSERT INTO public.worker VALUES (6, 8, false, 6.3, 'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.');
 INSERT INTO public.worker VALUES (7, 11, false, 9.1, 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.');
 INSERT INTO public.worker VALUES (8, 12, false, 8.2, 'Vivamus vel ex vitae orci dictum feugiat quis et tortor. Ut vehicula metus diam, tempor vulputate metus bibendum et. Etiam rhoncus ex a mauris suscipit lacinia. Etiam pulvinar posuere leo, vel malesuada sapien tristique in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc fermentum nisi ac purus consectetur, in semper risus mollis.');
+INSERT INTO public.worker VALUES (9, 13, false, 8.7, 'Vivamus vautem quibusdam et aut officiis debitis et tortor. Ut vehicula metus diam, tempor vulputate metus ut et voluptates repudiandae sint et molestiae non vel malesuada sapien tristique in. Interdum et malesuada fames.');
 
 INSERT INTO public.profession VALUES (1, 'Carpenter');
 INSERT INTO public.profession VALUES (2, 'Electrician');
