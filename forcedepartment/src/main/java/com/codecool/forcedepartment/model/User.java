@@ -1,22 +1,62 @@
 package com.codecool.forcedepartment.model;
 
-import com.codecool.forcedepartment.model.util.GroupTypes;
+import com.codecool.forcedepartment.model.util.UserTypes;
+
+import java.time.LocalDateTime;
 
 public abstract class User {
 
     private String firstName;
     private String lastName;
+    //local date year and the given year
     private int age;
+    private LocalDateTime registrationDate;
+    private String birthOfDate;
     private String phone_number;
     private boolean isAdmin;
-    private GroupTypes groupType;
+    private UserTypes userType;
+    private String password;
+    private String email;
 
-    public GroupTypes getGroupType() {
-        return groupType;
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setGroupType(GroupTypes groupType) {
-        this.groupType = groupType;
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        //do regex to check the email
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getBirthOfDate() {
+        return birthOfDate;
+    }
+
+    public void setBirthOfDate(String birthOfDate) {
+        this.birthOfDate = birthOfDate;
+    }
+
+    public UserTypes getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserTypes userType) {
+        this.userType = userType;
     }
 
     public String getFirstName() {
@@ -33,14 +73,6 @@ public abstract class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getPhone_number() {
