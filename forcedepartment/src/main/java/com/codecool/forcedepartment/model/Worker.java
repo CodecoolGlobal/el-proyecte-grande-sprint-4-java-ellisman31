@@ -6,7 +6,19 @@ public class Worker extends User {
     private String description;
     private double rate;
 
-    public Worker(String firstName, String lastName, int age, String phone_number, String groupName) {
-        super(firstName, lastName, age, phone_number, IS_ADMIN, groupName);
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 }
