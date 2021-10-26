@@ -7,6 +7,7 @@ import com.codecool.forcedepartment.model.Worker;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,21 +25,27 @@ public class WorkerDaoJdbc implements WorkerDao {
     public List<Worker> getAllByRating() {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT\n" +
-                    "    worker.is_available,\n" +
-                    "    worker.rate,\n" +
-                    "    worker.description,\n" +
                     "    website_user.first_name,\n" +
                     "    website_user.last_name,\n" +
                     "    website_user.age,\n" +
                     "    website_user.phone_number,\n" +
                     "    website_user.is_admin,\n" +
-                    "    website_user.group_name\n" +
-                    "FROM worker FULL JOIN website_user ON worker.user_id = website_user.id WHERE website_user.group_name = 'worker' ORDER BY worker.rate DESC;";
+                    "    website_user.group_name,\n" +
+                    "    worker.is_available,\n" +
+                    "    worker.rate,\n" +
+                    "    worker.description,\n" +
+                    "    ARRAY_AGG(profession.profession_name)\n" +
+                    "FROM worker\n" +
+                    "    FULL JOIN website_user ON worker.user_id = website_user.id\n" +
+                    "    FULL JOIN worker_experience ON website_user.id = worker_experience.worker_id\n" +
+                    "    FULL JOIN profession ON profession.id = worker_experience.profession_id\n" +
+                    "WHERE website_user.group_name = 'worker'\n" +
+                    "GROUP BY website_user.first_name, website_user.last_name, website_user.age, website_user.phone_number, website_user.is_admin, website_user.group_name, worker.is_available, worker.rate, worker.description;";
             ResultSet rs = conn.createStatement().executeQuery(sql);
             List<Worker> result = new ArrayList<>();
             while (rs.next()) {
-                Worker worker = new Worker(rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(3));
-                //worker.setId(rs.getInt(1));
+                System.out.println(rs.getString(10));
+                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(9));
                 result.add(worker);
             }
             return result;
@@ -48,8 +55,37 @@ public class WorkerDaoJdbc implements WorkerDao {
     }
 
     @Override
-    public List<Worker> getAllByProfession(Profession profession) {
-        return null;
+    public List<Worker> getAllByProfession(String profession) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT\n" +
+                    "    website_user.first_name,\n" +
+                    "    website_user.last_name,\n" +
+                    "    website_user.age,\n" +
+                    "    website_user.phone_number,\n" +
+                    "    website_user.is_admin,\n" +
+                    "    website_user.group_name,\n" +
+                    "    worker.is_available,\n" +
+                    "    worker.rate,\n" +
+                    "    worker.description,\n" +
+                    "    ARRAY_AGG(profession.profession_name)\n" +
+                    "FROM worker\n" +
+                    "    FULL JOIN website_user ON worker.user_id = website_user.id\n" +
+                    "    FULL JOIN worker_experience ON website_user.id = worker_experience.worker_id\n" +
+                    "    FULL JOIN profession ON profession.id = worker_experience.profession_id\n" +
+                    "WHERE website_user.group_name = 'worker' AND profession.profession_name = ?\n" +
+                    "GROUP BY website_user.first_name, website_user.last_name, website_user.age, website_user.phone_number, website_user.is_admin, website_user.group_name, worker.is_available, worker.rate, worker.description;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, profession);
+            ResultSet rs = st.executeQuery();
+            List<Worker> result = new ArrayList<>();
+            while (rs.next()) {
+                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(9));
+                result.add(worker);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all suppliers", e);
+        }
     }
 
     @Override

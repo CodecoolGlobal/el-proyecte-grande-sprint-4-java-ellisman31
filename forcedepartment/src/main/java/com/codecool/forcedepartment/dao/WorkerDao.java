@@ -9,7 +9,7 @@ import java.util.List;
 public interface WorkerDao {
 
     List<Worker> getAllByRating();
-    List<Worker> getAllByProfession(Profession profession);
+    List<Worker> getAllByProfession(String profession);
     List<Worker> getAllByWorkObject(WorkObject workObject);
     List<Worker> getAllByName(String name);
     List<Worker> getAllByFilter();

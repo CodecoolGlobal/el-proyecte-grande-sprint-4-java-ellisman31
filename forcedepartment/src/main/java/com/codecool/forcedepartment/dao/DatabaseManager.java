@@ -4,29 +4,38 @@ import com.codecool.forcedepartment.dao.implementation.CategoryDaoJdbc;
 import com.codecool.forcedepartment.dao.implementation.UserDaoJdbc;
 import com.codecool.forcedepartment.dao.implementation.WorkerDaoJdbc;
 import com.codecool.forcedepartment.model.Worker;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class DatabaseManager {
 
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    @Autowired
+    public DatabaseManager(UserDao userDao, WorkerDao workerDao, CategoryDao categoryDao) {
+        this.userDao = userDao;
+        this.workerDao = workerDao;
+        this.categoryDao = categoryDao;
+    }
+
+
+
+
     private UserDao userDao;
     private WorkerDao workerDao;
     private CategoryDao categoryDao;
 
-    public DatabaseManager() throws SQLException {
-        DataSource dataSource = databaseConnection.connect();
-        userDao = new UserDaoJdbc(dataSource);
-        workerDao = new WorkerDaoJdbc(dataSource);
-        categoryDao = new CategoryDaoJdbc(dataSource);
+
+    public List<Worker> getWorkersByRating() {
+        return workerDao.getAllByRating();
     }
 
-    public void asd() {
-        System.out.println(workerDao.getAllByRating());
+    public List<Worker> getWorkersByProfession(String profession) {
+        return workerDao.getAllByProfession(profession);
     }
-
 
 
 }
