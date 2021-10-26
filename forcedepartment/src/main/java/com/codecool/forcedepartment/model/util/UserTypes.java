@@ -1,6 +1,6 @@
 package com.codecool.forcedepartment.model.util;
 
-public enum GroupTypes {
+public enum UserTypes {
 
     USER,
     WORKER
