@@ -207,8 +207,27 @@ public class UserDaoJdbc implements UserDao {
 
     }
 
+
     @Override
-    public void editWorkerProfile(String firstName, String lastName, String birthOfDate, String email, String description, String phoneNumber, List<String> profession) {
+    public void editWorkerProfile(int userId, String firstName, String lastName, String birthOfDate, String email,
+                                  String password, String description, String phoneNumber, boolean isAvailable)
+    {
+        try (Connection conn = dataSource.getConnection()) {
+            editRegularProfile(userId, firstName, lastName, birthOfDate, email, password);
+            String sql = "    UPDATE worker\n" +
+                    "    SET phone_number = ?, is_available = ?, description = ?\n" +
+                    "    WHERE worker.id = ?;";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, phoneNumber);
+            st.setBoolean(2, isAvailable);
+            st.setString(3, description);
+            st.setInt(4, userId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding user Error type: ", e);
+        }
+
+
 
     }
 }

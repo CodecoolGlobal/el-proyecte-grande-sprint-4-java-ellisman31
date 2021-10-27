@@ -55,4 +55,9 @@ public class DatabaseManager {
         userDao.editRegularProfile(userId, firstName, lastName, birthOfDate, email, password);
     }
 
+    public void updateWorker(int userId, String firstName, String lastName, String birthOfDate, String email,
+                             String password, String description, String phoneNumber, boolean isAvailable) {
+        userDao.editWorkerProfile(userId, firstName, lastName, birthOfDate, email, password, description, phoneNumber, isAvailable);
+    }
+
 }

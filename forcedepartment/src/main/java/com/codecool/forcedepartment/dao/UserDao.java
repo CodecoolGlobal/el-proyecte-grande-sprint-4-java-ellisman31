@@ -32,6 +32,6 @@ public interface UserDao {
 
     void editRegularProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password);
 
-    void editWorkerProfile(String firstName, String lastName, String birthOfDate, String email, String description, String phoneNumber, List<String> profession);
+    void editWorkerProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password, String description, String phoneNumber, boolean isAvailable);
 
 }
