@@ -1,18 +1,28 @@
-html {
-    background-color: #ffffff;
-}
-
-:focus {
-    outline: none
+body {
+    background: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallup.net%2Fwp-content%2Fuploads%2F2016%2F01%2F212821-abstract-polyscape-triangle.jpg&f=1&nofb=1') no-repeat fixed center center;
+    background-size: cover;
 }
 
 body,
 input,
 textarea,
 select {
-    font-family: 'Open Sans', sans-serif;
+    font-family: Montserrat;
     font-size: 16px;
     color: #4c4c4c;
+}
+
+.mainPageHref {
+    margin-right: 180px;
+}
+
+.mainPageHref a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.mainPageHref button {
+    width: 123px;
 }
 
 .register-form {

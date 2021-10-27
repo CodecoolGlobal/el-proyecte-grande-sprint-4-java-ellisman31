@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/register.css}"/>
-    <title>Registration</title>
+    <title th:text="${title}"></title>
 </head>
 <body>
 
 <div class="register-form">
     <h1>Registration</h1>
-    <h3 th:text="${passwordWarning}"></h3>
     <form th:action="@{/register}" th:object="${User}" method="post">
         <hr>
         <input type="text" id="firstName" name="lastName" placeholder="First Name" th:field="*{firstName}" required>
 
         <input type="text" id="lastName" name="lastName" placeholder="Last Name" th:field="*{lastName}" required>
 
-        <input type="text" id="email" name="email" placeholder="Email" th:field="*{email}" required>
+        <input type="text" id="email" name="email" placeholder="Email address" th:field="*{email}" required>
 
         <input type="date" id="userBirthOfDate" name="userBirthOfDate" placeholder="Birth of date" th:field="*{birthOfDate}" required>
 
@@ -32,6 +31,10 @@
 
         <button type="submit">Submit</button>
     </form>
+
+    <div class="mainPageHref">
+        <a href="/"><button type="button">Main page</button></a>
+    </div>
 </div>
 
 </body>
