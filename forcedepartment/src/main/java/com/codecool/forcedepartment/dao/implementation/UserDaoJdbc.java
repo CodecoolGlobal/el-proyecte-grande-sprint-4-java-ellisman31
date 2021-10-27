@@ -2,6 +2,7 @@ package com.codecool.forcedepartment.dao.implementation;
 
 import com.codecool.forcedepartment.dao.UserDao;
 import com.codecool.forcedepartment.model.User;
+import com.codecool.forcedepartment.model.Worker;
 
 
 import javax.sql.DataSource;
@@ -93,9 +94,55 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public User getDataAboutUser(int id) {
-        System.out.println(getGroupTypeByUserId(id));
-        return null;
+    public User getDataAboutUser(int userId) {
+        String userType = getGroupTypeByUserId(userId);
+        String sql = "";
+        if (userType.equals("USER")) {
+            sql = "SELECT\n" +
+                    "       website_user.first_name,\n" +
+                    "       website_user.last_name,\n" +
+                    "       website_user.birth_date,\n" +
+                    "       website_user.email,\n" +
+                    "       website_user.is_admin,\n" +
+                    "       website_user.registration_date\n" +
+                    "FROM website_user\n" +
+                    "WHERE website_user.id = ?;";
+        } else {
+            sql = "SELECT\n" +
+                    "       website_user.first_name,\n" +
+                    "       website_user.last_name,\n" +
+                    "       website_user.birth_date,\n" +
+                    "       website_user.email,\n" +
+                    "       website_user.is_admin,\n" +
+                    "       website_user.registration_date,\n" +
+                    "       worker.description,\n" +
+                    "       worker.phone_number,\n" +
+                    "       ARRAY_AGG(profession.profession_name),\n" +
+                    "       worker.rate\n" +
+                    "FROM website_user\n" +
+                    "FULL JOIN worker ON website_user.id = worker.user_id\n" +
+                    "FULL JOIN worker_experience ON website_user.id = worker_experience.worker_id\n" +
+                    "FULL JOIN profession ON profession.id = worker_experience.profession_id\n" +
+                    "WHERE website_user.id = ?\n" +
+                    "GROUP BY website_user.first_name, website_user.last_name, website_user.birth_date, website_user.email, website_user.is_admin, website_user.registration_date, worker.description, worker.phone_number, worker.rate;";
+        }
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            if (userType.equals("USER")) {
+                return new User(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), rs.getBoolean(5), userType, rs.getString(4));
+            } else {
+                List<String> workerProfessions = WorkerDaoJdbc.arrayAggConverter(rs.getString(9));
+                System.out.println(new Worker(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10)));
+                return new Worker(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
     }
 
     @Override

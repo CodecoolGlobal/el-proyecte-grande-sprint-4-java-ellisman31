@@ -2,6 +2,7 @@ package com.codecool.forcedepartment;
 
 import com.codecool.forcedepartment.dao.DatabaseManager;
 import com.codecool.forcedepartment.model.User;
+import com.codecool.forcedepartment.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -33,6 +34,6 @@ public class ForceDepartmentApplication implements CommandLineRunner {
 		//System.out.println(databaseManager.getAllProfession());
 		//databaseManager.registerRegularUser(new User("Adam", "Goldberg", "2021-09-21", "1976-06-07", false, "USER", "goldber.adam@gmail.com"), "1234"); //HASHED PASSWORD NEED TO BE ADDED AS SECOND ARGUMENT
 		//databaseManager.registerWorker(13, "+36205753420", "Lorem ipsum vertigo");
-		databaseManager.getAllDataAboutUser(3);
-		}
+		//((Worker) databaseManager.getAllDataAboutUser(2));
+	}
 }

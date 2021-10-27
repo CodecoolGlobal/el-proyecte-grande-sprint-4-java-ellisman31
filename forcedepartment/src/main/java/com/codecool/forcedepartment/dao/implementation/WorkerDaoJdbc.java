@@ -22,8 +22,8 @@ public class WorkerDaoJdbc implements WorkerDao {
         this.dataSource = dataSource;
     }
 
-    private List<String> arrayAggConverter(String string) {
-        StringBuilder arrayAgg = new StringBuilder("{Sheet Metal Worker,Plumber}");
+    public static List<String> arrayAggConverter(String arrayAggString) {
+        StringBuilder arrayAgg = new StringBuilder(arrayAggString);
         arrayAgg.deleteCharAt(arrayAgg.length() - 1);
         arrayAgg.deleteCharAt(0);
         String planeArray = arrayAgg.toString();
