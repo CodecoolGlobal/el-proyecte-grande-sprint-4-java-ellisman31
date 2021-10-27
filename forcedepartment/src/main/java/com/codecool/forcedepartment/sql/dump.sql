@@ -4,11 +4,11 @@ CREATE TABLE public.website_user
     id           serial  NOT NULL PRIMARY KEY,
     first_name varchar(100),
     last_name         varchar(100),
-    birth_date          date NOT NULL,
+    birth_date          varchar(100) NOT NULL,
     email           varchar(150),
     is_admin      boolean,
     password varchar(300),
-    registration_date date NOT NULL,
+    registration_date varchar(150) NOT NULL,
     group_name     text
     -- ,image text
 );
