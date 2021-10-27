@@ -43,7 +43,6 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public void addNewRegularUser(User user, String hashedPassword) {
         try (Connection conn = dataSource.getConnection()) {
-            int nextId = getLatestId("website_user") + 1;
             String registrationDate = getCurrentRegistrationDate();
             String sql = "INSERT INTO website_user (first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
                      "            VALUES (?, ?, ?, ?, ?, ?, ?, ?);\n";
@@ -63,7 +62,18 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void addNewWorker() {
+    public void addNewWorker(int workerId, String phoneNumber, String description) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO worker (user_id, phone_number, is_available, rate, description)\n" +
+                    "VALUES (?, ?, false, 0.0, ?);";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, workerId);
+            st.setString(2, phoneNumber);
+            st.setString(3, description);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding user Error type: ", e);
+        }
     }
 
     @Override

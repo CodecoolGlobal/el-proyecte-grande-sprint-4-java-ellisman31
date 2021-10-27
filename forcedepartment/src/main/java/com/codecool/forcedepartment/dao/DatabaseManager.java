@@ -43,4 +43,6 @@ public class DatabaseManager {
 
     public void registerRegularUser(User user, String hashedPassword) { userDao.addNewRegularUser(user, hashedPassword);}
 
+    public void registerWorker(int workerId, String phoneNumber, String description) { userDao.addNewWorker(workerId, phoneNumber, description);}
+
 }

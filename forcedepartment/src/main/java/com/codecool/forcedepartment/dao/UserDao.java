@@ -12,7 +12,7 @@ public interface UserDao {
 
     // add new worker
 
-    void addNewWorker();
+    void addNewWorker(int workerId, String phoneNumber, String description);
 
     // get all data about user
 
