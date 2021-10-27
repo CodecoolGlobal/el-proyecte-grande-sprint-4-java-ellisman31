@@ -1,7 +1,5 @@
 package com.codecool.forcedepartment.dao;
 
-import com.codecool.forcedepartment.model.Profession;
-import com.codecool.forcedepartment.model.WorkObject;
 import com.codecool.forcedepartment.model.Worker;
 
 import java.util.List;
