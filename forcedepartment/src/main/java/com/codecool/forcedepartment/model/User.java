@@ -4,25 +4,39 @@ import com.codecool.forcedepartment.model.util.UserTypes;
 
 import java.time.LocalDateTime;
 
-public abstract class User {
+public class User {
 
     private String firstName;
     private String lastName;
     //local date year and the given year
     private int age;
-    private LocalDateTime registrationDate;
+    private String registrationDate;
     private String birthOfDate;
-    private String phone_number;
     private boolean isAdmin;
     private UserTypes userType;
     private String password;
     private String email;
+    //private String profileImage;
 
-    public LocalDateTime getRegistrationDate() {
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String registrationDate, String birthOfDate, boolean isAdmin, UserTypes userType, String password, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registrationDate = registrationDate;
+        this.birthOfDate = birthOfDate;
+        this.isAdmin = isAdmin;
+        this.userType = userType;
+        this.password = password;
+        this.email = email;
+    }
+
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDateTime registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -75,14 +89,6 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
-
     public boolean isAdmin() {
         return isAdmin;
     }
@@ -91,4 +97,18 @@ public abstract class User {
         isAdmin = admin;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", registrationDate='" + registrationDate + '\'' +
+                ", birthOfDate='" + birthOfDate + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", userType=" + userType +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
