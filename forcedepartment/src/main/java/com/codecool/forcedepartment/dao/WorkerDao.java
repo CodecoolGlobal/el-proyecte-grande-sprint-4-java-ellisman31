@@ -14,4 +14,7 @@ public interface WorkerDao {
     List<Worker> getAllByName(String name);
     List<Worker> getAllByFilter();
 
+    // worker with experience year - profile
+
+
 }

@@ -1,8 +1,6 @@
 package com.codecool.forcedepartment.dao.implementation;
 
 import com.codecool.forcedepartment.dao.WorkerDao;
-import com.codecool.forcedepartment.model.Profession;
-import com.codecool.forcedepartment.model.WorkObject;
 import com.codecool.forcedepartment.model.Worker;
 
 import javax.sql.DataSource;
@@ -162,6 +160,9 @@ public class WorkerDaoJdbc implements WorkerDao {
 
     @Override
     public List<Worker> getAllByFilter() {
+
+        // work-object, worker-name, profession, rate, is-available, year experience
+
         return null;
     }
 }

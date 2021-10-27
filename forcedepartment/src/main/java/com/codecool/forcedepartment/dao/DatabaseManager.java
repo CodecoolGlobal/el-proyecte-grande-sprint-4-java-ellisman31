@@ -15,18 +15,16 @@ import java.util.List;
 @Component
 public class DatabaseManager {
 
+    private UserDao userDao;
+    private WorkerDao workerDao;
+    private CategoryDao categoryDao;
+
     @Autowired
     public DatabaseManager(UserDao userDao, WorkerDao workerDao, CategoryDao categoryDao) {
         this.userDao = userDao;
         this.workerDao = workerDao;
         this.categoryDao = categoryDao;
     }
-
-
-    private UserDao userDao;
-    private WorkerDao workerDao;
-    private CategoryDao categoryDao;
-
 
     public List<Worker> getWorkersByRating() {
         return workerDao.getAllByRating();
