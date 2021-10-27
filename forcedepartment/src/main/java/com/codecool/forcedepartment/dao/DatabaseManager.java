@@ -49,4 +49,6 @@ public class DatabaseManager {
 
     public boolean checkIfEmailInUse(String email) { return userDao.checkIfUserExists(email); }
 
+    public boolean checkValidLogin(String email, String password) { return userDao.checkIfValidLogin(email, password); }
+
 }

@@ -168,7 +168,19 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public boolean checkIfValidLogin(String email, String password) {
-        return false;
+
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT website_user.id\n" +
+                    "FROM website_user\n" +
+                    "WHERE email = ? AND password = ?;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, email);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
     }
 
     @Override
