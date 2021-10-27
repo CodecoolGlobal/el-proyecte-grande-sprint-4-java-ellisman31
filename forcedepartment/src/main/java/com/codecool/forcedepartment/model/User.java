@@ -106,8 +106,7 @@ public class User {
                 ", birthOfDate='" + birthOfDate + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", userType=" + userType +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                '}';
+                "}\n";
     }
 }

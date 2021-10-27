@@ -14,12 +14,13 @@ public class Worker extends User {
     private double rate;
     private List<String> profession;
 
-    public Worker(String firstName, String lastName, String registrationDate, String birthOfDate, String userType, String email, String description, String phoneNumber, List<String> profession) {
+    public Worker(String firstName, String lastName, String registrationDate, String birthOfDate, String userType, String email, String description, String phoneNumber, List<String> profession, double rate) {
         super(firstName, lastName, registrationDate, birthOfDate, IS_ADMIN, userType, email);
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.profession = new ArrayList<>();
         this.profession = profession;
+        this.rate = rate;
     }
 
     public String getPhoneNumber() {
