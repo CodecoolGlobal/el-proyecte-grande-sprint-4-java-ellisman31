@@ -1,7 +1,6 @@
 package com.codecool.forcedepartment.dao.implementation;
 
 import com.codecool.forcedepartment.dao.CategoryDao;
-import com.codecool.forcedepartment.model.Worker;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
