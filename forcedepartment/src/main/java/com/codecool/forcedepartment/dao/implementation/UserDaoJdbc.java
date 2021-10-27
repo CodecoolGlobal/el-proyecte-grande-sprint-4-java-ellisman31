@@ -19,9 +19,9 @@ public class UserDaoJdbc implements UserDao {
     }
 
 
-    public int getLatestId() {
+    public int getLatestId(String tableName) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT MAX(id) FROM website_user;";
+            String sql = "SELECT MAX(id) FROM " + tableName;
             ResultSet rs = conn.createStatement().executeQuery(sql);
             if (!rs.next()) {
                 return 1;
@@ -43,20 +43,19 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public void addNewRegularUser(User user, String hashedPassword) {
         try (Connection conn = dataSource.getConnection()) {
-            int nextId = getLatestId() + 1;
+            int nextId = getLatestId("website_user") + 1;
             String registrationDate = getCurrentRegistrationDate();
-            String sql = "INSERT INTO website_user (id, first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
-                     "            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);\n";
+            String sql = "INSERT INTO website_user (first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
+                     "            VALUES (?, ?, ?, ?, ?, ?, ?, ?);\n";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            st.setInt(1, nextId);
-            st.setString(2, user.getFirstName());
-            st.setString(3, user.getLastName());
-            st.setString(4, user.getBirthOfDate());
-            st.setString(5, user.getEmail());
-            st.setBoolean(6, user.isAdmin());
-            st.setString(7, hashedPassword);
-            st.setString(8, registrationDate);
-            st.setString(9, user.getUserType());
+            st.setString(1, user.getFirstName());
+            st.setString(2, user.getLastName());
+            st.setString(3, user.getBirthOfDate());
+            st.setString(4, user.getEmail());
+            st.setBoolean(5, user.isAdmin());
+            st.setString(6, hashedPassword);
+            st.setString(7, registrationDate);
+            st.setString(8, user.getUserType());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error while adding user Error type: ", e);
@@ -65,7 +64,6 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void addNewWorker() {
-
     }
 
     @Override
