@@ -42,4 +42,8 @@ public class DatabaseManager {
         return workerDao.getAllByName(namePart);
     }
 
+    public List<String> getAllProfession() { return categoryDao.getAllProfession(); }
+
+    public List<String> getAllWorkObject() { return categoryDao.getAllWorkObject(); }
+
 }
