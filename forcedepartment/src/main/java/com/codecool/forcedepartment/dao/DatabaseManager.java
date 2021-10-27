@@ -41,10 +41,12 @@ public class DatabaseManager {
 
     public List<String> getAllWorkObject() { return categoryDao.getAllWorkObject(); }
 
-    public void registerRegularUser(User user, String hashedPassword) { userDao.addNewRegularUser(user, hashedPassword);}
+    public int registerRegularUser(User user, String hashedPassword) { return userDao.addNewRegularUser(user, hashedPassword);}
 
     public void registerWorker(int workerId, String phoneNumber, String description) { userDao.addNewWorker(workerId, phoneNumber, description);}
 
     public User getAllDataAboutUser(int userId) { return userDao.getDataAboutUser(userId); }
+
+    public boolean checkIfEmailInUse(String email) { return userDao.checkIfUserExists(email); }
 
 }

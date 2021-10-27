@@ -58,7 +58,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void addNewRegularUser(User user, String hashedPassword) {
+    public int addNewRegularUser(User user, String hashedPassword) {
         try (Connection conn = dataSource.getConnection()) {
             String registrationDate = getCurrentRegistrationDate();
             String sql = "INSERT INTO website_user (first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
@@ -73,6 +73,7 @@ public class UserDaoJdbc implements UserDao {
             st.setString(7, registrationDate);
             st.setString(8, user.getUserType());
             st.executeUpdate();
+            return getLatestId("website_user");
         } catch (SQLException e) {
             throw new RuntimeException("Error while adding user Error type: ", e);
         }
@@ -152,7 +153,17 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public boolean checkIfUserExists(String email) {
-        return false;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT website_user.id\n" +
+                    "FROM website_user\n" +
+                    "WHERE email = ?;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
     }
 
     @Override

@@ -35,5 +35,7 @@ public class ForceDepartmentApplication implements CommandLineRunner {
 		//databaseManager.registerRegularUser(new User("Adam", "Goldberg", "2021-09-21", "1976-06-07", false, "USER", "goldber.adam@gmail.com"), "1234"); //HASHED PASSWORD NEED TO BE ADDED AS SECOND ARGUMENT
 		//databaseManager.registerWorker(13, "+36205753420", "Lorem ipsum vertigo");
 		//((Worker) databaseManager.getAllDataAboutUser(2));
+		//System.out.println(databaseManager.checkIfEmailInUse("price.chase@gmail.com"));
+
 	}
 }
