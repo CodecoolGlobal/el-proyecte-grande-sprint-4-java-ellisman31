@@ -42,7 +42,6 @@ public class WorkerDaoJdbc implements WorkerDao {
             ResultSet rs = conn.createStatement().executeQuery(sql);
             List<Worker> result = new ArrayList<>();
             while (rs.next()) {
-                System.out.println(rs.getString(10));
                 Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(9));
                 result.add(worker);
             }
