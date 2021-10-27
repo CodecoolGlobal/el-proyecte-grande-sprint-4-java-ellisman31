@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+    <title th:text="${title}"></title>
+</head>
+<body>
+
+    <div class="login-block">
+        <h1>Login</h1>
+        <form th:action="@{/login}" method="post">
+
+            <input type="text" id="email" name="email" placeholder="Email address">
+            <input type="password" id="password" name="password" placeholder="Password">
+            <button type="submit">Submit</button>
+
+        </form>
+        <div class="mainPageHref">
+            <a href="/"><button type="button">Main page</button></a>
+            <p>If you don't have an account, then press down bellow to register</p>
+            <a href="/register"><button type="button">Register</button></a>
+        </div>
+    </div>
+</body>
+</html>
