@@ -3,6 +3,7 @@ package com.codecool.forcedepartment.dao;
 import com.codecool.forcedepartment.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserDao {
 
@@ -33,5 +34,9 @@ public interface UserDao {
     void editRegularProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password);
 
     void editWorkerProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password, String description, String phoneNumber, boolean isAvailable);
+
+    // worker with experience year - profile
+
+    Map<String, Integer> getProfessionWithExperience(int userId);
 
 }

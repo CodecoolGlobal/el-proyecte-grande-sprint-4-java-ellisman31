@@ -8,8 +8,7 @@ import com.codecool.forcedepartment.model.Worker;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class UserDaoJdbc implements UserDao {
 
@@ -226,8 +225,30 @@ public class UserDaoJdbc implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException("Error while adding user Error type: ", e);
         }
-
-
-
     }
+
+
+    @Override
+    public Map<String, Integer> getProfessionWithExperience(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT worker_experience.experience_years,\n" +
+                    "       profession.profession_name\n" +
+                    "FROM worker_experience\n" +
+                    "FULL JOIN profession ON profession.id = worker_experience.profession_id\n" +
+                    "FULL JOIN website_user ON website_user.id = worker_experience.worker_id\n" +
+                    "WHERE website_user.id = ?;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            Map<String, Integer> professionWithExperience = new HashMap<>();
+            while (rs.next()) {
+                professionWithExperience.put(rs.getString(2), rs.getInt(1));
+            }
+            return professionWithExperience;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
+    }
+
+
 }

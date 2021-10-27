@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class DatabaseManager {
@@ -58,6 +59,10 @@ public class DatabaseManager {
     public void updateWorker(int userId, String firstName, String lastName, String birthOfDate, String email,
                              String password, String description, String phoneNumber, boolean isAvailable) {
         userDao.editWorkerProfile(userId, firstName, lastName, birthOfDate, email, password, description, phoneNumber, isAvailable);
+    }
+
+    public Map<String, Integer> getProfessionWithExperienceOfWorker(int userId) {
+        return userDao.getProfessionWithExperience(userId);
     }
 
 }
