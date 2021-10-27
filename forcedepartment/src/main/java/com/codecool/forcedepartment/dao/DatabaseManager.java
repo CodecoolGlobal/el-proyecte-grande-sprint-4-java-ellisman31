@@ -51,4 +51,8 @@ public class DatabaseManager {
 
     public boolean checkValidLogin(String email, String password) { return userDao.checkIfValidLogin(email, password); }
 
+    public void updateRegularUserData(int userId, String firstName, String lastName, String birthOfDate, String email, String password) {
+        userDao.editRegularProfile(userId, firstName, lastName, birthOfDate, email, password);
+    }
+
 }

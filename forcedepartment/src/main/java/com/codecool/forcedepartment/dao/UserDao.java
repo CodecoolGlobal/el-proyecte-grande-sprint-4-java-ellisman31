@@ -30,7 +30,7 @@ public interface UserDao {
 
     // update
 
-    void editRegularProfile(String firstName, String lastName, String birthOfDate, String email);
+    void editRegularProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password);
 
     void editWorkerProfile(String firstName, String lastName, String birthOfDate, String email, String description, String phoneNumber, List<String> profession);
 

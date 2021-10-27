@@ -37,5 +37,6 @@ public class ForceDepartmentApplication implements CommandLineRunner {
 		//((Worker) databaseManager.getAllDataAboutUser(2));
 		//System.out.println(databaseManager.checkIfEmailInUse("price.chase@gmail.com"));
 		//System.out.println(databaseManager.checkValidLogin("price.chase@gmail.com", "1234"));
+		//databaseManager.updateRegularUserData(1, "Aaron", "Rodgers", "1981-10-10", "aaron.rodgers@gmail.com", "NFL");
 	}
 }

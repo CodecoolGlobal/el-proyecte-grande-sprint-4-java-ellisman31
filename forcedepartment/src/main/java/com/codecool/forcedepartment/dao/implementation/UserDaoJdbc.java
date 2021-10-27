@@ -40,6 +40,8 @@ public class UserDaoJdbc implements UserDao {
         return dateFormat.format(Calendar.getInstance().getTime());
     }
 
+
+    // WHEN EDITING A PROFILE THIS COULD BE USED - TWO DIFFERENT METHODS ARE FOR USERS AND WORKERS
     public String getGroupTypeByUserId(int userId) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT website_user.group_name\n" +
@@ -183,8 +185,25 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
+
+
     @Override
-    public void editRegularProfile(String firstName, String lastName, String birthOfDate, String email) {
+    public void editRegularProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE website_user\n" +
+                    "SET first_name = ?, last_name = ?, birth_date = ?, email = ?, password = ?\n" +
+                    "WHERE website_user.id = ?;";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, firstName);
+            st.setString(2, lastName);
+            st.setString(3, birthOfDate);
+            st.setString(4, email);
+            st.setString(5, password);
+            st.setInt(6, userId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding user Error type: ", e);
+        }
 
     }
 
