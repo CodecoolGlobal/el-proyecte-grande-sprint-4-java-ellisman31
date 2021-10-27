@@ -1,5 +1,6 @@
 package com.codecool.forcedepartment.dao;
 
+import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,5 +40,7 @@ public class DatabaseManager {
     public List<String> getAllProfession() { return categoryDao.getAllProfession(); }
 
     public List<String> getAllWorkObject() { return categoryDao.getAllWorkObject(); }
+
+    public void registerRegularUser(User user, String hashedPassword) { userDao.addNewRegularUser(user, hashedPassword);}
 
 }
