@@ -1,9 +1,14 @@
 package com.codecool.forcedepartment.dao.implementation;
 
 import com.codecool.forcedepartment.dao.UserDao;
+import com.codecool.forcedepartment.model.User;
 
 
 import javax.sql.DataSource;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 public class UserDaoJdbc implements UserDao {
 
@@ -11,5 +16,85 @@ public class UserDaoJdbc implements UserDao {
 
     public UserDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+
+    public int getLatestId() {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT MAX(id) FROM website_user;";
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            if (!rs.next()) {
+                return 1;
+            }
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getCurrentRegistrationDate() {
+        String PATTERN="yyyy-MM-dd";
+        SimpleDateFormat dateFormat=new SimpleDateFormat();
+        dateFormat.applyPattern(PATTERN);
+        return dateFormat.format(Calendar.getInstance().getTime());
+
+    }
+
+    @Override
+    public void addNewRegularUser(User user, String hashedPassword) {
+        try (Connection conn = dataSource.getConnection()) {
+            int nextId = getLatestId() + 1;
+            String registrationDate = getCurrentRegistrationDate();
+            String sql = "INSERT INTO website_user (id, first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
+                     "            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);\n";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, nextId);
+            st.setString(2, user.getFirstName());
+            st.setString(3, user.getLastName());
+            st.setString(4, user.getBirthOfDate());
+            st.setString(5, user.getEmail());
+            st.setBoolean(6, user.isAdmin());
+            st.setString(7, hashedPassword);
+            st.setString(8, registrationDate);
+            st.setString(9, user.getUserType());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding user Error type: ", e);
+        }
+    }
+
+    @Override
+    public void addNewWorker() {
+
+    }
+
+    @Override
+    public User getDataAboutUser(int id) {
+        return null;
+    }
+
+    @Override
+    public List<User> getAllDataAboutUser() {
+        return null;
+    }
+
+    @Override
+    public boolean checkIfUserExists(String email) {
+        return false;
+    }
+
+    @Override
+    public boolean checkIfValidLogin(String email, String password) {
+        return false;
+    }
+
+    @Override
+    public void editRegularProfile(String firstName, String lastName, String birthOfDate, String email) {
+
+    }
+
+    @Override
+    public void editWorkerProfile(String firstName, String lastName, String birthOfDate, String email, String description, String phoneNumber, List<String> profession) {
+
     }
 }
