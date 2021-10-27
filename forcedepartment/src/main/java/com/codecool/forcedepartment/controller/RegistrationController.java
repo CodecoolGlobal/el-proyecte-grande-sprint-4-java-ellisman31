@@ -47,7 +47,7 @@ public class RegistrationController {
                 List<String> dummy = new ArrayList<>();
                 Worker worker = new Worker(
                         user.getFirstName(), user.getLastName(), "registration date", user.getBirthOfDate(),
-                        user.getUserType(), user.getEmail(), "", "", dummy);
+                        user.getUserType(), user.getEmail(), "", "", dummy, 2.2);
                 userService.addUserTest(worker);
             }
             else if (user.getUserType().equals(UserTypes.USER)) {
