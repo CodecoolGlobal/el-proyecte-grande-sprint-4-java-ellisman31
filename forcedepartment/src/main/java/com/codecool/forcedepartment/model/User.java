@@ -13,7 +13,7 @@ public class User {
     private String registrationDate;
     private String birthOfDate;
     private boolean isAdmin;
-    private UserTypes userType;
+    private String userType;
     private String password;
     private String email;
     //private String profileImage;
@@ -21,15 +21,22 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String registrationDate, String birthOfDate, boolean isAdmin, UserTypes userType, String password, String email) {
+    public User(String firstName, String lastName, String registrationDate, String birthOfDate, boolean isAdmin, String userType, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registrationDate = registrationDate;
         this.birthOfDate = birthOfDate;
         this.isAdmin = isAdmin;
         this.userType = userType;
-        this.password = password;
         this.email = email;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getUserType() {
+        return userType;
     }
 
     public String getRegistrationDate() {
@@ -63,14 +70,6 @@ public class User {
 
     public void setBirthOfDate(String birthOfDate) {
         this.birthOfDate = birthOfDate;
-    }
-
-    public UserTypes getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserTypes userType) {
-        this.userType = userType;
     }
 
     public String getFirstName() {

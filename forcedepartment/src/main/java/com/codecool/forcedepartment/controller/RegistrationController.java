@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,6 +28,7 @@ public class RegistrationController {
 
         model.addAttribute("title", webTitle);
         model.addAttribute("User", new User());
+        model.addAttribute("UserTypes", Arrays.asList(UserTypes.values()));
         return "registration";
 
     }
@@ -41,11 +43,11 @@ public class RegistrationController {
         //Test with dummy
         if (password.equals(passwordAgain)) {
             if (user.getUserType().equals(UserTypes.WORKER)) {
-                List<String> profession = new ArrayList<>();
                 //set to saveRemainingData
+                List<String> dummy = new ArrayList<>();
                 Worker worker = new Worker(
                         user.getFirstName(), user.getLastName(), "registration date", user.getBirthOfDate(),
-                        user.getUserType(), user.getPassword(), user.getEmail(), "", "", profession);
+                        user.getUserType(), user.getEmail(), "", "", dummy);
                 userService.addUserTest(worker);
             }
             else if (user.getUserType().equals(UserTypes.USER)) {
