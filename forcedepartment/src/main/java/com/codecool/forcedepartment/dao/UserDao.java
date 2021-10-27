@@ -8,7 +8,7 @@ public interface UserDao {
 
     // add new regular user
 
-    void addNewRegularUser();
+    void addNewRegularUser(User user, String hashedPassword);
 
     // add new worker
 
