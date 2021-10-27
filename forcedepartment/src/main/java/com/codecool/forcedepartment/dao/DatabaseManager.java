@@ -45,4 +45,6 @@ public class DatabaseManager {
 
     public void registerWorker(int workerId, String phoneNumber, String description) { userDao.addNewWorker(workerId, phoneNumber, description);}
 
+    public User getAllDataAboutUser(int userId) { return userDao.getDataAboutUser(userId); }
+
 }

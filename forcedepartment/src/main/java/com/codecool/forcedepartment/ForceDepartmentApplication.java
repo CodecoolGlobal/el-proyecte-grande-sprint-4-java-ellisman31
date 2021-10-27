@@ -32,7 +32,7 @@ public class ForceDepartmentApplication implements CommandLineRunner {
 		//System.out.println(databaseManager.getWorkersByNamePart("ha")); // had to refactor for lower case - does not work for Haynes
 		//System.out.println(databaseManager.getAllProfession());
 		//databaseManager.registerRegularUser(new User("Adam", "Goldberg", "2021-09-21", "1976-06-07", false, "USER", "goldber.adam@gmail.com"), "1234"); //HASHED PASSWORD NEED TO BE ADDED AS SECOND ARGUMENT
-		databaseManager.registerWorker(13, "+36205753420", "Lorem ipsum vertigo");
-
+		//databaseManager.registerWorker(13, "+36205753420", "Lorem ipsum vertigo");
+		databaseManager.getAllDataAboutUser(3);
 		}
 }

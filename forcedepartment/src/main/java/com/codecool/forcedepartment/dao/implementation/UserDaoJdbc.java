@@ -37,7 +37,23 @@ public class UserDaoJdbc implements UserDao {
         SimpleDateFormat dateFormat=new SimpleDateFormat();
         dateFormat.applyPattern(PATTERN);
         return dateFormat.format(Calendar.getInstance().getTime());
+    }
 
+    public String getGroupTypeByUserId(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT website_user.group_name\n" +
+                    "        FROM website_user\n" +
+                    "        WHERE website_user.id = ?;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            return rs.getString(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
     }
 
     @Override
@@ -65,7 +81,7 @@ public class UserDaoJdbc implements UserDao {
     public void addNewWorker(int workerId, String phoneNumber, String description) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO worker (user_id, phone_number, is_available, rate, description)\n" +
-                    "VALUES (?, ?, false, 0.0, ?);";
+                            "VALUES (?, ?, false, 0.0, ?);";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, workerId);
             st.setString(2, phoneNumber);
@@ -78,6 +94,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public User getDataAboutUser(int id) {
+        System.out.println(getGroupTypeByUserId(id));
         return null;
     }
 
