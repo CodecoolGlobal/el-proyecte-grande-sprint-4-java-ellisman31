@@ -131,6 +131,11 @@ input[type=password] {
     margin-top: 35px;
 }
 
+#wrongLogin {
+    color:darkred;
+    text-align:center;
+}
+
 button {
     font-size: 14px;
     font-weight: 600;

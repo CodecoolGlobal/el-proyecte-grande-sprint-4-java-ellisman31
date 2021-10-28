@@ -9,6 +9,8 @@
 
 <div class="register-form">
     <h1>Registration</h1>
+    <p id="wrongLogin" th:if="!${isCorrectEmail}" th:text="${emailExist}"></p>
+    <p id="wrongLogin" th:if="!${isCorrectPassword}" th:text="${wrongPassword}"></p>
     <form th:action="@{/register}" th:object="${User}" method="post">
         <hr>
         <input type="text" id="firstName" name="lastName" placeholder="First Name" th:field="*{firstName}" required>

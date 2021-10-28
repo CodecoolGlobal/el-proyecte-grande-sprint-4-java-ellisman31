@@ -22,6 +22,10 @@ public class RegistrationController {
     private DatabaseManager databaseManager;
 
     private static String webTitle = "Specialist department - Registration";
+    private static String emailExist = "The email is already in used! Try again..";
+    private static String wrongPassword = "The passwords don't match! Try again..";
+    private static boolean isCorrectPassword = true;
+    private static boolean isCorrectEmail = true;
     private static int workerId;
 
     @Autowired
@@ -29,44 +33,64 @@ public class RegistrationController {
         this.databaseManager = databaseManager;
     }
 
+    //util class
     private Date dateConverter(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date actualDate = new Date();
         return dateFormat.parse(String.valueOf(actualDate));
     }
 
-    //Warning message if the match password is wrong
     @RequestMapping(value = "/register", method = {RequestMethod.GET})
     public String registerSite(Model model) {
 
         model.addAttribute("title", webTitle);
         model.addAttribute("User", new User());
         model.addAttribute("UserTypes", Arrays.asList(UserTypes.values()));
+        model.addAttribute("isCorrectPassword", isCorrectPassword);
+        model.addAttribute("isCorrectEmail", isCorrectEmail);
+        if (isCorrectEmail == false) {
+            model.addAttribute("emailExist", emailExist);
+        } else if (isCorrectPassword == false){
+            model.addAttribute("wrongPassword", wrongPassword);
+        }
+
+        setAllCheckerToTrue();
         return "registration";
 
     }
 
-    //Message for successful registration
+    //util class
+    private void setAllCheckerToTrue() {
+        isCorrectPassword = true;
+        isCorrectEmail = true;
+    }
+
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     public String saveRegisterUserData(@RequestParam("password") String password,
                                        @RequestParam("passwordAgain") String passwordAgain,
                                        @ModelAttribute User user) throws ParseException {
 
         if (password.equals(passwordAgain)) {
-            if (user.getUserType().equals(String.valueOf(UserTypes.WORKER))) { ;
-                User worker = new User(
-                        user.getFirstName(), user.getLastName(), user.getBirthOfDate(),
-                        user.getUserType(), user.getEmail());
-                workerId = databaseManager.registerRegularUser(user, user.getPassword());
-                return "redirect:/register/worker";
-            } else if (user.getUserType().equals(String.valueOf(UserTypes.USER))) {
-                databaseManager.registerRegularUser(user, user.getPassword());
+            if (!databaseManager.checkIfEmailInUse(user.getEmail())) {
+                if (user.getUserType().equals(String.valueOf(UserTypes.WORKER))) {
+                    User worker = new User(
+                            user.getFirstName(), user.getLastName(), user.getBirthOfDate(),
+                            user.getUserType(), user.getEmail());
+                    workerId = databaseManager.registerRegularUser(worker, user.getPassword());
+                    return "redirect:/register/worker";
+                } else if (user.getUserType().equals(String.valueOf(UserTypes.USER))) {
+                    databaseManager.registerRegularUser(user, user.getPassword());
+                }
+            } else {
+                isCorrectEmail = false;
+                return "redirect:/register";
             }
         } else {
+            isCorrectPassword = false;
             return "redirect:/register";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/register/worker", method = {RequestMethod.GET})
@@ -89,6 +113,6 @@ public class RegistrationController {
 
         databaseManager.registerWorker(workerId, description, phoneNumber);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 }
