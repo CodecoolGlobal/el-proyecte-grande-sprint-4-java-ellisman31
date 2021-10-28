@@ -12,15 +12,32 @@ const allProfessionUrl = '/api/getAllProfession';
 const specificWorkObjectUrl = '/api/getAllWorkerByWorkObject/';
 const allWorkObjectUrl = '/api/getAllWorkObject';
 
+const footerElement = document.getElementById('footer');
 
 const workerCardContainer = document.getElementById('worker-card-container');
 
 function sidebarHeight() {
-    console.log(container.scrollHeight);
-    sidebar.style.height = `${container.scrollHeight-200}px`
+    const divisibleWithThree = (document.getElementsByClassName('worker-card').length % 3 === 0) ;
+    const workerElements = Math.floor((document.getElementsByClassName('worker-card').length) / 3);
+    console.log(workerElements)
+    if (workerElements < 1) {
+        footerElement.style.marginTop = '400px';
+        sidebar.style.height = `${(workerElements + 2) * 330}px`
+    } else if (document.getElementsByClassName('worker-card').length === 3) {
+        footerElement.style.marginTop = '400px';
+        sidebar.style.height = `${660}px`
+    }else {
+        if (divisibleWithThree) {
+            sidebar.style.height = `${(workerElements) * 420}px`
+        } else {
+            sidebar.style.height = `${(workerElements + 1) * 420}px`
+        }
+        footerElement.style.marginTop = '30px';
+    }
 }
 
-sidebarHeight();
+setInterval(sidebarHeight, 100);
+
 
 
 function activateSideBarButton(button, url, listDiv, url2) {
@@ -73,6 +90,11 @@ function fetchWorkerCards(url) {
         .then(data => {
             let currentContent = "";
             for (let worker of data) {
+                let currentProfession = "";
+                for (let profession of worker.profession) {
+                    currentProfession+= profession;
+                    currentProfession+= ", ";
+                }
                 currentContent += `
                     <div class="worker-card">
                         <div class="worker-detail">
@@ -84,16 +106,14 @@ function fetchWorkerCards(url) {
                                 </h3><br>
                                 <h4>Profession(s): </h4>
                                 <span class="professions">
-                                <span>
-                                    ${worker.profession}
-                                </span>
+                                    ${currentProfession.slice(0, -2)}
                             </span><br><br>
                             </a>
                         </div>
                     </div>
                 `
-                workerCardContainer.innerHTML = currentContent;
+
             }
+            workerCardContainer.innerHTML = currentContent;
         })
-    sidebarHeight();
 }
