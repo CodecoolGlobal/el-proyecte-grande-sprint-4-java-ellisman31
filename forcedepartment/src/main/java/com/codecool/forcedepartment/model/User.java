@@ -2,13 +2,15 @@ package com.codecool.forcedepartment.model;
 
 import com.codecool.forcedepartment.model.util.UserTypes;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class User {
 
     private String firstName;
     private String lastName;
-    //local date year and the given year
     private int age;
     private String registrationDate;
     private String birthOfDate;
@@ -16,20 +18,47 @@ public class User {
     private String userType;
     private String password;
     private String email;
+    private String image = "profile-icon-empty.png";
+    private String imageName;
+    private static final boolean IS_ADMIN = false;
     //private String profileImage;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String registrationDate, String birthOfDate, boolean isAdmin, String userType, String email) {
+    public User(String firstName, String lastName, String registrationDate, String birthOfDate, String userType, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registrationDate = registrationDate;
         this.birthOfDate = birthOfDate;
-        this.isAdmin = isAdmin;
+        this.isAdmin = IS_ADMIN;
         this.userType = userType;
         this.email = email;
     }
+
+    public String getImageName() {
+        return firstName + " " + lastName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getAge() {
+
+        Date date = new Date();
+
+        SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
+        String currentYear = getYearFormat.format(date);
+        String birthYear = getBirthOfDate().split("-")[0];
+
+        return Integer.parseInt(currentYear) - Integer.parseInt(birthYear);
+    }
+
 
     public void setUserType(String userType) {
         this.userType = userType;
