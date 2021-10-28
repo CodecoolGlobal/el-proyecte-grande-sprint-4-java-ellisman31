@@ -3,10 +3,13 @@ const sidebar = document.getElementById('sidebar');
 
 const professionList = document.getElementById('profession-list');
 const sidebarProfession = document.getElementById('profession-search');
+const workObjectList = document.getElementById('work-object-list');
 const sidebarWorkObject = document.getElementById('work-objects-search');
 const sidebarButtons = [sidebarProfession, sidebarWorkObject];
 
+const specificProfessionUrl = '/api/getAllWorkerByProfession/';
 const allProfessionUrl = '/api/getAllProfession';
+const specificWorkObjectUrl = '/api/getAllWorkerByWorkObject/';
 const allWorkObjectUrl = '/api/getAllWorkObject';
 
 
@@ -20,7 +23,7 @@ function sidebarHeight() {
 sidebarHeight();
 
 
-function activateSideBarButton(button, url) {
+function activateSideBarButton(button, url, listDiv, url2) {
     button.addEventListener('click', (e) => {
         e.preventDefault();
         if (button.style.color === 'white') {
@@ -28,7 +31,7 @@ function activateSideBarButton(button, url) {
         } else {
             button.style.color = 'white';
         }
-        if (professionList.childNodes.length < 2) {
+        if (listDiv.childNodes.length < 2) {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -48,22 +51,21 @@ function activateSideBarButton(button, url) {
                         })
                         node.addEventListener('click', (e) => {
                                 node.style.color = 'white'
-                                fetchWorkerCards(`/api/getAllWorkerByProfession/${node.innerText}`);
+                                fetchWorkerCards(`${url2}${node.innerText}`);
 
                         })
-                        professionList.appendChild(node)
+                        listDiv.appendChild(node)
 
                     }
                 })
         } else {
-            professionList.innerHTML = "";
+            listDiv.innerHTML = "";
         }
-        console.log(sidebar.childNodes);
     })
 }
 
-activateSideBarButton(sidebarProfession, allProfessionUrl);
-activateSideBarButton(sidebarWorkObject, allWorkObjectUrl);
+activateSideBarButton(sidebarProfession, allProfessionUrl, professionList, specificProfessionUrl);
+activateSideBarButton(sidebarWorkObject, allWorkObjectUrl, workObjectList, specificWorkObjectUrl);
 
 function fetchWorkerCards(url) {
     fetch(url)

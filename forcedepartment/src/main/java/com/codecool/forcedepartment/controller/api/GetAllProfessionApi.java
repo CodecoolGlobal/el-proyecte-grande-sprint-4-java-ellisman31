@@ -38,4 +38,10 @@ public class GetAllProfessionApi {
         return databaseManager.getWorkersByProfession(profession);
     }
 
+    @RequestMapping(value = "/api/getAllWorkerByWorkObject/{workObject}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Worker> getAllWorkerByWorkObject(
+            @PathVariable("workObject") String workObject) {
+        return databaseManager.getWorkersByWorkObject(workObject);
+    }
+
 }
