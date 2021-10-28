@@ -43,4 +43,6 @@ public interface UserDao {
 
     void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience);
 
+    int getLatestId(String tableName);
+
 }

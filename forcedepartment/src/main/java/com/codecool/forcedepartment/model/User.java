@@ -1,10 +1,7 @@
 package com.codecool.forcedepartment.model;
 
-import com.codecool.forcedepartment.model.util.UserTypes;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 public class User {
@@ -12,8 +9,8 @@ public class User {
     private String firstName;
     private String lastName;
     private int age;
-    private String registrationDate;
-    private String birthOfDate;
+    private Date registrationDate;
+    private Date birthOfDate;
     private boolean isAdmin;
     private String userType;
     private String password;
@@ -26,12 +23,19 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String registrationDate, String birthOfDate, String userType, String email) {
+    public User(String firstName, String lastName, Date birthOfDate, String userType, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthOfDate = birthOfDate;
+        this.userType = userType;
+        this.email = email;
+    }
+
+    public User(String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registrationDate = registrationDate;
         this.birthOfDate = birthOfDate;
-        this.isAdmin = IS_ADMIN;
         this.userType = userType;
         this.email = email;
     }
@@ -50,13 +54,13 @@ public class User {
 
     public int getAge() {
 
-        Date date = new Date();
+        Calendar actualDate = Calendar.getInstance();
+        actualDate.setTime(getRegistrationDate());
 
-        SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
-        String currentYear = getYearFormat.format(date);
-        String birthYear = getBirthOfDate().split("-")[0];
+        Calendar birthOfDate = Calendar.getInstance();
+        birthOfDate.setTime(getBirthOfDate());
 
-        return Integer.parseInt(currentYear) - Integer.parseInt(birthYear);
+        return actualDate.get(Calendar.YEAR) - birthOfDate.get(Calendar.YEAR);
     }
 
 
@@ -66,14 +70,6 @@ public class User {
 
     public String getUserType() {
         return userType;
-    }
-
-    public String getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(String registrationDate) {
-        this.registrationDate = registrationDate;
     }
 
     public String getEmail() {
@@ -91,14 +87,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getBirthOfDate() {
-        return birthOfDate;
-    }
-
-    public void setBirthOfDate(String birthOfDate) {
-        this.birthOfDate = birthOfDate;
     }
 
     public String getFirstName() {
@@ -137,5 +125,21 @@ public class User {
                 ", userType=" + userType +
                 ", email='" + email + '\'' +
                 "}\n";
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public java.sql.Date getBirthOfDate() {
+        return (java.sql.Date) birthOfDate;
+    }
+
+    public void setBirthOfDate(Date birthOfDate) {
+        this.birthOfDate = birthOfDate;
     }
 }
