@@ -22,7 +22,6 @@ public class UserDaoJdbc implements UserDao {
         this.dataSource = dataSource;
     }
 
-
     public int getLatestId(String tableName) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT MAX(id) FROM " + tableName;
@@ -97,7 +96,7 @@ public class UserDaoJdbc implements UserDao {
 
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO website_user (first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
-                     "            VALUES (?, ?, ?, ?, ?, ?, ?, ?);\n";
+                    "            VALUES (?, ?, ?, ?, ?, ?, ?, ?);\n";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, user.getFirstName());
             st.setString(2, user.getLastName());
@@ -118,7 +117,7 @@ public class UserDaoJdbc implements UserDao {
     public void addNewWorker(int workerId, String phoneNumber, String description) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO worker (user_id, phone_number, is_available, rate, description)\n" +
-                            "VALUES (?, ?, false, 0.0, ?);";
+                    "VALUES (?, ?, false, 0.0, ?);";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, workerId);
             st.setString(2, phoneNumber);
@@ -135,6 +134,7 @@ public class UserDaoJdbc implements UserDao {
         String sql = "";
         if (userType.equals("USER")) {
             sql = "SELECT\n" +
+                    "   website_user.id,\n" +
                     "       website_user.first_name,\n" +
                     "       website_user.last_name,\n" +
                     "       website_user.birth_date,\n" +
@@ -145,6 +145,7 @@ public class UserDaoJdbc implements UserDao {
                     "WHERE website_user.id = ?;";
         } else {
             sql = "SELECT\n" +
+                    "   website_user.id,\n" +
                     "       website_user.first_name,\n" +
                     "       website_user.last_name,\n" +
                     "       website_user.birth_date,\n" +
@@ -160,7 +161,7 @@ public class UserDaoJdbc implements UserDao {
                     "FULL JOIN worker_experience ON website_user.id = worker_experience.worker_id\n" +
                     "FULL JOIN profession ON profession.id = worker_experience.profession_id\n" +
                     "WHERE website_user.id = ?\n" +
-                    "GROUP BY website_user.first_name, website_user.last_name, website_user.birth_date, website_user.email, website_user.is_admin, website_user.registration_date, worker.description, worker.phone_number, worker.rate;";
+                    "GROUP BY website_user.id, website_user.first_name, website_user.last_name, website_user.birth_date, website_user.email, website_user.is_admin, website_user.registration_date, worker.description, worker.phone_number, worker.rate;";
         }
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement st = conn.prepareStatement(sql);
@@ -170,10 +171,14 @@ public class UserDaoJdbc implements UserDao {
                 return null;
             }
             if (userType.equals("USER")) {
-                return new User(rs.getString(1), rs.getString(2), rs.getDate(6), rs.getDate(3), userType, rs.getString(4));
+                return new User(rs.getInt(1),
+                        rs.getString(2), rs.getString(3), rs.getDate(7),
+                        rs.getDate(4), userType, rs.getString(5));
             } else {
-                List<String> workerProfessions = WorkerDaoJdbc.arrayAggConverter(rs.getString(9));
-                return new Worker(rs.getString(1), rs.getString(2), rs.getDate(6), rs.getDate(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10));
+                List<String> workerProfessions = WorkerDaoJdbc.arrayAggConverter(rs.getString(10));
+                return new Worker(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getDate(7), rs.getDate(4), userType, rs.getString(5),
+                        rs.getString(8), rs.getString(9), workerProfessions, rs.getDouble(11));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading user with email  . Error type: ", e);
@@ -183,6 +188,23 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public List<User> getAllDataAboutUser() {
         return null;
+    }
+
+    public int getUserIdByEmail(String email) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT website_user.id\n" +
+                    "FROM website_user\n" +
+                    "WHERE email = ?;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
+        return -1;
     }
 
     @Override
@@ -218,7 +240,6 @@ public class UserDaoJdbc implements UserDao {
     }
 
 
-
     @Override
     public void editRegularProfile(int userId, String firstName, String lastName, String birthOfDate, String email, String password) {
         try (Connection conn = dataSource.getConnection()) {
@@ -242,8 +263,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void editWorkerProfile(int userId, String firstName, String lastName, String birthOfDate, String email,
-                                  String password, String description, String phoneNumber, boolean isAvailable)
-    {
+                                  String password, String description, String phoneNumber, boolean isAvailable) {
         try (Connection conn = dataSource.getConnection()) {
             editRegularProfile(userId, firstName, lastName, birthOfDate, email, password);
             String sql = "    UPDATE worker\n" +
@@ -287,7 +307,7 @@ public class UserDaoJdbc implements UserDao {
     public void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO worker_experience (worker_id, profession_id, experience_years)\n" +
-                         "VALUES (?, ?, ?);";
+                    "VALUES (?, ?, ?);";
             for (String professionName : professionAndExperience.keySet()) {
                 PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 st.setInt(1, userId);
@@ -299,10 +319,6 @@ public class UserDaoJdbc implements UserDao {
             throw new RuntimeException("Error while adding user Error type: ", e);
         }
     }
-
-
-
-
 
 
 }
