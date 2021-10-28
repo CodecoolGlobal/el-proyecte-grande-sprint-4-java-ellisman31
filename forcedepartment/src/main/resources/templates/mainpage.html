@@ -9,7 +9,6 @@
 <body>
 
 <div class="main-container">
-
     <header>
         <div class="nav" th:if="${session.isEmpty()}">
             <div class="logo">
@@ -26,7 +25,7 @@
             </div>
             <ul class='navbar'>
                 <li><a href="#">About us</a></li>
-                <li><a th:href="@{/profile/${user_id}}">Profile</a></li>
+                <li><a th:href="@{/profile/{sessionUserId} (sessionUserId=${sessionUserId})}">Profile</a></li>
                 <li>
                     <form name="logoutForm" th:action="@{/logout}" method="post">
                         <button type="submit">Sign Out</button>
@@ -43,10 +42,9 @@
     </div>
 
 
-    <div  id="worker-container" class="worker-container">
+    <div id="worker-container" class="worker-container">
         <hr>
         <p id="specificWorkerText" th:text="${specificWorkers}"></p><br>
-        <hr>
 
         <div id="sidebar" class="sidenav">
             <a href="#" id="profession-search">Professions</a>
@@ -57,15 +55,15 @@
         <div id="worker-card-container">
             <div class="worker-card" th:each="worker: ${workersByRating}">
                 <div class="worker-detail">
-                    <a th:href="@{/profile/${user_id}}">
+                    <a th:href="@{/profile/{userId} (userId=${worker.userId})}">
                         <img th:src="@{'/img/' + ${worker.image}}" th:attr="src=@{worker.image},
-                          title=${worker.imageName} ,alt=${worker.imageName}">
+                        title=${worker.imageName} ,alt=${worker.imageName}">
                         <br>
                         <h3 th:text="${worker.firstName} +' '+${worker.lastName} + ' (' +${worker.age} + ')' "></h3><br>
                         <h4>Profession(s): </h4>
                         <span class="professions" th:each="profession_name, iterStat: ${worker.profession}">
-                <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
-            </span><br><br>
+            <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
+        </span><br><br>
                     </a>
                 </div>
             </div>
@@ -79,9 +77,6 @@
         </footer>
 
     </div>
-
-
-
-
+</div>
 </body>
 </html>
