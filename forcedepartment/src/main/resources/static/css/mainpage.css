@@ -30,7 +30,7 @@ hr {
     align-content: center;
     background: #000;
     color: #fff;
-    padding: 1em 6em;
+    padding: 1em 2em;
 }
 
 .nav ul{
@@ -41,6 +41,7 @@ hr {
 
 .navbar {
     float: left;
+    font-size: 1.5em;
 }
 
 .nav li{
@@ -70,7 +71,6 @@ hr {
 
 .nav a:hover, .nav button:hover{
     color: rgb(216, 185, 10);
-    letter-spacing: 2px;
 }
 
 .logo a{
@@ -177,7 +177,13 @@ hr {
 
 footer{
     margin-top: 30px;
-    color: #fff;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background-color: black;
+}
+
+.footer-text {
+    padding-bottom: 30px;
 }
 
 .copyright {

@@ -16,6 +16,8 @@ const footerElement = document.getElementById('footer');
 
 const workerCardContainer = document.getElementById('worker-card-container');
 
+const pageTitle = document.getElementById('specificWorkerText');
+
 function sidebarHeight() {
     const divisibleWithThree = (document.getElementsByClassName('worker-card').length % 3 === 0) ;
     const workerElements = Math.floor((document.getElementsByClassName('worker-card').length) / 3);
@@ -69,6 +71,12 @@ function activateSideBarButton(button, url, listDiv, url2) {
                         node.addEventListener('click', (e) => {
                                 node.style.color = 'white'
                                 fetchWorkerCards(`${url2}${node.innerText}`);
+
+                                let currentTitle = "Work Object";
+                                if (url2.includes("Profession")) {
+                                    currentTitle = 'Profession';
+                                }
+                            pageTitle.innerText = `Searched ${currentTitle} : ${node.innerText}`;
 
                         })
                         listDiv.appendChild(node)
