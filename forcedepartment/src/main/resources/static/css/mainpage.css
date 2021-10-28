@@ -178,7 +178,7 @@ footer{
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+
     overflow-x: hidden;
     padding-top: 20px;
     margin-top: 20px;
@@ -186,6 +186,7 @@ footer{
     box-shadow: 5px 5px 8px #999999;
     min-height: 100vh;
     height: auto;
+    background-color: rgba(10, 10, 10, 0.8);
 }
 
 .sidenav a {

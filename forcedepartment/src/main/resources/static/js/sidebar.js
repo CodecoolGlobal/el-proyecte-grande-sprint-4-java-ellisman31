@@ -37,6 +37,12 @@ function activateSideBarButton(button, url) {
                         node.appendChild(textNode);
                         node.style.fontSize = '18px'
                         node.style.marginLeft = '20px';
+                        node.addEventListener('mouseover', ()=> {
+                            node.style.color = 'white';
+                        })
+                        node.addEventListener('mouseleave', ()=> {
+                            node.style.color = '#818181';
+                        })
                         button.appendChild(node)
                     }
                 })
@@ -46,6 +52,7 @@ function activateSideBarButton(button, url) {
                 button.removeChild(button.childNodes[1]);
             }
         }
+        console.log(sidebar.childNodes);
     })
 }
 
