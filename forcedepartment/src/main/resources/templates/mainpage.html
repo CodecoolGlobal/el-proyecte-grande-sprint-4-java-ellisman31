@@ -10,13 +10,28 @@
 <div class="main-container">
 
     <header>
-        <div class="nav">
+        <div class="nav" th:if="${session.isEmpty()}">
             <div class="logo">
                 <a th:href="@{/}">Special Department</a>
             </div>
             <ul class='navbar'>
                 <li><a href="#">About us</a></li>
                 <li><a th:href="@{/login}">Login</a></li>
+            </ul>
+        </div>
+        <div class="nav" th:unless="${session.isEmpty()}">
+            <div class="logo">
+                <a th:href="@{/}">Special Department</a>
+            </div>
+            <ul class='navbar'>
+                <li><a href="#">About us</a></li>
+                <li><a th:href="@{/profile/${user_id}}">Profile</a></li>
+                <li>
+                    <form name="logoutForm" th:action="@{/logout}" method="post">
+                        <button type="submit">Sign Out</button>
+                    </form>
+                </li>
+
             </ul>
         </div>
     </header>

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping(value = "/login")
@@ -33,18 +35,16 @@ public class LoginController {
 
     @PostMapping
     public String loginToTheWebsite(@RequestParam("email") String email,
-                                    @RequestParam("password") String password) {
+                                    @RequestParam("password") String password,
+                                    HttpSession session) {
 
-//
-//        if (databaseManager.checkIfValidLogin(email, password);)
-//          session (stay logged)
-//            return "redirect:/";
-//        }
-//        else {
-//            return "redirect:/login";
-//        }
-        return "redirect:/";
-
+        if (databaseManager.checkValidLogin(email, password)) {
+            session.setAttribute("email", email);
+            return "redirect:/";
+        }
+        else {
+            return "redirect:/login";
+        }
     }
 
 }
