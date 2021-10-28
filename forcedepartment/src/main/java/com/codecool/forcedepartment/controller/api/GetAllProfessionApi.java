@@ -25,4 +25,8 @@ public class GetAllProfessionApi {
         return databaseManager.getAllProfession();
     }
 
+    @RequestMapping(value = "/api/getAllWorkObject", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<String> getAllWorkObject() {
+        return databaseManager.getAllWorkObject();
+    }
 }

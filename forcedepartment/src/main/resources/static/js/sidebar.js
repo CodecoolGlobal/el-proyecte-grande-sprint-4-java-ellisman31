@@ -2,6 +2,11 @@ const container = document.getElementById('worker-container');
 const sidebar = document.getElementById('sidebar');
 
 const sidebarProfession = document.getElementById('profession-search');
+const sidebarWorkObject = document.getElementById('work-objects-search');
+const sidebarButtons = [sidebarProfession, sidebarWorkObject];
+
+const allProfessionUrl = '/api/getAllProfession';
+const allWorkObjectUrl = '/api/getAllWorkObject';
 
 function myTimer() {
     sidebar.style.height = `${container.scrollHeight-200}px`
@@ -18,33 +23,32 @@ function getAllType() {
 getAllType();
 
 
-sidebarProfession.addEventListener('click', (e) => {
-    e.preventDefault();
+function activateSideBarButton(button, url) {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
 
-    if (sidebarProfession.childNodes.length < 2) {
-
-
-
-
-        fetch('/api/getAllProfession')
-            .then(response => response.json())
-            .then(data => {
-                for (const element of data) {
-                    let node = document.createElement("LI");
-                    let textNode = document.createTextNode(element);
-                    node.appendChild(textNode);
-                    node.style.fontSize = '18px'
-                    node.style.marginLeft = '20px';
-                    sidebarProfession.appendChild(node)
-                }
-            })
-
-    } else {
-        let nodeAmount = sidebarProfession.childNodes.length;
-        for (let i = 1; i <= nodeAmount; i++) {
-            sidebarProfession.removeChild(sidebarProfession.childNodes[1]);
+        if (button.childNodes.length < 2) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    for (const element of data) {
+                        let node = document.createElement("LI");
+                        let textNode = document.createTextNode(element);
+                        node.appendChild(textNode);
+                        node.style.fontSize = '18px'
+                        node.style.marginLeft = '20px';
+                        button.appendChild(node)
+                    }
+                })
+        } else {
+            let nodeAmount = button.childNodes.length;
+            for (let i = 1; i <= nodeAmount; i++) {
+                button.removeChild(button.childNodes[1]);
+            }
         }
+    })
+}
 
-    }
+activateSideBarButton(sidebarProfession, allProfessionUrl);
+activateSideBarButton(sidebarWorkObject, allWorkObjectUrl);
 
-})
