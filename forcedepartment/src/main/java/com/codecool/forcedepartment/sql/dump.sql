@@ -4,11 +4,11 @@ CREATE TABLE public.website_user
     id           serial  NOT NULL PRIMARY KEY,
     first_name varchar(100),
     last_name         varchar(100),
-    birth_date          date NOT NULL,
+    birth_date          varchar(100) NOT NULL,
     email           varchar(150),
     is_admin      boolean,
     password varchar(300),
-    registration_date date NOT NULL,
+    registration_date varchar(150) NOT NULL,
     group_name     text
     -- ,image text
 );
@@ -95,6 +95,8 @@ INSERT INTO public.website_user VALUES (10, 'Elis', 'Cooper', '1984-10-10', 'coo
 INSERT INTO public.website_user VALUES (11, 'Tobias', 'Ball', '1974-10-10', 'ball.tobias@gmail.com', false, '1234', '2021-10-10', 'WORKER');
 INSERT INTO public.website_user VALUES (12, 'Jacob', 'Mccarthy', '1985-10-10', 'mccarthy.jacob@gmail.com', false, '1234', '2021-10-10', 'WORKER');
 INSERT INTO public.website_user VALUES (13, 'Paul', 'Rodgers', '1960-10-10', 'rodgers.paul@gmail.com', false, '1234', '2021-10-10', 'WORKER');
+SELECT pg_catalog.setval('website_user_id_seq', 13, true);
+
 
 INSERT INTO public.worker VALUES (1, 2, '+36305121220', false, 7.4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
 INSERT INTO public.worker VALUES (2, 3,'+36302548320', false, 5.2, 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
@@ -105,6 +107,8 @@ INSERT INTO public.worker VALUES (6, 8, '+36705792850', false, 6.3, 'Et harum qu
 INSERT INTO public.worker VALUES (7, 11, '+36705792850', false, 9.1, 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.');
 INSERT INTO public.worker VALUES (8, 12, '+36709482320', false, 8.2, 'Vivamus vel ex vitae orci dictum feugiat quis et tortor. Ut vehicula metus diam, tempor vulputate metus bibendum et. Etiam rhoncus ex a mauris suscipit lacinia. Etiam pulvinar posuere leo, vel malesuada sapien tristique in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc fermentum nisi ac purus consectetur, in semper risus mollis.');
 INSERT INTO public.worker VALUES (9, 13, '+36305733321', false, 8.7, 'Vivamus vautem quibusdam et aut officiis debitis et tortor. Ut vehicula metus diam, tempor vulputate metus ut et voluptates repudiandae sint et molestiae non vel malesuada sapien tristique in. Interdum et malesuada fames.');
+SELECT pg_catalog.setval('worker_id_seq', 9, true);
+
 
 INSERT INTO public.profession VALUES (1, 'Carpenter');
 INSERT INTO public.profession VALUES (2, 'Electrician');
@@ -117,6 +121,8 @@ INSERT INTO public.profession VALUES (8, 'Machinist');
 INSERT INTO public.profession VALUES (9, 'Sheet Metal Worker');
 INSERT INTO public.profession VALUES (10, 'Heating and Cooling System Mechanic');
 INSERT INTO public.profession VALUES (11, 'Construction Helper');
+SELECT pg_catalog.setval('profession_id_seq', 11, true);
+
 
 INSERT INTO public.worker_experience VALUES (1, 2, 4, 12);
 INSERT INTO public.worker_experience VALUES (2, 2, 9, 7);
@@ -134,6 +140,7 @@ INSERT INTO public.worker_experience VALUES (13, 11, 6, 9);
 INSERT INTO public.worker_experience VALUES (14, 11, 1, 14);
 INSERT INTO public.worker_experience VALUES (15, 12, 5, 11);
 INSERT INTO public.worker_experience VALUES (16, 13, 4, 17);
+SELECT pg_catalog.setval('worker_experience_id_seq', 16, true);
 
 INSERT INTO public.work_object VALUES (1, 'Bedroom');
 INSERT INTO public.work_object VALUES (2, 'Bathroom');
@@ -148,6 +155,7 @@ INSERT INTO public.work_object VALUES (10, 'Garage');
 INSERT INTO public.work_object VALUES (11, 'Roof');
 INSERT INTO public.work_object VALUES (12, 'Basement');
 INSERT INTO public.work_object VALUES (13, 'House Structure');
+SELECT pg_catalog.setval('work_object_id_seq', 13, true);
 
 INSERT INTO public.work_requirement VALUES (1, 1, 1);
 INSERT INTO public.work_requirement VALUES (2, 1, 2);
@@ -223,3 +231,4 @@ INSERT INTO public.work_requirement VALUES (71, 13, 1);
 INSERT INTO public.work_requirement VALUES (72, 13, 3);
 INSERT INTO public.work_requirement VALUES (73, 13, 7);
 INSERT INTO public.work_requirement VALUES (74, 13, 11);
+SELECT pg_catalog.setval('work_requirement_id_seq', 13, true);

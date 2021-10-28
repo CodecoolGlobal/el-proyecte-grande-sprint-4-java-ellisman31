@@ -22,6 +22,27 @@ public class WorkerDaoJdbc implements WorkerDao {
         this.dataSource = dataSource;
     }
 
+    public static List<String> arrayAggConverter(String arrayAggString) {
+        StringBuilder arrayAgg = new StringBuilder(arrayAggString);
+        arrayAgg.deleteCharAt(arrayAgg.length() - 1);
+        arrayAgg.deleteCharAt(0);
+        String planeArray = arrayAgg.toString();
+        List<String> listOfProfession = Arrays.asList(planeArray.split("\s,\s"));
+        return listOfProfession;
+    }
+
+    private List<Worker> getWorkers(PreparedStatement st) throws SQLException {
+        ResultSet rs = st.executeQuery();
+        List<Worker> result = new ArrayList<>();
+        while (rs.next()) {
+            List<String> listOfProfession = arrayAggConverter(rs.getString(10));
+            Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(7),
+                    rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(10));
+            result.add(worker);
+        }
+        return result;
+    }
+
     @Override
     public List<Worker> getAllByRating() {
         try (Connection conn = dataSource.getConnection()) {
@@ -60,15 +81,6 @@ public class WorkerDaoJdbc implements WorkerDao {
         }
     }
 
-    private List<String> arrayAggConverter(String string) {
-        StringBuilder arrayAgg = new StringBuilder("{Sheet Metal Worker,Plumber}");
-        arrayAgg.deleteCharAt(arrayAgg.length() - 1);
-        arrayAgg.deleteCharAt(0);
-        String planeArray = arrayAgg.toString();
-        List<String> listOfProfession = Arrays.asList(planeArray.split("\s,\s"));
-        return listOfProfession;
-    }
-
     @Override
     public List<Worker> getAllByProfession(String profession) {
         try (Connection conn = dataSource.getConnection()) {
@@ -93,15 +105,7 @@ public class WorkerDaoJdbc implements WorkerDao {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, workerText);
             st.setString(2, profession);
-            ResultSet rs = st.executeQuery();
-            List<Worker> result = new ArrayList<>();
-            while (rs.next()) {
-                List<String> listOfProfession = arrayAggConverter(rs.getString(10));
-                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(7),
-                        rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(10));
-                result.add(worker);
-            }
-            return result;
+            return getWorkers(st);
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all suppliers", e);
         }
@@ -133,15 +137,7 @@ public class WorkerDaoJdbc implements WorkerDao {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, workerText);
             st.setString(2, workObject);
-            ResultSet rs = st.executeQuery();
-            List<Worker> result = new ArrayList<>();
-            while (rs.next()) {
-                List<String> listOfProfession = arrayAggConverter(rs.getString(10));
-                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(7),
-                        rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(10));
-                result.add(worker);
-            }
-            return result;
+            return getWorkers(st);
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all suppliers", e);
         }
@@ -173,15 +169,7 @@ public class WorkerDaoJdbc implements WorkerDao {
             st.setString(1, workerText);
             st.setString(2, namePart);
             st.setString(3, namePart);
-            ResultSet rs = st.executeQuery();
-            List<Worker> result = new ArrayList<>();
-            while (rs.next()) {
-                List<String> listOfProfession = arrayAggConverter(rs.getString(10));
-                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(7),
-                        rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(10));
-                result.add(worker);
-            }
-            return result;
+            return getWorkers(st);
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading all suppliers", e);
         }
@@ -189,9 +177,7 @@ public class WorkerDaoJdbc implements WorkerDao {
 
     @Override
     public List<Worker> getAllByFilter() {
-
         // work-object, worker-name, profession, rate, is-available, year experience
-
         return null;
     }
 }

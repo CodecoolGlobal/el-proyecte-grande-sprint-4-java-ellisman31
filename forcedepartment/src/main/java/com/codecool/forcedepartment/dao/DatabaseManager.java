@@ -1,16 +1,12 @@
 package com.codecool.forcedepartment.dao;
 
-import com.codecool.forcedepartment.dao.implementation.CategoryDaoJdbc;
-import com.codecool.forcedepartment.dao.implementation.UserDaoJdbc;
-import com.codecool.forcedepartment.dao.implementation.WorkerDaoJdbc;
-import com.codecool.forcedepartment.model.WorkObject;
+import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class DatabaseManager {
@@ -45,5 +41,32 @@ public class DatabaseManager {
     public List<String> getAllProfession() { return categoryDao.getAllProfession(); }
 
     public List<String> getAllWorkObject() { return categoryDao.getAllWorkObject(); }
+
+    public int registerRegularUser(User user, String hashedPassword) { return userDao.addNewRegularUser(user, hashedPassword);}
+
+    public void registerWorker(int workerId, String phoneNumber, String description) { userDao.addNewWorker(workerId, phoneNumber, description);}
+
+    public User getAllDataAboutUser(int userId) { return userDao.getDataAboutUser(userId); }
+
+    public boolean checkIfEmailInUse(String email) { return userDao.checkIfUserExists(email); }
+
+    public boolean checkValidLogin(String email, String password) { return userDao.checkIfValidLogin(email, password); }
+
+    public void updateRegularUserData(int userId, String firstName, String lastName, String birthOfDate, String email, String password) {
+        userDao.editRegularProfile(userId, firstName, lastName, birthOfDate, email, password);
+    }
+
+    public void updateWorker(int userId, String firstName, String lastName, String birthOfDate, String email,
+                             String password, String description, String phoneNumber, boolean isAvailable) {
+        userDao.editWorkerProfile(userId, firstName, lastName, birthOfDate, email, password, description, phoneNumber, isAvailable);
+    }
+
+    public Map<String, Integer> getProfessionWithExperienceOfWorker(int userId) {
+        return userDao.getProfessionWithExperience(userId);
+    }
+
+    public void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience) {
+        userDao.saveProfessionWithExperience(userId, professionAndExperience);
+    }
 
 }

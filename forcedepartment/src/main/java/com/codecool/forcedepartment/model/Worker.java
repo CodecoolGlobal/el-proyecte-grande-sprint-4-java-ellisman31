@@ -54,4 +54,14 @@ public class Worker extends User {
     public void setRate(double rate) {
         this.rate = rate;
     }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "description='" + description + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", rate=" + rate +
+                ", profession=" + profession +
+                '}';
+    }
 }
