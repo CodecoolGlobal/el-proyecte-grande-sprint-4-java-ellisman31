@@ -116,17 +116,19 @@ input {
 }
 
 input[type=password] {
-    margin-bottom: 25px;
 }
 
 .userType {
-    display: flex;
+    display: inline-block;
     cursor: pointer;
     font-weight: 500;
     position: relative;
     overflow: hidden;
-    margin-bottom: 0.375em;
-    text-align: left;
+    text-align: center;
+    font-size: 19px;
+    margin-left: 20px;
+    margin-right: 23px;
+    margin-top: 35px;
 }
 
 button {
@@ -150,6 +152,7 @@ button {
     transition: all 0.1s linear 0s;
     top: 0px;
     position: relative;
+    margin-top: 40px;
 }
 
 button:hover {

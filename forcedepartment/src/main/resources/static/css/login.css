@@ -17,7 +17,7 @@ body {
     background: #fff;
     border-radius: 5px;
     border-top: 5px solid #847a65;
-    margin: 315px auto;
+    margin: 240px auto;
 }
 
 .mainPageHref {
@@ -93,4 +93,9 @@ body {
 
 .login-block button:hover {
     background: #737a65;
+}
+
+.mainPageHref p {
+    font-size: 17px;
+    color: dimgray;
 }

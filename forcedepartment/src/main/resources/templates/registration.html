@@ -24,10 +24,10 @@
             <input type="password" id="passwordAgain" name="passwordAgain" placeholder="Password again" required>
         </div>
 
-        <div class="userType" th:each="group: ${UserTypes}">
+        <span class="userType" th:each="group: ${UserTypes}">
             <input type="radio" th:value="${group}" th:field="*{userType}" id="radio" name="groupType" required/>
             <label for="radio" class="radio" th:text="${group}"></label>
-        </div>
+        </span>
 
         <button type="submit">Submit</button>
     </form>
