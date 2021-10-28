@@ -154,7 +154,7 @@ public class UserDaoJdbc implements UserDao {
                 return null;
             }
             if (userType.equals("USER")) {
-                return new User(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), rs.getBoolean(5), userType, rs.getString(4));
+                return new User(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4));
             } else {
                 List<String> workerProfessions = WorkerDaoJdbc.arrayAggConverter(rs.getString(9));
                 System.out.println(new Worker(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10)));
