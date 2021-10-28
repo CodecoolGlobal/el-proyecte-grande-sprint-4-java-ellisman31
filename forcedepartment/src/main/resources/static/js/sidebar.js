@@ -98,11 +98,11 @@ function fetchWorkerCards(url) {
                 currentContent += `
                     <div class="worker-card">
                         <div class="worker-detail">
-                            <a href="#">
+                            <a href="/profile/${worker.userId}">
                                 <img src="/img/${worker.image}">
                                 <br>
                                 <h3>
-                                    ${worker.firstName} ${worker.lastName} ( ${worker.age} )
+                                    ${worker.firstName} ${worker.lastName} (${worker.age})
                                 </h3><br>
                                 <h4>Profession(s): </h4>
                                 <span class="professions">

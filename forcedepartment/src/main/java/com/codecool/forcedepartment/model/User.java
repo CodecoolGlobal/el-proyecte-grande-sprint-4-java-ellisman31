@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class User {
 
+    private int userId;
     private String firstName;
     private String lastName;
     private int age;
@@ -31,13 +32,18 @@ public class User {
         this.email = email;
     }
 
-    public User(String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email) {
+    public User(int id, String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email) {
+        this.userId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.registrationDate = registrationDate;
         this.birthOfDate = birthOfDate;
         this.userType = userType;
         this.email = email;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getImageName() {

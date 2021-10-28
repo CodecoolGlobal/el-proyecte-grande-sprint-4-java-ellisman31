@@ -24,12 +24,17 @@ public class MainPageController {
         this.databaseManager = databaseManager;}
 
     @RequestMapping(value = "/", method={RequestMethod.GET})
-    public String mainPage(Model model) {
+    public String mainPage(Model model, HttpServletRequest request) {
 
         model.addAttribute("title", webTitle);
         model.addAttribute("webCopyright", webCopyright);
         model.addAttribute("specificWorkers", specificWorkers);
         model.addAttribute("workersByRating", databaseManager.getWorkersByRating());
+        //userId to model, and add to User class the same
+        if (request.getSession().getAttribute("email") != null) {
+            int sessionUserId = databaseManager.getUserIdByEmail(String.valueOf(request.getSession().getAttribute("email")));
+            model.addAttribute("sessionUserId", sessionUserId);
+        }
 
         return "mainpage";
     }
