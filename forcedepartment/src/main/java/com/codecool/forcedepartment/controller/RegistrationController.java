@@ -1,29 +1,41 @@
 package com.codecool.forcedepartment.controller;
 
+import com.codecool.forcedepartment.dao.DatabaseManager;
+import com.codecool.forcedepartment.model.Profession;
 import com.codecool.forcedepartment.model.User;
-import com.codecool.forcedepartment.model.Worker;
 import com.codecool.forcedepartment.model.util.UserTypes;
-import com.codecool.forcedepartment.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 
 
 @Controller
-@RequestMapping(value = "/register")
 public class RegistrationController {
 
-    //LocalDate because of registration date
-    public static UserService userService = new UserService();
+    private DatabaseManager databaseManager;
+
     private static String webTitle = "Specialist department - Registration";
+    private static int workerId;
+
+    @Autowired
+    public RegistrationController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
+    }
+
+    private String actualTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 
     //Warning message if the match password is wrong
-    @GetMapping
+    @RequestMapping(value = "/register", method = {RequestMethod.GET})
     public String registerSite(Model model) {
 
         model.addAttribute("title", webTitle);
@@ -34,40 +46,48 @@ public class RegistrationController {
     }
 
     //Message for successful registration
-    @PostMapping
+    @RequestMapping(value = "/register", method = {RequestMethod.POST})
     public String saveRegisterUserData(@RequestParam("password") String password,
                                        @RequestParam("passwordAgain") String passwordAgain,
                                        @ModelAttribute User user) {
 
-        //Add to the DAO service
-        //Test with dummy
         if (password.equals(passwordAgain)) {
-            if (user.getUserType().equals(UserTypes.WORKER)) {
-                //set to saveRemainingData
-                List<String> dummy = new ArrayList<>();
-                Worker worker = new Worker(
-                        user.getFirstName(), user.getLastName(), "registration date", user.getBirthOfDate(),
-                        user.getUserType(), user.getEmail(), "", "", dummy, 2.2);
-                userService.addUserTest(worker);
+            if (user.getUserType().equals(String.valueOf(UserTypes.WORKER))) {
+                User worker = new User(
+                        user.getFirstName(), user.getLastName(), actualTime(), user.getBirthOfDate(),
+                        user.getUserType(), user.getEmail());
+                //workerId = databaseManager.registerRegularUser(worker, worker.getPassword())
+                return "redirect:/register/worker";
+            } else if (user.getUserType().equals(String.valueOf(UserTypes.USER))) {
+                //databaseManager.registerRegularUser(user, user.getPassword())
             }
-            else if (user.getUserType().equals(UserTypes.USER)) {
-                userService.addUserTest(user);
-            }
-            userService.getAllInformation();
-        }
-        else {
+        } else {
             return "redirect:/register";
         }
+
         return "redirect:/";
     }
 
-    @GetMapping("/register/worker")
-    public String remainingDataForWorker() {
+    @RequestMapping(value = "/register/worker", method = {RequestMethod.GET})
+    public String remainingDataForWorker(Model model) {
+
+        model.addAttribute("title", webTitle);
+        model.addAttribute("ProfessionObject", new Profession());
+        model.addAttribute("professions", databaseManager.getAllProfession());
+
         return "register-worker";
     }
 
-    @PostMapping("/register/worker")
-    public String saveRemainingDataForWorker() {
+
+    //@RequestParam("professionName") String workerProfession
+    @RequestMapping(value = "/register/worker", method = {RequestMethod.POST})
+    public String saveRemainingDataForWorker(
+            @RequestParam("description") String description,
+            @RequestParam("phone_number") String phoneNumber
+    ) {
+
+        //databaseManager.registerWorker(workerId, description, phoneNumber);
+
         return "redirect:/";
     }
 }

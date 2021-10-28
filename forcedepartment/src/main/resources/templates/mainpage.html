@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mainpage.css}"/>
+</head>
+<body>
+
+<div class="main-container">
+
+    <header>
+        <div class="nav">
+            <div class="logo">
+                <a th:href="@{/}">Special Department</a>
+            </div>
+            <ul class='navbar'>
+                <li><a href="#">About us</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="web-information">
+        <h1>Welcome on the Special Department!</h1>
+        <p>You can look around and find who is the best worker(s) for your job</p><br>
+    </div>
+
+
+    <div class="worker-container">
+        <hr>
+        <p id="specificWorkerText" th:text="${specificWorkers}"></p><br>
+        <hr>
+        <div class="worker-card" th:each="worker: ${workersByRating}">
+            <div class="worker-detail">
+                <a th:href="@{/profile/${user_id}}">
+                    <img th:src="@{'/img/' + ${worker.image}}" th:attr="src=@{worker.image},
+	                  title=${worker.imageName} ,alt=${worker.imageName}">
+                    <br>
+                    <h3 th:text="${worker.firstName} +' '+${worker.lastName} + ' (' +${worker.age} + ')' "></h3><br>
+                    <h4>Profession(s): </h4>
+                    <span class="professions" th:each="profession_name: ${worker.profession}">
+            <p th:text="${profession_name}"></p>
+        </span><br><br>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <hr>
+            <div class="copyright">
+                <p th:text="${webCopyright}"></p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!--    <div class="filter-sidenav">-->
+    <!--        <p>You can filter by name,work object, work requirement etc..</p>-->
+    <!--        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fshopping-2%2F256%2FSearching-512.png&f=1&nofb=1"-->
+    <!--             alt="searchicon">-->
+    <!--        <span class="searchbar">-->
+    <!--        <input type="text" name="searchbar" id="searchbar" placeholder="Search..">-->
+    <!--    </span>-->
+    <!--        <button type="button" id="searchbarButton">Search</button>-->
+    <!--    </div>-->
+
+
+</body>
+</html>
