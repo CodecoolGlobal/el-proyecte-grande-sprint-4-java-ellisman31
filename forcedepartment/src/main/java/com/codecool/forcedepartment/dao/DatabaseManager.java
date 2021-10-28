@@ -65,4 +65,8 @@ public class DatabaseManager {
         return userDao.getProfessionWithExperience(userId);
     }
 
+    public void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience) {
+        userDao.saveProfessionWithExperience(userId, professionAndExperience);
+    }
+
 }

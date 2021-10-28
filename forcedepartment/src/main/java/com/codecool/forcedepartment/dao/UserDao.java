@@ -39,4 +39,8 @@ public interface UserDao {
 
     Map<String, Integer> getProfessionWithExperience(int userId);
 
+    // save
+
+    void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience);
+
 }

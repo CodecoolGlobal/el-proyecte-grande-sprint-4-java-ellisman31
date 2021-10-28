@@ -177,9 +177,7 @@ public class WorkerDaoJdbc implements WorkerDao {
 
     @Override
     public List<Worker> getAllByFilter() {
-
         // work-object, worker-name, profession, rate, is-available, year experience
-
         return null;
     }
 }

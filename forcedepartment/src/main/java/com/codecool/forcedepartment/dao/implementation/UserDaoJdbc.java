@@ -58,6 +58,24 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
+
+    public int getProfessionIdByName(String professionName) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT profession.id\n" +
+                    "FROM profession\n" +
+                    "WHERE profession.profession_name = ?;";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, professionName);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return -1;
+            }
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
+    }
+
     @Override
     public int addNewRegularUser(User user, String hashedPassword) {
         try (Connection conn = dataSource.getConnection()) {
@@ -249,6 +267,27 @@ public class UserDaoJdbc implements UserDao {
             throw new RuntimeException("Error while reading user with email  . Error type: ", e);
         }
     }
+
+    @Override
+    public void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO worker_experience (worker_id, profession_id, experience_years)\n" +
+                         "VALUES (?, ?, ?);";
+            for (String professionName : professionAndExperience.keySet()) {
+                PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                st.setInt(1, userId);
+                st.setInt(2, getProfessionIdByName(professionName));
+                st.setInt(3, professionAndExperience.get(professionName));
+                st.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding user Error type: ", e);
+        }
+    }
+
+
+
+
 
 
 }
