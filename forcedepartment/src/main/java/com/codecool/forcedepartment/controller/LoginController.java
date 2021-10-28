@@ -20,6 +20,9 @@ public class LoginController {
 
     private static String webTitle = "Specialist department - Login";
     private static String websiteName = "Specialist department";
+    private static String wrongLogin = "Wrong email address or password were given! Try again..";
+    private static boolean isCorrect = true;
+
 
     @Autowired
     public LoginController(DatabaseManager databaseManager) {
@@ -30,6 +33,10 @@ public class LoginController {
     public String loginSite(Model model) {
         model.addAttribute("websiteName", websiteName);
         model.addAttribute("title", webTitle);
+        if (isCorrect == false) {
+            model.addAttribute("wrongLogin", wrongLogin);
+        }
+        isCorrect = true;
         return "login";
     }
 
@@ -39,10 +46,12 @@ public class LoginController {
                                     HttpSession session) {
 
         if (databaseManager.checkValidLogin(email, password)) {
+            isCorrect = true;
             session.setAttribute("email", email);
             return "redirect:/";
         }
-        else {
+        else{
+            isCorrect = false;
             return "redirect:/login";
         }
     }

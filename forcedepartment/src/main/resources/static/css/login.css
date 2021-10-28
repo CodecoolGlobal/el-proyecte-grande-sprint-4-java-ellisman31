@@ -99,3 +99,8 @@ body {
     font-size: 17px;
     color: dimgray;
 }
+
+#wrongLogin {
+    color:darkred;
+    text-align:center;
+}
