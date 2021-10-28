@@ -196,9 +196,6 @@ footer{
     display: block;
 }
 
-.sidenav a:hover {
-    color: #f1f1f1;
-}
 
 .main {
     margin-left: 160px; /* Same as the width of the sidenav */

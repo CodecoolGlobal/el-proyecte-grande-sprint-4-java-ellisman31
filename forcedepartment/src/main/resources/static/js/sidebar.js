@@ -9,18 +9,42 @@ function myTimer() {
 
 myTimer();
 
+function getAllType() {
+    fetch('/api/getAllProfession')
+        .then(response => response.json())
+        .then(data => console.log(data))
+}
+
+getAllType();
+
+
 sidebarProfession.addEventListener('click', (e) => {
     e.preventDefault();
-    let node = document.createElement("LI");
-    let textnode = document.createTextNode("Water");
-    node.appendChild(textnode);
-    node.style.fontSize = '18px'
-    node.style.marginLeft = '20px';
-    if (sidebarProfession.childNodes.length < 2) {
-        sidebarProfession.appendChild(node)
-    } else {
 
-        sidebarProfession.removeChild(sidebarProfession.childNodes[1]);
+    if (sidebarProfession.childNodes.length < 2) {
+
+
+
+
+        fetch('/api/getAllProfession')
+            .then(response => response.json())
+            .then(data => {
+                for (const element of data) {
+                    let node = document.createElement("LI");
+                    let textNode = document.createTextNode(element);
+                    node.appendChild(textNode);
+                    node.style.fontSize = '18px'
+                    node.style.marginLeft = '20px';
+                    sidebarProfession.appendChild(node)
+                }
+            })
+
+    } else {
+        let nodeAmount = sidebarProfession.childNodes.length;
+        for (let i = 1; i <= nodeAmount; i++) {
+            sidebarProfession.removeChild(sidebarProfession.childNodes[1]);
+        }
+
     }
 
 })
