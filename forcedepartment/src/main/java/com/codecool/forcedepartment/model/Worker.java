@@ -8,14 +8,14 @@ import java.util.List;
 
 public class Worker extends User {
 
-    private static final boolean IS_ADMIN = false;
     private String description;
     private String phoneNumber;
     private double rate;
+    //change into hashMap
     private List<String> profession;
 
     public Worker(String firstName, String lastName, String registrationDate, String birthOfDate, String userType, String email, String description, String phoneNumber, List<String> profession, double rate) {
-        super(firstName, lastName, registrationDate, birthOfDate, IS_ADMIN, userType, email);
+        super(firstName, lastName, registrationDate, birthOfDate, userType, email);
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.profession = new ArrayList<>();
