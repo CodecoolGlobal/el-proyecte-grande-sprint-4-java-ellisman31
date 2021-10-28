@@ -41,7 +41,7 @@ public class WorkerDaoJdbc implements WorkerDao {
         List<Worker> result = new ArrayList<>();
         while (rs.next()) {
             List<String> listOfProfession = arrayAggConverter(rs.getString(10));
-            Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(7),
+            Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getDate(3), rs.getDate(4), rs.getString(6), rs.getString(7),
                     rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(10));
             result.add(worker);
         }
@@ -76,7 +76,7 @@ public class WorkerDaoJdbc implements WorkerDao {
             List<Worker> result = new ArrayList<>();
             while (rs.next()) {
                 List<String> listOfProfession = arrayAggConverter(rs.getString(11));
-                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(7),
+                Worker worker = new Worker(rs.getString(1), rs.getString(2), rs.getDate(3), rs.getDate(4), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(10));
                 result.add(worker);
             }
