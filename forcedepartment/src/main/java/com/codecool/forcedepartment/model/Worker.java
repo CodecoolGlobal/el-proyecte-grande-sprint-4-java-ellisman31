@@ -25,9 +25,9 @@ public class Worker extends User {
         this.rate = rate;
     }
 
-    public Worker(String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email,
+    public Worker(int userId, String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email,
                   String description, String phoneNumber, List<String> profession, double rate) {
-        super(firstName, lastName, registrationDate, birthOfDate, userType, email);
+        super(userId, firstName, lastName, registrationDate, birthOfDate, userType, email);
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.rate = rate;

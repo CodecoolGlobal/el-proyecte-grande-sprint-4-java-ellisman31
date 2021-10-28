@@ -20,7 +20,7 @@ public class LoginController {
 
     private static String webTitle = "Specialist department - Login";
     private static String websiteName = "Specialist department";
-    private static String wrongLogin = "Wrong email address or password were given! Try again..";
+    private static String wrongLogin = "Wrong email address or password was given! Try again..";
     private static boolean isCorrect = true;
 
 
