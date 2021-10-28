@@ -35,22 +35,24 @@
 
         <div id="sidebar" class="sidenav">
             <a href="#" id="profession-search">Professions</a>
+            <div id="profession-list"></div>
             <a href="#" id="work-objects-search">Work Objects</a>
             <a href="#">Extra Filter</a>
         </div>
-
-        <div class="worker-card" th:each="worker: ${workersByRating}">
-            <div class="worker-detail">
-                <a th:href="@{/profile/${user_id}}">
-                    <img th:src="@{'/img/' + ${worker.image}}" th:attr="src=@{worker.image},
-	                  title=${worker.imageName} ,alt=${worker.imageName}">
-                    <br>
-                    <h3 th:text="${worker.firstName} +' '+${worker.lastName} + ' (' +${worker.age} + ')' "></h3><br>
-                    <h4>Profession(s): </h4>
-                    <span class="professions" th:each="profession_name, iterStat: ${worker.profession}">
-            <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
-        </span><br><br>
-                </a>
+        <div id="worker-card-container">
+            <div class="worker-card" th:each="worker: ${workersByRating}">
+                <div class="worker-detail">
+                    <a th:href="@{/profile/${user_id}}">
+                        <img th:src="@{'/img/' + ${worker.image}}" th:attr="src=@{worker.image},
+                          title=${worker.imageName} ,alt=${worker.imageName}">
+                        <br>
+                        <h3 th:text="${worker.firstName} +' '+${worker.lastName} + ' (' +${worker.age} + ')' "></h3><br>
+                        <h4>Profession(s): </h4>
+                        <span class="professions" th:each="profession_name, iterStat: ${worker.profession}">
+                <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
+            </span><br><br>
+                    </a>
+                </div>
             </div>
         </div>
 
