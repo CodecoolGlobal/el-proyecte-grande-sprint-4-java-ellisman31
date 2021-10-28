@@ -27,8 +27,13 @@ public class WorkerDaoJdbc implements WorkerDao {
         arrayAgg.deleteCharAt(arrayAgg.length() - 1);
         arrayAgg.deleteCharAt(0);
         String planeArray = arrayAgg.toString();
-        List<String> listOfProfession = Arrays.asList(planeArray.split("\s,\s"));
-        return listOfProfession;
+        List<String> listOfProfession = Arrays.asList(planeArray.split(","));
+        List<String> newListOfProfession = new ArrayList<>();
+        for (String profession : listOfProfession) {
+            profession = profession.replace("\"", "");
+            newListOfProfession.add(profession);
+        }
+        return newListOfProfession;
     }
 
     private List<Worker> getWorkers(PreparedStatement st) throws SQLException {

@@ -39,8 +39,8 @@
                     <br>
                     <h3 th:text="${worker.firstName} +' '+${worker.lastName} + ' (' +${worker.age} + ')' "></h3><br>
                     <h4>Profession(s): </h4>
-                    <span class="professions" th:each="profession_name: ${worker.profession}">
-            <p th:text="${profession_name}"></p>
+                    <span class="professions" th:each="profession_name, iterStat: ${worker.profession}">
+            <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
         </span><br><br>
                 </a>
             </div>

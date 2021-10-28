@@ -123,14 +123,15 @@ hr {
 }
 
 .worker-card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
     transition: 0.3s;
-    height: 415px;
+    height: 435px;
     width: 315px;
     display: inline-grid;
     text-align: center;
     margin-left: 45px;
     margin-top: 20px;
+    border-radius: 3px;
     background-color: rgba(255, 255, 255, 0.8);
 }
 
