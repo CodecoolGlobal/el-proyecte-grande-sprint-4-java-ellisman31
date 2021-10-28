@@ -111,7 +111,7 @@ public class RegistrationController {
             @RequestParam("phone_number") String phoneNumber
     ) {
 
-        databaseManager.registerWorker(workerId, description, phoneNumber);
+        databaseManager.registerWorker(workerId, phoneNumber, description);
 
         return "redirect:/login";
     }
