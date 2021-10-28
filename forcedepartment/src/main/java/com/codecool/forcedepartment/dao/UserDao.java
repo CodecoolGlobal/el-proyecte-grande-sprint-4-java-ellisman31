@@ -45,4 +45,6 @@ public interface UserDao {
 
     int getLatestId(String tableName);
 
+    int getUserIdByEmail(String email);
+
 }

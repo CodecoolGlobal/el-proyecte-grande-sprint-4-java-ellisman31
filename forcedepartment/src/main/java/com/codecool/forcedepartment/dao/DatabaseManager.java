@@ -50,7 +50,7 @@ public class DatabaseManager {
 
     public void registerWorker(int workerId, String phoneNumber, String description) { userDao.addNewWorker(workerId, phoneNumber, description);}
 
-    public User getAllDataAboutUser(int userId) { return userDao.getDataAboutUser(userId); }
+    public User getDataAboutUser(int userId) { return userDao.getDataAboutUser(userId); }
 
     public boolean checkIfEmailInUse(String email) { return userDao.checkIfUserExists(email); }
 
@@ -71,6 +71,10 @@ public class DatabaseManager {
 
     public void saveProfessionWithExperience(int userId, Map<String, Integer> professionAndExperience) {
         userDao.saveProfessionWithExperience(userId, professionAndExperience);
+    }
+
+    public int getUserIdByEmail(String email) {
+        return userDao.getUserIdByEmail(email);
     }
 
 }
