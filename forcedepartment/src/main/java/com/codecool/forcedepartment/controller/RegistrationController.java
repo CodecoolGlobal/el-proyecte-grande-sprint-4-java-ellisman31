@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,10 +29,10 @@ public class RegistrationController {
         this.databaseManager = databaseManager;
     }
 
-    private String actualTime() {
+    private Date dateConverter(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
+        Date actualDate = new Date();
+        return dateFormat.parse(String.valueOf(actualDate));
     }
 
     //Warning message if the match password is wrong
@@ -49,17 +50,17 @@ public class RegistrationController {
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     public String saveRegisterUserData(@RequestParam("password") String password,
                                        @RequestParam("passwordAgain") String passwordAgain,
-                                       @ModelAttribute User user) {
+                                       @ModelAttribute User user) throws ParseException {
 
         if (password.equals(passwordAgain)) {
-            if (user.getUserType().equals(String.valueOf(UserTypes.WORKER))) {
+            if (user.getUserType().equals(String.valueOf(UserTypes.WORKER))) { ;
                 User worker = new User(
-                        user.getFirstName(), user.getLastName(), actualTime(), user.getBirthOfDate(),
+                        user.getFirstName(), user.getLastName(), user.getBirthOfDate(),
                         user.getUserType(), user.getEmail());
-                //workerId = databaseManager.registerRegularUser(worker, worker.getPassword())
+                workerId = databaseManager.registerRegularUser(user, user.getPassword());
                 return "redirect:/register/worker";
             } else if (user.getUserType().equals(String.valueOf(UserTypes.USER))) {
-                //databaseManager.registerRegularUser(user, user.getPassword())
+                databaseManager.registerRegularUser(user, user.getPassword());
             }
         } else {
             return "redirect:/register";
@@ -86,7 +87,7 @@ public class RegistrationController {
             @RequestParam("phone_number") String phoneNumber
     ) {
 
-        //databaseManager.registerWorker(workerId, description, phoneNumber);
+        databaseManager.registerWorker(workerId, description, phoneNumber);
 
         return "redirect:/";
     }
