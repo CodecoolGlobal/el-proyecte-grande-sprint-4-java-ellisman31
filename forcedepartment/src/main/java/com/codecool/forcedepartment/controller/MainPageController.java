@@ -7,11 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class MainPageController {
-
-    //Commit everything before session
-    //Session
 
     private String webTitle = "Special department";
     private String webCopyright = "Special department test footer";
@@ -37,6 +37,13 @@ public class MainPageController {
     @RequestMapping(value = "/", method={RequestMethod.POST})
     public String mainPagePost(Model model) {
         return "";
+    }
+
+    @RequestMapping(value = "/logout", method={RequestMethod.POST})
+    public String logout(HttpSession session, HttpServletRequest request) {
+        request.getSession();
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
