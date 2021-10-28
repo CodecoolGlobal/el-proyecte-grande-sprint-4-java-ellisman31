@@ -4,6 +4,7 @@ import com.codecool.forcedepartment.model.util.UserTypes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Worker extends User {
@@ -14,13 +15,24 @@ public class Worker extends User {
     //change into hashMap
     private List<String> profession;
 
-    public Worker(String firstName, String lastName, String registrationDate, String birthOfDate, String userType, String email, String description, String phoneNumber, List<String> profession, double rate) {
-        super(firstName, lastName, registrationDate, birthOfDate, userType, email);
+    public Worker(String firstName, String lastName, Date birthOfDate, String userType,
+                  String email, String description, String phoneNumber, List<String> profession, double rate) {
+        super(firstName, lastName, birthOfDate, userType, email);
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.profession = new ArrayList<>();
         this.profession = profession;
         this.rate = rate;
+    }
+
+    public Worker(String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email,
+                  String description, String phoneNumber, List<String> profession, double rate) {
+        super(firstName, lastName, registrationDate, birthOfDate, userType, email);
+        this.description = description;
+        this.phoneNumber = phoneNumber;
+        this.rate = rate;
+        this.profession = new ArrayList<>();
+        this.profession = profession;
     }
 
     public String getPhoneNumber() {
