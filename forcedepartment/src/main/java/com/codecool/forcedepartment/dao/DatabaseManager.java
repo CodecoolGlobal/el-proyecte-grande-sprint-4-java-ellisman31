@@ -42,6 +42,10 @@ public class DatabaseManager {
 
     public List<String> getAllWorkObject() { return categoryDao.getAllWorkObject(); }
 
+    public int getLatestId(String tableName) {
+        return userDao.getLatestId(tableName);
+    }
+
     public int registerRegularUser(User user, String hashedPassword) { return userDao.addNewRegularUser(user, hashedPassword);}
 
     public void registerWorker(int workerId, String phoneNumber, String description) { userDao.addNewWorker(workerId, phoneNumber, description);}

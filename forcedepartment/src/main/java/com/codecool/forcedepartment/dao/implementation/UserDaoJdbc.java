@@ -7,7 +7,11 @@ import com.codecool.forcedepartment.model.Worker;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserDaoJdbc implements UserDao {
@@ -32,11 +36,21 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
-    public String getCurrentRegistrationDate() {
-        String PATTERN="yyyy-MM-dd";
-        SimpleDateFormat dateFormat=new SimpleDateFormat();
-        dateFormat.applyPattern(PATTERN);
-        return dateFormat.format(Calendar.getInstance().getTime());
+    public Date getCurrentRegistrationDate() {
+
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, currentDate.getYear());
+        calendar.set(Calendar.DAY_OF_MONTH, currentDate.getDayOfMonth());
+        calendar.set(Calendar.MONTH, currentDate.getMonthValue() - 1);
+        calendar.set(Calendar.HOUR, currentDate.getHour());
+        calendar.set(Calendar.MINUTE, currentDate.getMinute());
+        calendar.set(Calendar.SECOND, currentDate.getSecond());
+
+        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
+
+        return date;
     }
 
 
@@ -78,18 +92,20 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public int addNewRegularUser(User user, String hashedPassword) {
+
+        Date registrationDate = getCurrentRegistrationDate();
+
         try (Connection conn = dataSource.getConnection()) {
-            String registrationDate = getCurrentRegistrationDate();
             String sql = "INSERT INTO website_user (first_name, last_name, birth_date, email, is_admin, password, registration_date, group_name)\n" +
                      "            VALUES (?, ?, ?, ?, ?, ?, ?, ?);\n";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, user.getFirstName());
             st.setString(2, user.getLastName());
-            st.setString(3, user.getBirthOfDate());
+            st.setDate(3, user.getBirthOfDate());
             st.setString(4, user.getEmail());
             st.setBoolean(5, user.isAdmin());
             st.setString(6, hashedPassword);
-            st.setString(7, registrationDate);
+            st.setDate(7, registrationDate);
             st.setString(8, user.getUserType());
             st.executeUpdate();
             return getLatestId("website_user");
@@ -154,11 +170,10 @@ public class UserDaoJdbc implements UserDao {
                 return null;
             }
             if (userType.equals("USER")) {
-                return new User(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4));
+                return new User(rs.getString(1), rs.getString(2), rs.getDate(6), rs.getDate(3), userType, rs.getString(4));
             } else {
                 List<String> workerProfessions = WorkerDaoJdbc.arrayAggConverter(rs.getString(9));
-                System.out.println(new Worker(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10)));
-                return new Worker(rs.getString(1), rs.getString(2), rs.getString(6), rs.getString(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10));
+                return new Worker(rs.getString(1), rs.getString(2), rs.getDate(6), rs.getDate(3), userType, rs.getString(4), rs.getString(7), rs.getString(8), workerProfessions, rs.getDouble(10));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error while reading user with email  . Error type: ", e);
