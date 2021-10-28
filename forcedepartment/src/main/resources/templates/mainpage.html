@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${title}"></title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/mainpage.css}"/>
+    <script type="text/javascript" th:src="@{/js/sidebar.js}" defer></script>
 </head>
 <body>
 
@@ -27,10 +28,18 @@
     </div>
 
 
-    <div class="worker-container">
+    <div  id="worker-container" class="worker-container">
         <hr>
         <p id="specificWorkerText" th:text="${specificWorkers}"></p><br>
         <hr>
+
+        <div id="sidebar" class="sidenav">
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+        </div>
+
         <div class="worker-card" th:each="worker: ${workersByRating}">
             <div class="worker-detail">
                 <a th:href="@{/profile/${user_id}}">
@@ -55,15 +64,7 @@
 
     </div>
 
-    <!--    <div class="filter-sidenav">-->
-    <!--        <p>You can filter by name,work object, work requirement etc..</p>-->
-    <!--        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fshopping-2%2F256%2FSearching-512.png&f=1&nofb=1"-->
-    <!--             alt="searchicon">-->
-    <!--        <span class="searchbar">-->
-    <!--        <input type="text" name="searchbar" id="searchbar" placeholder="Search..">-->
-    <!--    </span>-->
-    <!--        <button type="button" id="searchbarButton">Search</button>-->
-    <!--    </div>-->
+
 
 
 </body>
