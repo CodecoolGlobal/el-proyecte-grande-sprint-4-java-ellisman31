@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+
 }
 
 body{
@@ -175,16 +176,7 @@ hr {
     text-align: center;
 }
 
-footer{
-    margin-top: 30px;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    background-color: black;
-}
 
-.footer-text {
-    padding-bottom: 30px;
-}
 
 .copyright {
     margin-top: 30px;
