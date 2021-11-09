@@ -45,4 +45,9 @@ public class GetAllProfessionApi {
         return databaseManager.getWorkersByWorkObject(workObject);
     }
 
+    @RequestMapping(value = "/api/getWorkersByRating", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Worker> getAllWorkersByRating() {
+        return databaseManager.getWorkersByRating();
+    }
+
 }

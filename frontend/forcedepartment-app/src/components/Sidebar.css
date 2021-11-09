@@ -14,16 +14,16 @@
 
 .mainMenuPoint {
     cursor: pointer;
-    padding: 6px 8px 6px 16px;
+    padding: 12px 8px 6px 16px;
     font-size: 25px;
-    color: #818999;
+    color: #d4d7db;
     display: block;
 }
 
 .menuPoint {
     cursor: pointer;
-    padding: 2px 8px 2px 16px;
-    font-size: 15px;
-    color: #818999;
+    padding: 2px 8px 2px 22px;
+    font-size: 18px;
+    color: #d4d7db;
     display: block;
 }
