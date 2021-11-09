@@ -1,5 +1,7 @@
 import './Header.css';
+import './MenuPoint';
 import { useState, useEffect } from 'react'
+import MenuPoint from './MenuPoint';
 
 
 const Sidebar = () => {
@@ -7,28 +9,34 @@ const Sidebar = () => {
 
     const [professions, setProfessions] = useState([]);
 
+    const [workObjects, setWorkObjects] = useState([]);
+
     useEffect(() => {
-        const getProfessions = async() => {
-            const professionsFromServer = await fetchProfessions();
+        const getMenuPoints = async() => {
+            const professionsFromServer = await fetchMenuPoint("Profession");
             setProfessions(professionsFromServer);
+
+            const workObjectsFromServer = await fetchMenuPoint("WorkObject");
+            setWorkObjects(workObjectsFromServer);
         }
-        getProfessions();
+        getMenuPoints();
     }, [])
 
-    const fetchProfessions = async() => {
-        const response = await(fetch("http://localhost:8080/api/getAllProfession"));
+    const fetchMenuPoint = async(menuPoint) => {
+        const response = await(fetch(`http://localhost:8080/api/getAll${menuPoint}`));
         const data = await response.json();
         console.log(data);
         return data;
     }
 
-
     return (
         <div id="sidebar" className="sidenav">
-            <div onClick={() => setShowProfessions(!showProfessions)}>Professions</div>
-                {showProfessions &&  <ul>{professions.map((profession) => (
-                    <li>{profession}</li>
-                ))}</ul>}
+            <MenuPoint  
+                menuTitle="Professions"
+                allMenuPoints={professions} 
+                showMenuPoint={showProfessions}
+                listMenuPoint={() => setShowProfessions(!showProfessions)}
+            />
             <div>Work Object</div>
             <div>Extra Search</div>
         </div>
