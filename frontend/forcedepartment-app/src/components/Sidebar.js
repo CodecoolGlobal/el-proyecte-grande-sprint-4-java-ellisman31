@@ -7,6 +7,8 @@ import MenuPoint from './MenuPoint';
 const Sidebar = () => {
     const [showProfessions, setShowProfessions] = useState(false);
 
+    const [showWorkObjects, setShowWorkObjects] = useState(false);
+
     const [professions, setProfessions] = useState([]);
 
     const [workObjects, setWorkObjects] = useState([]);
@@ -37,7 +39,13 @@ const Sidebar = () => {
                 showMenuPoint={showProfessions}
                 listMenuPoint={() => setShowProfessions(!showProfessions)}
             />
-            <div>Work Object</div>
+            <MenuPoint  
+                menuTitle="Work Object"
+                allMenuPoints={workObjects} 
+                showMenuPoint={showWorkObjects}
+                listMenuPoint={() => setShowWorkObjects(!showWorkObjects)}
+            />
+      
             <div>Extra Search</div>
         </div>
     )
