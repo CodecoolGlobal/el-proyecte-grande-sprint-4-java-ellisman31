@@ -1,4 +1,5 @@
-import './Header.css';
+
+import './Sidebar.css';
 import './MenuPoint';
 import { useState, useEffect } from 'react'
 import MenuPoint from './MenuPoint';
@@ -45,8 +46,14 @@ const Sidebar = () => {
                 showMenuPoint={showWorkObjects}
                 listMenuPoint={() => setShowWorkObjects(!showWorkObjects)}
             />
-      
-            <div>Extra Search</div>
+
+            <MenuPoint 
+                menuTitle="Extra Search"
+                allMenuPoints=""
+                showMenuPoint=""
+                listMenuPoint=""
+            />
+
         </div>
     )
 }

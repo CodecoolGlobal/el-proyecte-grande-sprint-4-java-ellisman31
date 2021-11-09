@@ -1,0 +1,29 @@
+.sidenav {
+    width: 260px;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    margin-top: 20px;
+    float: left;
+    box-shadow: 5px 5px 8px #999999;
+    height: auto;
+    background-color: rgba(10, 10, 10, 0.8);
+}
+
+.mainMenuPoint {
+    cursor: pointer;
+    padding: 6px 8px 6px 16px;
+    font-size: 25px;
+    color: #818999;
+    display: block;
+}
+
+.menuPoint {
+    cursor: pointer;
+    padding: 2px 8px 2px 16px;
+    font-size: 15px;
+    color: #818999;
+    display: block;
+}

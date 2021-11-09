@@ -3,11 +3,11 @@
 const MenuPoint = (props) => {
     return (
         <>
-            <div onClick={props.listMenuPoint}>{props.menuTitle}</div>
+            <div className="mainMenuPoint" onClick={props.listMenuPoint}>{props.menuTitle}</div>
             {props.showMenuPoint && 
                 <ul>
                     {props.allMenuPoints.map((menuPoint) => (
-                        <li>{menuPoint}</li>))}
+                        <li className="menuPoint">{menuPoint}</li>))}
                 </ul>
             }
         </>
