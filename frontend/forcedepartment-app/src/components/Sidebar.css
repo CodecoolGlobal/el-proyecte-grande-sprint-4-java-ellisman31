@@ -16,14 +16,19 @@
     cursor: pointer;
     padding: 12px 8px 6px 16px;
     font-size: 25px;
-    color: #d4d7db;
+    color: #babdc0;
     display: block;
+}
+
+.menuPoint:hover, .mainMenuPoint:hover {
+    color: white;
+    
 }
 
 .menuPoint {
     cursor: pointer;
     padding: 2px 8px 2px 22px;
     font-size: 18px;
-    color: #d4d7db;
+    color: #babdc0;
     display: block;
 }

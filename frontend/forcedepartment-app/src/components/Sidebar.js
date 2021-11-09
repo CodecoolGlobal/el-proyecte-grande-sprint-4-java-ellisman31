@@ -3,9 +3,10 @@ import './Sidebar.css';
 import './MenuPoint';
 import { useState, useEffect } from 'react'
 import MenuPoint from './MenuPoint';
+import WorkerFeed from './WorkerFeed';
 
 
-const Sidebar = () => {
+const Sidebar = (props) => {
     const [showProfessions, setShowProfessions] = useState(false);
 
     const [showWorkObjects, setShowWorkObjects] = useState(false);
@@ -38,22 +39,24 @@ const Sidebar = () => {
                 allMenuPoints={professions} 
                 showMenuPoint={showProfessions}
                 listMenuPoint={() => setShowProfessions(!showProfessions)}
+                sideBarHandler={props.sideBarHandler}
+                fetchRoutePart={"Profession"}
             />
             <MenuPoint  
                 menuTitle="Work Object"
                 allMenuPoints={workObjects} 
                 showMenuPoint={showWorkObjects}
                 listMenuPoint={() => setShowWorkObjects(!showWorkObjects)}
+                sideBarHandler={props.sideBarHandler}
+                fetchRoutePart={"WorkObject"}
             />
-
             <MenuPoint 
                 menuTitle="Extra Search"
                 allMenuPoints=""
                 showMenuPoint=""
                 listMenuPoint=""
             />
-
-        </div>
+        </div> 
     )
 }
 
