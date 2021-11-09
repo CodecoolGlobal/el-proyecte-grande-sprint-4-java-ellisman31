@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 
 
 const Sidebar = () => {
+    const [showProfessions, setShowProfessions] = useState(false);
+
     const [professions, setProfessions] = useState([]);
 
     useEffect(() => {
@@ -23,12 +25,10 @@ const Sidebar = () => {
 
     return (
         <div id="sidebar" className="sidenav">
-            <div>Professions</div>
-            <ul>
-                {professions.map((profession) => (
+            <div onClick={() => setShowProfessions(!showProfessions)}>Professions</div>
+                {showProfessions &&  <ul>{professions.map((profession) => (
                     <li>{profession}</li>
-                ))}
-            </ul>
+                ))}</ul>}
             <div>Work Object</div>
             <div>Extra Search</div>
         </div>
