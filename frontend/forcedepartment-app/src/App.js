@@ -4,7 +4,6 @@ import About from './components/About';
 import Profile from './components/Profile';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Register from './components/register/Register'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
 function App() {
     return (
