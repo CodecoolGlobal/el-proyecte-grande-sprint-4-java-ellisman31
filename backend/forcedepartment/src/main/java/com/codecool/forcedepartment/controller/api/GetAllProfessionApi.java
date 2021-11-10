@@ -51,7 +51,7 @@ public class GetAllProfessionApi {
         return databaseManager.getWorkersByRating();
     }
 
-    
+
     @RequestMapping(value = "/api/getUserById/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody User getWorkerById(
             @PathVariable("userId") int userId
