@@ -11,11 +11,13 @@ function Register() {
     const [userType, setUserType] = useState('');
     const [previousData, setPreviousData]= useState([]);
     const [workerData, setWorkerData] = useState([]);
+    const [getDataFromDatabase, setGetDataFromDatabase] = useState([]);
     const current = new Date();
     const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()} ${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}:${current.getMilliseconds()}`;
 
     useEffect(() => {
-        document.title = "Registration";
+        document.title = "Special Department | Registration";
+        //getUsersFromDatabase();
     }, []);
 
     const navigate = useNavigate();
@@ -26,13 +28,13 @@ function Register() {
             body: JSON.stringify(previousData)//sendData
         })
     }
-    //in the useEffect
+
     const getUsersFromDatabase = () => {
         fetch(''
         )
             .then((res) => res.json())
             .then((res) => {
-                //setGetData(res);
+                setGetDataFromDatabase(res);
             })
     }
 
@@ -47,9 +49,6 @@ function Register() {
     const workerDataHandler = (data) => {
         setWorkerData(data);
     }
-
-    console.log(previousData);
-    console.log(date);
 
     return (
         <div className="container">

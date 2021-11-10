@@ -1,5 +1,6 @@
 import '../css/Register.css';
 import {useEffect, useState} from "react";
+import { Link } from 'react-router-dom'
 
 //TODO: sent data to the database, get data from database
 function RegisterForEveryUser(props) {
@@ -86,12 +87,9 @@ return (
                 )}
                 <button type="submit" value="Submit">Submit</button>
             </form>
-
-            <div className="mainPageHref">
-                <a href="/">
+                <Link to={"/"}>
                     <button type="button" value="Main page">Main page</button>
-                </a>
-            </div>
+                </Link>
         </div>
     )
 
