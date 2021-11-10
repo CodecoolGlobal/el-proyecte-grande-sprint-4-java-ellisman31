@@ -1,6 +1,7 @@
 package com.codecool.forcedepartment.controller.api;
 
 import com.codecool.forcedepartment.dao.DatabaseManager;
+import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,5 +50,12 @@ public class GetAllProfessionApi {
     public @ResponseBody List<Worker> getAllWorkersByRating() {
         return databaseManager.getWorkersByRating();
     }
+
+    
+    @RequestMapping(value = "/api/getUserById/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody User getWorkerById(
+            @PathVariable("userId") int userId
+    ) { return databaseManager.getDataAboutUser(userId);}
+
 
 }

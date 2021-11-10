@@ -3,7 +3,6 @@ import './Sidebar.css';
 import './MenuPoint';
 import { useState, useEffect } from 'react'
 import MenuPoint from './MenuPoint';
-import WorkerFeed from './WorkerFeed';
 
 
 const Sidebar = (props) => {

@@ -24,7 +24,7 @@ const Main = () => {
     const fetchMenuPoint = async(mainMenuName, menuName) => {
         const response = await fetch(`http://localhost:8080/api/getAllWorkerBy${mainMenuName}/${menuName}`);
         const data = await response.json();
-        setWorkers(data);     
+        setWorkers(data);    
     }
 
 
