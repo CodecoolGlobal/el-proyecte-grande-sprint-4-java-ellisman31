@@ -61,7 +61,9 @@ const Profile = () => {
             </div>
             
         </div>
-        <Footer />
+        <div className="item4 profile-page-footer">
+                <Footer />
+        </div>
         </>
     )
 }

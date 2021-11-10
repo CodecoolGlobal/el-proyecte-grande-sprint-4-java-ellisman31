@@ -58,7 +58,8 @@ hr {
     color: #fff;
     padding-right: 2em;
     text-transform: uppercase;
-    font-size: 1em;
+    margin-top: 1%;
+    font-size: 21px;
 }
 
 .nav a:hover, .nav button:hover{
@@ -144,8 +145,8 @@ hr {
     padding-right: 40px;
 }
 
-footer{
-    margin-top: 75%;
+.footer{
+    margin-top: 90% !important;
     color: rgb(255, 255, 255);
     text-align: center;
     background-color: black;

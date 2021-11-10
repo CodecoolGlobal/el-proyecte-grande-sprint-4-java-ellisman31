@@ -198,3 +198,8 @@ hr {
     .sidenav a {font-size: 18px;}
 }
 
+
+.worker-card-link {
+    text-decoration: none;
+    color: black;
+}

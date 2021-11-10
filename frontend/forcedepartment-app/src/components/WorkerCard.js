@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
     
 const WorkerCard = (props) => {
     return (
-        <Link to={`/profile/${props.worker.userId}`}>
+        <Link className="worker-card-link" to={`/profile/${props.worker.userId}`}>
             <div className="worker-card">
                 <div  className="worker-detail">
                     <img src={profilePic}

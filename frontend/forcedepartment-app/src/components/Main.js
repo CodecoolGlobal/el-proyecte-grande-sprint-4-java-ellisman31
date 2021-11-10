@@ -2,6 +2,8 @@ import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 import WorkerFeed from './WorkerFeed';
+import './Main.css'
+
 import { useState, useEffect } from "react";
 
 const Main = () => {
@@ -29,12 +31,20 @@ const Main = () => {
 
 
     return (
-        <>
-           <Header />
-            <Sidebar sideBarHandler={fetchMenuPoint} />
-            <WorkerFeed workers={workers} />
-           <Footer />
-        </>
+        <div className="grid-container">
+            <div className="item1">
+                <Header  />
+            </div>
+            <div className="item2">
+                <Sidebar  sideBarHandler={fetchMenuPoint} />
+            </div>
+            <div className="item3">
+                 <WorkerFeed workers={workers} />
+            </div>
+            <div className="item4 main-page-footer">
+                <Footer />
+            </div>
+        </div>
     )
 }
 
