@@ -1,4 +1,4 @@
-package com.codecool.forcedepartment.controller.api;
+package com.codecool.forcedepartment.controller;
 
 import com.codecool.forcedepartment.dao.DatabaseManager;
 import com.codecool.forcedepartment.model.User;
