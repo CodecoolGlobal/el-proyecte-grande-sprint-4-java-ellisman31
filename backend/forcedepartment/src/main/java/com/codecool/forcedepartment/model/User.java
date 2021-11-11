@@ -141,8 +141,8 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    public java.sql.Date getBirthOfDate() {
-        return (java.sql.Date) birthOfDate;
+    public Date getBirthOfDate() {
+        return birthOfDate;
     }
 
     public void setBirthOfDate(Date birthOfDate) {
