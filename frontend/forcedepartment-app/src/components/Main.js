@@ -29,6 +29,12 @@ const Main = () => {
         setWorkers(data);    
     }
 
+    const fetchWorkersExtraSearch = async(name, workObject, profession, rate) => {
+        const response = await fetch(`http://localhost:8080/api/getWorkerByExtraSearch/${name}/${workObject}/${profession}/${rate}`)
+        const data = await response.json();
+        setWorkers(data);
+    }
+
 
     return (
         <div className="grid-container">
@@ -36,7 +42,7 @@ const Main = () => {
                 <Header  />
             </div>
             <div className="item2">
-                <Sidebar  sideBarHandler={fetchMenuPoint} />
+                <Sidebar  sideBarHandler={fetchMenuPoint} extraSearch={fetchWorkersExtraSearch}/>
             </div>
             <div className="item3">
                  <WorkerFeed workers={workers} />

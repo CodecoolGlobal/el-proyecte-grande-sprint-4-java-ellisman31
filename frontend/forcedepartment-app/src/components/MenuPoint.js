@@ -8,7 +8,6 @@ const MenuPoint = (props) => {
                 <ul>
                     {props.allMenuPoints.map((menuPoint) => (
                         <li onClick={() => {props.sideBarHandler(props.fetchRoutePart, menuPoint)
-                        
                     }} 
                         className="menuPoint">{menuPoint}</li>))}
                 </ul>

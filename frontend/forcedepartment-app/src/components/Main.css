@@ -12,3 +12,9 @@
   grid-gap: 15px;
 
 }
+
+#no-worker-found {
+  margin-top: 40px;
+  font-size: 50px;
+  color: black;
+}

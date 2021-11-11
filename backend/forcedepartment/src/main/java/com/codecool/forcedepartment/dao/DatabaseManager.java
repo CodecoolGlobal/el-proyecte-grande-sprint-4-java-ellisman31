@@ -81,4 +81,8 @@ public class DatabaseManager {
         return userDao.getAllDataAboutUser();
     }
 
+    public List<Worker> getAllByFilter(String name, String workObject, String profession, int rating) {
+        return workerDao.getAllByFilter(name, workObject, profession, rating);
+    }
+
 }
