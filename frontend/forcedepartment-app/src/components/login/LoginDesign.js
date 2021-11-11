@@ -1,35 +1,43 @@
 import {useEffect, useState} from "react";
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 function LoginDesign(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [emailPassword, setEmailPassword] = useState('');
+    const getUserData = props.getUserData;
     const navigation = props.navigation;
 
-    const handleSubmit = () => {
-        setEmail('');
-        setPassword('');
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        errorMessageSetter();
     }
 
+    //TODO: fetch isEmailIsValid + check fetch
     const errorMessageSetter = () => {
-        //if the email address not found in the database
-        //setErrorMessage("The email address is not exist \n Try again!");
-        //if the given password for the email is wrong
-        //setErrorMessage("The given password for the email is wrong! \nTry again!")
-        //else         navigation('/');
+        for (const data of getUserData) {
+
+            if (password !== emailPassword) {
+                setErrorMessage("The given password for the email is wrong! \nTry again!")
+            } else if (data.email !== email) {
+                setErrorMessage("The given email address is not exist!")
+            } else {
+                navigation("/");
+            }
+        }
     }
 
     return (
         <div className="login-block">
             <h1>Login</h1>
             {errorMessage ?
-            <p>{errorMessage}</p>: null}
+                <p id="errorMessage">{errorMessage}</p> : null}
             <form onSubmit={handleSubmit}>
                 <input type="email" id="email" name="email" placeholder="Email address"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required/>
+                       onChange={(e) => setEmail(e.target.value)}
+                       required/>
                 <input type="password" id="password" name="password" placeholder="Password"
                        onChange={(e) => setPassword(e.target.value)}
                        required/>

@@ -3,31 +3,31 @@ import LoginDesign from "./LoginDesign";
 import {useEffect, useState} from "react";
 import {useNavigate} from 'react-router';
 
-
 function Login() {
 
-    useEffect( () => {
+    useEffect(() => {
         document.title = "Special Department | Login";
-        //getUsersFromDatabase();
-    },[]);
+        const getUserData = async () => {
+            const allUser = await getUsersFromDatabase();
+            setGetData(allUser);
+        }
+        getUserData();
+    }, []);
 
     const navigation = useNavigate();
     const [getData, setGetData] = useState([]);
 
-    const getUsersFromDatabase = () => {
-        fetch(''
-        )
-            .then((res) => res.json())
-            .then((res) => {
-                setGetData(res)
-            })
-    }
-
-    console.log(getData);
+    const getUsersFromDatabase =
+        async () => {
+            const response = await fetch(
+                "http://localhost:8080/api/getAllUser"
+            );
+            return await response.json();
+        };
 
     return (
         <div className="container">
-            <LoginDesign navigation={navigation}/>
+            <LoginDesign navigation={navigation} getUserData={getData ? getData : null}/>
         </div>
     )
 
