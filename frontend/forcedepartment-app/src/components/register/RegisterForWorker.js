@@ -1,8 +1,6 @@
 import '../css/Register.css';
 import {useEffect, useState} from "react";
-import { Link } from 'react-router-dom'
-
-//TODO: sent data to the database, get data from database
+import {Link} from 'react-router-dom'
 
 function RegisterForWorker(props) {
 
@@ -14,13 +12,47 @@ function RegisterForWorker(props) {
     const selectedProfessionList = [];
     const navigate = props.navigate;
     const workerDataHandler = props.workerDataHandler;
-    const workerData = [description, telephoneNumber];
+    const previousData = props.previousData;
+    const [latestId, setLatestId] = useState('');
+
+    useEffect(async () => {
+        const getLatestIdFetch = async () => {
+        const getLatestId = await getLatestIdFromSavedData();
+        setLatestId(getLatestId);
+        }
+        getLatestIdFetch();
+    }, []);
 
     const submitHandler = (e) => {
         e.preventDefault();
+        const workerData = {description, telephoneNumber, latestId};
         workerDataHandler(workerData);
-        navigate('/');
+        saveDataIntoTheDatabase(workerData);
+        navigate('/login');
     }
+
+    const saveDataIntoTheDatabase = (workerData) => {
+        fetch('http://localhost:8080/api/getAllWorker', {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(workerData)
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.warn(responseJson);
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
+    }
+
+    const getLatestIdFromSavedData =
+        async () => {
+            const response = await fetch(
+                "http://localhost:8080/api/getLatestId"
+            );
+            return await response.json();
+        };
 
     const addSelectedProfessionToList = () => {
         console.log(selectedProfession);
@@ -63,17 +95,17 @@ function RegisterForWorker(props) {
                 {/*            onClick={addSelectedProfessionToList}>Add</button>*/}
                 {/*</div>*/}
                 {/*<br/>*/}
-                    {/*<ul>*/}
-                    {/*    {selectedProfessionList.map((selected, index) =>*/}
-                    {/*        <li value={selected}>{selected}*/}
-                    {/*            <button id="removeProfession" onClick={() => removeSelectedProfessionFromList(index)}>X</button>*/}
-                    {/*        </li>)}*/}
-                    {/* </ul>*/}
+                {/*<ul>*/}
+                {/*    {selectedProfessionList.map((selected, index) =>*/}
+                {/*        <li value={selected}>{selected}*/}
+                {/*            <button id="removeProfession" onClick={() => removeSelectedProfessionFromList(index)}>X</button>*/}
+                {/*        </li>)}*/}
+                {/* </ul>*/}
                 <button id="actionButtons" type="submit">Submit</button>
             </form>
-                <Link to={"/"}>
-                    <button type="button" id="actionButtons" value="Main page">Main page</button>
-                </Link>
+            <Link to={"/"}>
+                <button type="button" id="actionButtons" value="Main page">Main page</button>
+            </Link>
         </div>
     )
 
