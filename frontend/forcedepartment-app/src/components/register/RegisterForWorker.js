@@ -13,25 +13,32 @@ function RegisterForWorker(props) {
     const navigate = props.navigate;
     const workerDataHandler = props.workerDataHandler;
     const previousData = props.previousData;
-    const [latestId, setLatestId] = useState('');
-
-    useEffect(async () => {
-        const getLatestIdFetch = async () => {
-        const getLatestId = await getLatestIdFromSavedData();
-        setLatestId(getLatestId);
-        }
-        getLatestIdFetch();
-    }, []);
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const workerData = {description, telephoneNumber, latestId};
+        const workerData = {description, telephoneNumber};
         workerDataHandler(workerData);
-        saveDataIntoTheDatabase(workerData);
+        saveRegularDataIntoTheDatabase();
+        saveWorkerDataIntoTheDatabase(workerData);
         navigate('/login');
     }
 
-    const saveDataIntoTheDatabase = (workerData) => {
+    const saveRegularDataIntoTheDatabase = () => {
+        fetch('http://localhost:8080/api/getAllUser', {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(previousData)
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.warn(responseJson);
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
+    }
+
+    const saveWorkerDataIntoTheDatabase = (workerData) => {
         fetch('http://localhost:8080/api/getAllWorker', {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
@@ -45,14 +52,6 @@ function RegisterForWorker(props) {
                 console.warn(error);
             });
     }
-
-    const getLatestIdFromSavedData =
-        async () => {
-            const response = await fetch(
-                "http://localhost:8080/api/getLatestId"
-            );
-            return await response.json();
-        };
 
     const addSelectedProfessionToList = () => {
         console.log(selectedProfession);

@@ -1,5 +1,6 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
+import {UserContext} from './UserContext'
 
 function LoginDesign(props) {
 
@@ -7,26 +8,36 @@ function LoginDesign(props) {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [emailPassword, setEmailPassword] = useState('');
+    const [userExist, setUserExist] = useState(false);
+    const user = useContext(UserContext);
     const getUserData = props.getUserData;
     const navigation = props.navigation;
 
+    useEffect(() => {
+    },[userExist])
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        errorMessageSetter();
+        checkIsUserExistFetch();
     }
 
-    //TODO: fetch isEmailIsValid + check fetch
-    const errorMessageSetter = () => {
-        for (const data of getUserData) {
+    //TODO: Fix UsedEmail hook (first value always false after works normally)
+    const checkIsUserExistFetch = async () => {
+        const response = await fetch(`http://localhost:8080/api/checkUserIsExist/${email}:${password}`);
+        const data = await response.json();
+        if (data) {
+            user.toggleUserState();
+        }
+        setUserExist(data);
+        errorMessageSetter(data);
+    }
 
-            if (password !== emailPassword) {
-                setErrorMessage("The given password for the email is wrong! \nTry again!")
-            } else if (data.email !== email) {
-                setErrorMessage("The given email address is not exist!")
-            } else {
+    const errorMessageSetter = (userExist) => {
+            if (!userExist) {
+                setErrorMessage("Wrong email address or password was given! Try again..")
+            } else if (userExist) {
                 navigation("/");
             }
-        }
     }
 
     return (

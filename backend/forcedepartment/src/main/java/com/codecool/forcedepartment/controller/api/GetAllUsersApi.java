@@ -68,17 +68,8 @@ public class GetAllUsersApi {
 
         String description = worker.getString("description");
         String phoneNumber = worker.getString("telephoneNumber");
-        int workerId = Integer.parseInt(worker.getString("latestId"));
 
-        System.out.println(workerJson);
         databaseManager.registerWorker(workerId, phoneNumber, description);
-    }
-
-    @RequestMapping(value="/api/getLatestId", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GetLatestId> getLatestId() {
-        List<GetLatestId> getLatestId = new ArrayList<>();
-        getLatestId.add(new GetLatestId(workerId));
-        return getLatestId;
     }
 
 }
