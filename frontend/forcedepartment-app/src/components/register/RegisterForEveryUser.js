@@ -12,14 +12,25 @@ function RegisterForEveryUser(props) {
     const [password, setPassword] = useState('');
     const [passwordAgain, setPasswordAgain] = useState('');
     const [email, setEmail] = useState('');
-    const [usedEmail, setUsedEmail] = useState('');
+    const [usedEmail, setUsedEmail] = useState(false);
+    const [rightPasswords, setRightPasswords] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = props.navigate;
     const userTypeData = props.userTypeData
-    const previousDataHandler = props.previousDataHandler;
     const getDataUserFromDatabase = props.getDataFromDatabase;
+    const previousDataHandler = props.previousDataHandler;
     const currentData = {firstName, lastName, email, birthOfDate, password, userType};
+
+
+    useEffect(() => {
+
+        if (!usedEmail && rightPasswords) {
+            saveData();
+        }
+
+    }, [usedEmail, rightPasswords])
+
 
     const saveDataIntoTheDatabase = () => {
         fetch('http://localhost:8080/api/getAllUser', {
@@ -38,35 +49,48 @@ function RegisterForEveryUser(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        errorMessageSetter();
+        checkEmailExistsFetch();
     }
 
-    const errorMessageSetter = () => {
-        if (getDataUserFromDatabase.length > 0) {
-            for (const data of getDataUserFromDatabase) {
-                if (data.email === email) {
-                    setErrorMessage("The email address is already in use!\n Try again!");
-                    setUsedEmail(data.email);
-                } else if (password !== passwordAgain) {
-                    setErrorMessage("The passwords do not match!\n Try again!");
-                }
-                else if (usedEmail !== email) {
-                    if (userType === 'USER') {
-                        setErrorMessage('');
-                        saveDataIntoTheDatabase();
-                        navigate('/login');
-                        break;
-                    } else {
-                        props.userTypeHandler(userType);
-                        setUserType(userType)
-                        saveDataIntoTheDatabase();
-                        break;
-                    }
-                }
-            }
+    //TODO: Fix UsedEmail hook (first value always false after works normally)
+    const checkEmailExistsFetch = async () => {
+        const response = await fetch(`http://localhost:8080/api/ifEmailExist/${email}`);
+        const data = await response.json();
+        setUsedEmail(data);
+        checkPassword();
+        checkEmailIsExist(data)
+    }
+
+    const checkEmailIsExist = (usedEmail) => {
+
+        if (usedEmail) {
+            setErrorMessage("The email address is already in use!\n Try again!");
+        }
+        else {
+            setUsedEmail(!usedEmail);
         }
     }
 
+    const checkPassword = () => {
+        if (password !== passwordAgain) {
+            setErrorMessage("The passwords do not match!\n Try again!");
+            setRightPasswords(false);
+        } else {
+            setRightPasswords(true);
+        }
+    }
+
+    const saveData = () => {
+        if (userType === 'USER') {
+            setErrorMessage('');
+            saveDataIntoTheDatabase();
+            navigate('/login');
+        } else {
+            props.userTypeHandler(userType);
+            setUserType(userType)
+            previousDataHandler(currentData);
+        }
+    }
 
     return (
         <div className="register-panel">
