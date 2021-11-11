@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:3000")
 public class GetAllProfessionApi {
 
     DatabaseManager databaseManager;
@@ -19,7 +20,6 @@ public class GetAllProfessionApi {
         this.databaseManager = databaseManager;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/api/getAllProfession", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<String> getAllProfession() {
         return databaseManager.getAllProfession();
