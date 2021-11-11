@@ -78,9 +78,10 @@ public class WorkerDaoJdbc implements WorkerDao {
             List<Worker> result = new ArrayList<>();
             while (rs.next()) {
                 List<String> listOfProfession = arrayAggConverter(rs.getString(12));
-                Worker worker = new Worker(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4),
-                        rs.getDate(5), rs.getString(6), rs.getString(7),
-                        rs.getString(8), rs.getString(9), listOfProfession, rs.getDouble(11));
+                Worker worker = new Worker(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getDate(4),
+                        rs.getDate(5) ,rs.getString(7), rs.getString(8),
+                        rs.getString(9), rs.getString(10), listOfProfession, rs.getDouble(11));
                 result.add(worker);
             }
             return result;

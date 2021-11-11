@@ -77,4 +77,8 @@ public class DatabaseManager {
         return userDao.getUserIdByEmail(email);
     }
 
+    public List<User> getAllDataAboutUser() {
+        return userDao.getAllDataAboutUser();
+    }
+
 }

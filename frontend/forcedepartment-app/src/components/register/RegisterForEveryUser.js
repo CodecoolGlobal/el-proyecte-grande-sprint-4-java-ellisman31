@@ -1,5 +1,6 @@
 import '../css/Register.css';
 import {useEffect, useState} from "react";
+import {Link} from 'react-router-dom'
 
 //TODO: sent data to the database, get data from database
 function RegisterForEveryUser(props) {
@@ -11,12 +12,29 @@ function RegisterForEveryUser(props) {
     const [password, setPassword] = useState('');
     const [passwordAgain, setPasswordAgain] = useState('');
     const [email, setEmail] = useState('');
+    const [usedEmail, setUsedEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = props.navigate;
     const userTypeData = props.userTypeData
     const previousDataHandler = props.previousDataHandler;
+    const getDataUserFromDatabase = props.getDataFromDatabase;
     const currentData = {firstName, lastName, email, birthOfDate, password, userType};
+
+    const saveDataIntoTheDatabase = () => {
+        fetch('http://localhost:8080/api/getAllUser', {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(currentData)
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.warn(responseJson);
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -24,26 +42,33 @@ function RegisterForEveryUser(props) {
     }
 
     const errorMessageSetter = () => {
-        if (password !== passwordAgain) {
-            setErrorMessage("The passwords do not match!\n Try again!")
-        } //set to email
-        else if (password !== passwordAgain && email === email) {
-            setErrorMessage("The passwords do not match and the email address is already in use!\n Try again!")
-        }
-        else {
-            previousDataHandler(currentData);
-            if (userType === 'USER') {
-                setErrorMessage('');
-                navigate('/');
-            }
-            else {
-                props.userTypeHandler(userType);
-                setUserType(userType)
+        if (getDataUserFromDatabase.length > 0) {
+            for (const data of getDataUserFromDatabase) {
+                if (data.email === email) {
+                    setErrorMessage("The email address is already in use!\n Try again!");
+                    setUsedEmail(data.email);
+                } else if (password !== passwordAgain) {
+                    setErrorMessage("The passwords do not match!\n Try again!");
+                }
+                else if (usedEmail !== email) {
+                    if (userType === 'USER') {
+                        setErrorMessage('');
+                        saveDataIntoTheDatabase();
+                        navigate('/login');
+                        break;
+                    } else {
+                        props.userTypeHandler(userType);
+                        setUserType(userType)
+                        saveDataIntoTheDatabase();
+                        break;
+                    }
+                }
             }
         }
     }
 
-return (
+
+    return (
         <div className="register-panel">
             <br/>
             <h1>Registration</h1>
@@ -86,12 +111,9 @@ return (
                 )}
                 <button type="submit" value="Submit">Submit</button>
             </form>
-
-            <div className="mainPageHref">
-                <a href="/">
-                    <button type="button" value="Main page">Main page</button>
-                </a>
-            </div>
+            <Link to={"/"}>
+                <button type="button" value="Main page">Main page</button>
+            </Link>
         </div>
     )
 
