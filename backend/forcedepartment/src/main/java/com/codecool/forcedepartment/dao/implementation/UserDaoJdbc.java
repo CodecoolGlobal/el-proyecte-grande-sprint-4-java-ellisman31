@@ -3,6 +3,7 @@ package com.codecool.forcedepartment.dao.implementation;
 import com.codecool.forcedepartment.dao.UserDao;
 import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
+import com.codecool.forcedepartment.model.util.UserTypes;
 
 
 import javax.sql.DataSource;
@@ -100,7 +101,7 @@ public class UserDaoJdbc implements UserDao {
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, user.getFirstName());
             st.setString(2, user.getLastName());
-            st.setDate(3, user.getBirthOfDate());
+            st.setDate(3, new java.sql.Date(user.getBirthOfDate().getTime()));
             st.setString(4, user.getEmail());
             st.setBoolean(5, user.isAdmin());
             st.setString(6, hashedPassword);
@@ -187,7 +188,38 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public List<User> getAllDataAboutUser() {
-        return null;
+        String sql = "";
+        sql = "SELECT\n" +
+                "   website_user.id,\n" +
+                "       website_user.first_name,\n" +
+                "       website_user.last_name,\n" +
+                "       website_user.birth_date,\n" +
+                "       website_user.email,\n" +
+                "       website_user.is_admin,\n" +
+                "       website_user.registration_date\n" +
+                "FROM website_user\n";
+
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement st = conn.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            List<User> result = new ArrayList<>();
+
+            while(rs.next()) {
+                User user = new User(
+                        rs.getInt(1),
+                        rs.getString(2), rs.getString(3), rs.getDate(7),
+                        rs.getDate(4), getGroupTypeByUserId(rs.getInt(1)), rs.getString(5)
+                );
+                result.add(user);
+            }
+            return result;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading user with email  . Error type: ", e);
+        }
     }
 
     public int getUserIdByEmail(String email) {
