@@ -1,14 +1,50 @@
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
+import WorkerFeed from './WorkerFeed';
+import './Main.css'
+
+import { useState, useEffect } from "react";
 
 const Main = () => {
+    const [workers, setWorkers] = useState([]);
+
+    useEffect(() => {
+        const getWorkers = async () => {
+            const workersByRate = await fetchWorkers();
+            setWorkers(workersByRate);
+        }
+        getWorkers();
+    },[])
+
+    const fetchWorkers = async () => {
+        const response = await fetch("http://localhost:8080/api/getWorkersByRating");
+        const data = await response.json();
+        return data;
+    }
+
+    const fetchMenuPoint = async(mainMenuName, menuName) => {
+        const response = await fetch(`http://localhost:8080/api/getAllWorkerBy${mainMenuName}/${menuName}`);
+        const data = await response.json();
+        setWorkers(data);    
+    }
+
+
     return (
-        <>
-           <Header />
-            <Sidebar />
-           <Footer />
-        </>
+        <div className="grid-container">
+            <div className="item1">
+                <Header  />
+            </div>
+            <div className="item2">
+                <Sidebar  sideBarHandler={fetchMenuPoint} />
+            </div>
+            <div className="item3">
+                 <WorkerFeed workers={workers} />
+            </div>
+            <div className="item4 main-page-footer">
+                <Footer />
+            </div>
+        </div>
     )
 }
 

@@ -49,7 +49,7 @@
             <p th:text="${data.description}"></p>
             <h2 id="h2-profession">Profession(s): </h2>
             <span class="professions" th:each="profession_name, iterStat: ${data.profession}"><br>
-                    <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
+          cl          <span th:text="${profession_name} + ${!iterStat.last ? ', ': ''}"></span>
                         </span>
         </div>
     </div>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
 public class GetAllProfessionApi {
@@ -41,5 +42,17 @@ public class GetAllProfessionApi {
             @PathVariable("workObject") String workObject) {
         return databaseManager.getWorkersByWorkObject(workObject);
     }
+
+    @RequestMapping(value = "/api/getWorkersByRating", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Worker> getAllWorkersByRating() {
+        return databaseManager.getWorkersByRating();
+    }
+
+
+    @RequestMapping(value = "/api/getUserById/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody User getWorkerById(
+            @PathVariable("userId") int userId
+    ) { return databaseManager.getDataAboutUser(userId);}
+
 
 }

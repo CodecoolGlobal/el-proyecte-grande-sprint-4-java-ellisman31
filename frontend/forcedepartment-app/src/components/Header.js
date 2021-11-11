@@ -10,8 +10,8 @@ function Header(props) {
                 
             </div>
             <ul className="navBar">
-                <Link to="/about_us">About Us</Link>
-                <Link to="/login">Login</Link>
+                <Link className="navbar-element" to="/about_us">About Us</Link>
+                <Link className="navbar-element" to="/login">Login</Link>
             </ul>
             
         </div>
