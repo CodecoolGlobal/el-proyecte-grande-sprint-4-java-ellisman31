@@ -10,13 +10,6 @@ body {
     text-align:center;
 }
 
-.logo {
-    width: 213px;
-    height: 36px;
-    background: url('http://i.imgur.com/fd8Lcso.png') no-repeat;
-    margin: 30px auto;
-}
-
 .login-block {
     width: 350px;
     padding: 20px;

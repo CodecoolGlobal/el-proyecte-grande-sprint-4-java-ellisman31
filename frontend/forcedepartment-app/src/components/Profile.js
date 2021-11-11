@@ -6,6 +6,11 @@ import Header from './Header';
 import Footer from './Footer';
 
 const Profile = () => {
+
+    useEffect(()=> {
+        document.title = "Special Department |  "+ userId;
+    },[]);
+
     const { userId } = useParams();
 
     const [currentWorker, setCurrentWorker] = useState([]);

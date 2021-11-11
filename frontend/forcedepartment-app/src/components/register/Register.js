@@ -11,10 +11,12 @@ function Register() {
     const [userType, setUserType] = useState('');
     const [previousData, setPreviousData] = useState([]);
     const [workerData, setWorkerData] = useState([]);
+    const [getDataFromDatabase, setGetDataFromDatabase] = useState([]);
+    const [emailExist, setEmailExist] = useState(false);
+
     const current = new Date();
     const date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()} ${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}:${current.getMilliseconds()}`;
 
-    const [getDataFromDatabase, setGetDataFromDatabase] = useState([]);
 
     useEffect(()=> {
         document.title = "Special Department | Registration";
@@ -26,6 +28,7 @@ function Register() {
     }, []);
 
     const navigate = useNavigate();
+
 
     const getUsersFromDatabase = async () => {
             const response = await fetch(
@@ -55,7 +58,8 @@ function Register() {
                                                             navigate={navigate}/> :
                     <RegisterForEveryUser userTypeData={userTypeData} previousDataHandler={previousDataHandler}
                                           userTypeHandler={userTypeHandler} navigate={navigate}
-                                          getDataFromDatabase={getDataFromDatabase ? getDataFromDatabase: null}/>}
+                                          getDataFromDatabase={getDataFromDatabase ? getDataFromDatabase: null}
+                                          isEmailExist={emailExist}/>}
             </div>
         </div>
     )
