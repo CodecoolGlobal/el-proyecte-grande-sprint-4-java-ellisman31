@@ -1,7 +1,7 @@
-import Header from './Header';
-import Footer from './Footer';
-import Sidebar from './Sidebar';
-import WorkerFeed from './WorkerFeed';
+import Header from '../header/Header';
+import Footer from '../footer/Footer';
+import Sidebar from '../sidebar/Sidebar';
+import WorkerFeed from '../worker_feed/WorkerFeed';
 import './Main.css'
 
 import {useState, useEffect} from "react";
