@@ -7,10 +7,8 @@ function LoginDesign(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [emailPassword, setEmailPassword] = useState('');
     const [userExist, setUserExist] = useState(false);
     const user = useContext(UserContext);
-    const getUserData = props.getUserData;
     const navigation = props.navigation;
 
     useEffect(() => {
