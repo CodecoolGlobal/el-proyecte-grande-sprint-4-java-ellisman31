@@ -1,4 +1,4 @@
-import '../css/Register.css';
+import './Register.css';
 import {useEffect, useState} from "react";
 import {useNavigate} from 'react-router';
 import RegisterForEveryUser from "./RegisterForEveryUser";

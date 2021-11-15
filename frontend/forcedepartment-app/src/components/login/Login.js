@@ -1,4 +1,4 @@
-import '../css/Login.css';
+import './Login.css';
 import LoginDesign from "./LoginDesign";
 import {useEffect, useState} from "react";
 import {useNavigate} from 'react-router';

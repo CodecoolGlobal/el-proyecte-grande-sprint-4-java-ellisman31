@@ -1,4 +1,4 @@
-import '../css/Register.css';
+import './Register.css';
 import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
 

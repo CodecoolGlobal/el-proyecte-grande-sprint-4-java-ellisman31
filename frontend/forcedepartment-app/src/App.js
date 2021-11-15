@@ -1,8 +1,8 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-import Main from './components/Main';
-import About from './components/About';
-import Profile from './components/Profile';
+import Main from './components/main_page/Main';
+import About from './components/about/About';
+import Profile from './components/profile/Profile';
 import Register from './components/register/Register'
 import Login from './components/login/Login'
 
