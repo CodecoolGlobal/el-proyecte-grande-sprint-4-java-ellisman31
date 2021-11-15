@@ -27,7 +27,7 @@ const ExtraSearch = (props) => {
             {props.showMenuPoint && 
             <div>
                 <div id="nameExtraSearch">
-                    <label for="nameSearch" className="extraMenuPoint">Name Search</label>
+                    <label htmlFor="nameSearch" className="extraMenuPoint">Name Search</label>
                     <input 
                         onChange={(event) => {
                             event.target.value === '' ? setCurrentNamePart('no') : setCurrentNamePart(event.target.value);
@@ -37,7 +37,7 @@ const ExtraSearch = (props) => {
                     </input>
                 </div>
                 <div>
-                    <label for="minimumRate" className="extraMenuPoint">Minimum Rating</label>
+                    <label htmlFor="minimumRate" className="extraMenuPoint">Minimum Rating</label>
                     <input
                         onChange={(event) => {
                             event.target.value === '' ? setCurrentMinimumRate(0) :
@@ -53,9 +53,10 @@ const ExtraSearch = (props) => {
                     {showCurrentProfessionMenu &&
                         <div> 
                             {props.allProfessions.map((profession) => (
-                            <div> 
-                                <label className="menuPoint"  for={profession}>
+                            <div key={profession}> 
+                                <label className="menuPoint" htmlFor={profession}>
                                     <input 
+                                        
                                         onClick={() => {
                                             setCurrentProfession(profession);
                                         }}
@@ -74,9 +75,10 @@ const ExtraSearch = (props) => {
                     {showCurrentWorkObjectMenu && 
                         <div>
                             {props.allWorkObjects.map((workObject) => (
-                                <div>
-                                    <label className="menuPoint" for={workObject}>
+                                <div key={workObject}>
+                                    <label className="menuPoint" htmlFor={workObject}>
                                         <input 
+                                        
                                         onClick={() => {
                                             setCurrentWorkObject(workObject);
                                 
