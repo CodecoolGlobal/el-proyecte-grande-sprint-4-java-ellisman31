@@ -6,12 +6,14 @@ function RegisterForWorker(props) {
 
     const [description, setDescription] = useState('');
     const [telephoneNumber, setTelephoneNumber] = useState('');
-    const [selectedProfession, setSelectedProfession] = useState('');
-
-    const selectedProfessionList = [];
     const navigate = props.navigate;
     const workerDataHandler = props.workerDataHandler;
     const previousData = props.previousData;
+    /* Feature needs to be worked out
+    const selectedProfession = '';
+    const selectedProfessionList = []; 
+    */
+
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -43,15 +45,10 @@ function RegisterForWorker(props) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(workerData)
         })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.warn(responseJson);
-            })
-            .catch((error) => {
-                console.warn(error);
-            });
+        
     }
 
+    /* Feature needs to be worked out
     const addSelectedProfessionToList = () => {
         console.log(selectedProfession);
         if (!selectedProfessionList.includes(selectedProfession)) {
@@ -63,7 +60,8 @@ function RegisterForWorker(props) {
     const removeSelectedProfessionFromList = (index) => {
         selectedProfessionList.splice(index, 1);
         console.log(index);
-    }
+    } 
+    */
 
     return (
         <div className="register-worker-panel">
