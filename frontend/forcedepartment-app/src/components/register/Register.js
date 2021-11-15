@@ -10,13 +10,8 @@ function Register() {
     const userTypeData = ["USER", "WORKER"];
     const [userType, setUserType] = useState('');
     const [previousData, setPreviousData] = useState([]);
-    const [workerData, setWorkerData] = useState([]);
     const [getDataFromDatabase, setGetDataFromDatabase] = useState([]);
-    const [emailExist, setEmailExist] = useState(false);
-
-    const current = new Date();
-    const date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()} ${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}:${current.getMilliseconds()}`;
-
+    const emailExist = false;
 
     useEffect(()=> {
         document.title = "Special Department | Registration";
@@ -46,7 +41,7 @@ function Register() {
     }
 
     const workerDataHandler = (data) => {
-        setWorkerData(data);
+        return(data);
     }
 
 
