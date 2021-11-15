@@ -4,7 +4,7 @@ import Sidebar from '../sidebar/Sidebar';
 import WorkerFeed from '../worker_feed/WorkerFeed';
 import './Main.css'
 
-import {useState, useEffect} from "react";
+import {useState, useEffect } from "react";
 
 const Main = () => {
     const [workers, setWorkers] = useState([]);
