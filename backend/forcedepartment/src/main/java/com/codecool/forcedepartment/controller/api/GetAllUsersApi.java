@@ -1,24 +1,19 @@
 package com.codecool.forcedepartment.controller.api;
 
 import com.codecool.forcedepartment.dao.DatabaseManager;
-import com.codecool.forcedepartment.model.util.GetLatestId;
 import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
-import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -65,7 +60,7 @@ public class GetAllUsersApi {
     @ResponseBody @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.POST)
     public String addWorker(@RequestBody String workerJson) throws JSONException {
         JSONObject worker = new JSONObject(workerJson);
-        
+
         String description = worker.getString("description");
         String phoneNumber = worker.getString("telephoneNumber");
 

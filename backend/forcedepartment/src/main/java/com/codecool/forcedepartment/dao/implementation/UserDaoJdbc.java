@@ -3,16 +3,11 @@ package com.codecool.forcedepartment.dao.implementation;
 import com.codecool.forcedepartment.dao.UserDao;
 import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
-import com.codecool.forcedepartment.model.util.UserTypes;
-
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserDaoJdbc implements UserDao {

@@ -1,6 +1,5 @@
 package com.codecool.forcedepartment.model;
 
-import com.codecool.forcedepartment.model.util.UserTypes;
 
 import java.util.Date;
 

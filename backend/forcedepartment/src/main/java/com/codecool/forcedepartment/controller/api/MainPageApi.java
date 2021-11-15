@@ -1,7 +1,6 @@
 package com.codecool.forcedepartment.controller.api;
 
 import com.codecool.forcedepartment.dao.DatabaseManager;
-import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

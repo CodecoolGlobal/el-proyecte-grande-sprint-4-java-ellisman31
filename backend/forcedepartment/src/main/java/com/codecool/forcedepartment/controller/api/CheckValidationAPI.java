@@ -1,8 +1,6 @@
 package com.codecool.forcedepartment.controller.api;
 
 import com.codecool.forcedepartment.dao.DatabaseManager;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

@@ -1,8 +1,5 @@
 package com.codecool.forcedepartment.model;
 
-import com.codecool.forcedepartment.model.util.UserTypes;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
