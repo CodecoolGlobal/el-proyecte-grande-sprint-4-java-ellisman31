@@ -18,34 +18,8 @@ function RegisterForEveryUser(props) {
 
     const navigate = props.navigate;
     const userTypeData = props.userTypeData
-    const getDataUserFromDatabase = props.getDataFromDatabase;
     const previousDataHandler = props.previousDataHandler;
-    const currentData = {firstName, lastName, email, birthOfDate, password, userType};
 
-
-    useEffect(() => {
-
-        if (!usedEmail && rightPasswords) {
-            saveData();
-        }
-
-    }, [usedEmail, rightPasswords])
-
-
-    const saveDataIntoTheDatabase = () => {
-        fetch('http://localhost:8080/api/getAllUser', {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(currentData)
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.warn(responseJson);
-            })
-            .catch((error) => {
-                console.warn(error);
-            });
-    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -80,17 +54,42 @@ function RegisterForEveryUser(props) {
         }
     }
 
-    const saveData = () => {
-        if (userType === 'USER') {
-            setErrorMessage('');
-            saveDataIntoTheDatabase();
-            navigate('/login');
-        } else {
-            props.userTypeHandler(userType);
-            setUserType(userType)
-            previousDataHandler(currentData);
+
+    useEffect(() => {
+        const currentData = {firstName, lastName, email, birthOfDate, password, userType};
+
+        const saveData = () => {
+            if (userType === 'USER') {
+                setErrorMessage('');
+                saveDataIntoTheDatabase();
+                navigate('/login');
+            } else {
+                props.userTypeHandler(userType);
+                setUserType(userType)
+                previousDataHandler(currentData);
+            }
         }
-    }
+
+        const saveDataIntoTheDatabase = () => {
+            fetch('http://localhost:8080/api/getAllUser', {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(currentData)
+            })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    console.warn(responseJson);
+                })
+                .catch((error) => {
+                    console.warn(error);
+                });
+        }
+
+        if (!usedEmail && rightPasswords) {
+            saveData();
+        }
+
+    }, [usedEmail, rightPasswords, navigate, previousDataHandler, props, userType, birthOfDate, email, firstName, lastName, password])
 
     return (
         <div className="register-panel">
@@ -127,7 +126,7 @@ function RegisterForEveryUser(props) {
                            required/>
                 </div>
                 {userTypeData.map((user) =>
-                    <span className="userType">
+                    <span key={user} className="userType">
                             <input type="radio" value={user} id={user} name="groupType"
                                    onChange={(e) => setUserType(e.target.value)}
                                    required/> {user}
