@@ -11,8 +11,8 @@ const WorkerCard = (props) => {
                     <h4>Professions(s):</h4><br />
                     <span className="professions">
                         {props.worker.profession.map((profession, i, arr) => {
-                            if (arr.length - 1 === i) { return <span>{profession}</span>} 
-                            else { return <span>{`${profession}, `}</span> }
+                            if (arr.length - 1 === i) { return <span key={profession}>{profession}</span>} 
+                            else { return <span key={profession}>{`${profession}, `}</span> }
                         })}
                     </span>
                 </div>

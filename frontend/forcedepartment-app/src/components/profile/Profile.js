@@ -7,15 +7,15 @@ import Footer from '../footer/Footer';
 
 const Profile = () => {
 
-    useEffect(()=> {
-        document.title = "Special Department |  "+ userId;
-    },[]);
-
     const { userId } = useParams();
     const [currentWorker, setCurrentWorker] = useState([]);
     const currentProfessions = currentWorker.profession;
 
-    useEffect(() => {
+    useEffect(()=> {
+        document.title = "Special Department |  "+ userId;
+    },[userId]);
+
+/*     useEffect(() => {
         const getWorker = async () => {
             const worker = await fetchSingleWorker();
             setCurrentWorker(worker);
@@ -27,7 +27,20 @@ const Profile = () => {
         const response = await fetch(`http://localhost:8080/api/getUserById/${userId}`)
         const data = await response.json();
         return data;
-    }
+    } */
+
+    useEffect(() => {
+        let isSubscribed = true;
+        
+        fetch(`http://localhost:8080/api/getUserById/${userId}`)
+            .then(response => response.json())
+            .then(data => isSubscribed ? setCurrentWorker(data) : null)
+            .catch(error => {
+                if (isSubscribed) { setCurrentWorker(currentWorker, error); }
+        })
+            return () => (isSubscribed = false)
+        }, [currentWorker, userId]);
+
 
     return (
         <>
