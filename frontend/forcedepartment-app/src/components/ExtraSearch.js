@@ -4,15 +4,10 @@ import './ExtraSearch.css';
 const ExtraSearch = (props) => {
 
     const [currentNamePart, setCurrentNamePart] = useState('no');
-
     const [currentMinimumRate, setCurrentMinimumRate] = useState(0);
-
     const [currentProfession, setCurrentProfession] = useState('no');
-
     const [showCurrentProfessionMenu, setShowCurrentProfessionMenu] = useState(false);
-
     const [currentWorkObject, setCurrentWorkObject] = useState('no');
-
     const [showCurrentWorkObjectMenu, setShowCurrentWorkObjectMenu] = useState(false);
 
     useEffect(() => {

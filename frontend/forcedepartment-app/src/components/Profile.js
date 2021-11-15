@@ -12,9 +12,7 @@ const Profile = () => {
     },[]);
 
     const { userId } = useParams();
-
     const [currentWorker, setCurrentWorker] = useState([]);
-
     const currentProfessions = currentWorker.profession;
 
     useEffect(() => {
@@ -34,12 +32,8 @@ const Profile = () => {
     return (
         <>
         <Header />
-        
-
         <div className="user-profile-container">
-
             <div className="user-container">
-
                 <div className="user-personal">
                     <img src={profilePic} alt={currentWorker.imageName}></img>
                     <h1>{`${currentWorker.firstName} ${currentWorker.lastName} ( ${currentWorker.age} )`} </h1>
@@ -47,9 +41,7 @@ const Profile = () => {
                     <p>{currentWorker.phoneNumber}</p>
                 </div>
             </div>
-
             <div className="user-description-container">
-
                 <div className="user-description">
                     <h2>Description: </h2>
                     <p className="user-description-content">{currentWorker.description}</p>
@@ -60,11 +52,8 @@ const Profile = () => {
                             {arr.length - 1 === i ? profession : `${profession}, `}
                         </span>) : ''}
                     </span>
-                       
                 </div>
-
             </div>
-            
         </div>
         <div className="item4 profile-page-footer">
                 <Footer />

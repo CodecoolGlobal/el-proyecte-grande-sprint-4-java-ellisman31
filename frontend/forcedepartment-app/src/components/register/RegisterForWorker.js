@@ -1,6 +1,6 @@
 import '../css/Register.css';
-import {useEffect, useState} from "react";
-import {Link} from 'react-router-dom'
+import { useState } from "react";
+import { Link } from 'react-router-dom'
 
 function RegisterForWorker(props) {
 
@@ -8,7 +8,6 @@ function RegisterForWorker(props) {
     const [telephoneNumber, setTelephoneNumber] = useState('');
     const [selectedProfession, setSelectedProfession] = useState('');
 
-    const professionsData = ["Painter", "Baker"];
     const selectedProfessionList = [];
     const navigate = props.navigate;
     const workerDataHandler = props.workerDataHandler;

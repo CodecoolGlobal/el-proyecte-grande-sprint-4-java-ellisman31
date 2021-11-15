@@ -1,4 +1,3 @@
-
 import './Sidebar.css';
 import './MenuPoint';
 import { useState, useEffect } from 'react'
@@ -8,13 +7,9 @@ import ExtraSearch from './ExtraSearch';
 
 const Sidebar = (props) => {
     const [showProfessions, setShowProfessions] = useState(false);
-
     const [showWorkObjects, setShowWorkObjects] = useState(false);
-
     const [showExtraSearch, setShowExtraSearch] = useState(false);
-
     const [professions, setProfessions] = useState([]);
-
     const [workObjects, setWorkObjects] = useState([]);
 
     useEffect(() => {

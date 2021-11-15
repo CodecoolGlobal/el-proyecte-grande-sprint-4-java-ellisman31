@@ -53,9 +53,10 @@ function Register() {
     return (
         <div className="container">
             <div className="register-form">
-                {userType === "WORKER" ? <RegisterForWorker previousData={previousData}
-                                                            workerDataHandler={workerDataHandler}
-                                                            navigate={navigate}/> :
+                {userType === "WORKER" ? 
+                    <RegisterForWorker previousData={previousData}
+                                       workerDataHandler={workerDataHandler}
+                                       navigate={navigate}/> :
                     <RegisterForEveryUser userTypeData={userTypeData} previousDataHandler={previousDataHandler}
                                           userTypeHandler={userTypeHandler} navigate={navigate}
                                           getDataFromDatabase={getDataFromDatabase ? getDataFromDatabase: null}

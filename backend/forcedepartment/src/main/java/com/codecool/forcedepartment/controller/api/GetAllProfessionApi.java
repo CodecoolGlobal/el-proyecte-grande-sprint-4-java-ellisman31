@@ -64,8 +64,6 @@ public class GetAllProfessionApi {
             @PathVariable("profession") String profession,
             @PathVariable("rating") int rating
     ) {
-        System.out.println(profession);
-        System.out.println(rating);
         return databaseManager.getAllByFilter(name, workObject, profession, rating);
     }
 
