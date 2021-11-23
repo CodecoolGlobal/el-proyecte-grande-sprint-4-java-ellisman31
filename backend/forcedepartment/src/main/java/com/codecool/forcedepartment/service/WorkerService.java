@@ -17,7 +17,12 @@ public class WorkerService {
         this.workerRepository = workerRepository;
     }
 
-    public List<Worker> getAllWorkersByRate() {
+    public List<Worker> getAllWorkers() {
         return workerRepository.findAll();
     }
+
+    public List<Worker> getAllWorkersByRating() {
+        return workerRepository.orderByRating();
+    }
+
 }
