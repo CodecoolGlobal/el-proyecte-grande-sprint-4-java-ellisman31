@@ -1,7 +1,5 @@
 package com.codecool.forcedepartment.controller.api;
 
-import com.codecool.forcedepartment.dao.DatabaseManager;
-import com.codecool.forcedepartment.model.Profession;
 import com.codecool.forcedepartment.model.Worker;
 import com.codecool.forcedepartment.service.ProfessionService;
 import com.codecool.forcedepartment.service.WorkObjectService;
@@ -44,7 +42,7 @@ public class MainPageApi {
 
     @RequestMapping(value = "/api/getWorkersByRating", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Worker> getAllWorkersByRating() {
-        return workerService.getAllWorkersByRate();
+        return workerService.getAllWorkersByRating();
     }
 
 }
