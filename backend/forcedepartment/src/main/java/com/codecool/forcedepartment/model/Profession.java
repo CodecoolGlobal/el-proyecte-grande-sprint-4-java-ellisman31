@@ -1,28 +1,28 @@
 package com.codecool.forcedepartment.model;
 
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
+import javax.persistence.*;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Profession {
 
     //private Map<String, Double> professions = new HashMap<>();
-    private String professionName;
-    private double experience_year;
+    @Id
+    @JsonIgnore
+    @SequenceGenerator(
+            name = "profession_id_seq",
+            sequenceName = "profession_id_seq",
+            allocationSize = 1
+    )
+    private Long id;
 
-    public Profession() {
-    }
+    private String profession_name;
 
-    public void setProfessionName(String professionName) {
-        this.professionName = professionName;
-    }
-
-    public double getExperience_year() {
-        return experience_year;
-    }
-
-    public void setExperience_year(double experience_year) {
-        this.experience_year = experience_year;
-    }
-
-    public String getProfessionName() {
-        return professionName;
-    }
 }
