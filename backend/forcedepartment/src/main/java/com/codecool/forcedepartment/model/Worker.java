@@ -1,76 +1,51 @@
 package com.codecool.forcedepartment.model;
 
+import com.codecool.forcedepartment.model.User;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Worker extends User {
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Worker {
 
+    @Id
+    @JsonIgnore
+    @SequenceGenerator(
+            name = "worker_id_seq",
+            sequenceName = "worker_id_seq",
+            allocationSize = 1
+    )
+    private Long id;
+
+    private boolean is_available;
     private String description;
-    private String phoneNumber;
+    private String phone_number;
     private double rate;
+
     //change into hashMap
-    private List<String> profession;
+    @ManyToMany
+    private List<Profession> profession;
 
-    public Worker(String firstName, String lastName, Date birthOfDate, String userType,
-                  String email, String description, String phoneNumber, List<String> profession, double rate) {
-        super(firstName, lastName, birthOfDate, userType, email);
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.profession = new ArrayList<>();
-        this.profession = profession;
-        this.rate = rate;
-    }
 
-    public Worker(int userId, String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email,
-                  String description, String phoneNumber, List<String> profession, double rate) {
-        super(userId, firstName, lastName, registrationDate, birthOfDate, userType, email);
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.rate = rate;
-        this.profession = new ArrayList<>();
-        this.profession = profession;
-    }
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+    )
+    private int user_id;
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    @ManyToOne
+    private User user;
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public List<String> getProfession() {
-        return profession;
-    }
-
-    public void setProfession(List<String> profession) {
-        this.profession = profession;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    @Override
-    public String toString() {
-        return "Worker{" +
-                "description='" + description + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", rate=" + rate +
-                ", profession=" + profession +
-                '}';
-    }
 }
