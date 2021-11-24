@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -38,16 +39,25 @@ public class Worker {
     @JsonManagedReference
     private User user;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "professions",
-//            joinColumns = @JoinColumn(name = "worker_id"),
-//            inverseJoinColumns = @JoinColumn(name = "profession_id")
-//    )
-//    private List<WorkerExperience> professions;
+    //TODO: connect with profession (multiple joinColumns)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "workerExperience",
+            joinColumns = @JoinColumn(name = "worker_id"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    @JsonManagedReference
+    private List<WorkerExperience> workerExperience;
 
-//    public void addUserDataToWorker(User user) {
-//        this.user = user;
-//    }
+    public void addUserDataToWorker(User user) {
+        this.user = user;
+    }
 
+    public Worker(Long user_id, String phone_number, boolean is_available, double rate, String description) {
+        this.user_id = user_id;
+        this.phone_number = phone_number;
+        this.is_available = is_available;
+        this.rate = rate;
+        this.description = description;
+    }
 }
