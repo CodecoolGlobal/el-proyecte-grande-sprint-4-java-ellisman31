@@ -34,7 +34,15 @@ public class UserService {
     }
 
     public Long getTheLatestId() {
-        return userRepository.getLatestId() + 1;
+        return userRepository.getLatestId();
+    }
+
+    public boolean isEmailAlreadyInExist(String email) {
+        return userRepository.isEmailAlreadyInExist(email) != null;
+    }
+
+    public boolean isUserInExist(String email, String password) {
+        return userRepository.isUserInExist(email, password) != null;
     }
 
 }
