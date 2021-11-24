@@ -1,9 +1,11 @@
 package com.codecool.forcedepartment.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +15,6 @@ import javax.persistence.*;
 @Entity
 public class Profession {
 
-    //private Map<String, Double> professions = new HashMap<>();
     @Id
     @JsonIgnore
     @SequenceGenerator(
@@ -24,5 +25,6 @@ public class Profession {
     private Long id;
 
     private String profession_name;
+
 
 }
