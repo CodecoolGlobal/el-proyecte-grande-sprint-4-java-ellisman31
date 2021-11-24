@@ -1,8 +1,9 @@
 package com.codecool.forcedepartment.controller.api;
 
-import com.codecool.forcedepartment.dao.DatabaseManager;
 import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
+import com.codecool.forcedepartment.service.UserService;
+import com.codecool.forcedepartment.service.WorkerService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,23 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class GetAllUsersApi {
 
-    DatabaseManager databaseManager;
-    private int workerId;
+    private UserService userService;
+    private WorkerService workerService;
 
     @Autowired
-    public GetAllUsersApi(DatabaseManager databaseManager) {
-        this.databaseManager = databaseManager;
+    public GetAllUsersApi(UserService userService, WorkerService workerService) {
+        this.userService = userService;
+        this.workerService = workerService;
     }
 
     @RequestMapping(value = "/api/getAllUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<User> getAllRegularUser() {
-        return databaseManager.getAllDataAboutUser();
+    List<User> getAllUser() {
+        return userService.getAllUser();
     }
 
     @ResponseBody @RequestMapping(value = "/api/getAllUser", method = RequestMethod.POST)
-    public String addRegularUser(@RequestBody String userJson) throws JSONException, ParseException {
+    public String addUser(@RequestBody String userJson) throws JSONException, ParseException {
         JSONObject user = new JSONObject(userJson);
 
         String firstName = user.getString("firstName");
@@ -46,25 +48,27 @@ public class GetAllUsersApi {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date birthOfDateParsed = formatter.parse(birthOfDate);
 
-        User newUser = new User(firstName, lastName, birthOfDateParsed, userType, email);
-        workerId = databaseManager.registerRegularUser(newUser, password);
+        User newUser = new User(firstName, lastName, birthOfDateParsed, email, password, userType);
+        userService.addUserToDatabase(newUser);
         return "User created";
     }
 
     @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<Worker> getAllWorker() {
-        return databaseManager.getWorkersByRating();
+        return workerService.getAllWorkers();
     }
 
     @ResponseBody @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.POST)
     public String addWorker(@RequestBody String workerJson) throws JSONException {
-        JSONObject worker = new JSONObject(workerJson);
+        JSONObject workerData = new JSONObject(workerJson);
 
-        String description = worker.getString("description");
-        String phoneNumber = worker.getString("telephoneNumber");
+        String description = workerData.getString("description");
+        String phoneNumber = workerData.getString("telephoneNumber");
 
-        databaseManager.registerWorker(databaseManager.getLatestId("website_user") + 1, phoneNumber, description);
+        Worker worker = new Worker(userService.getTheLatestId(), phoneNumber, false, 0, description);
+
+        workerService.addWorkerToDatabase(worker);
         return "Worker created";
     }
 
