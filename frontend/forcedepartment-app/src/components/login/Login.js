@@ -7,27 +7,13 @@ function Login() {
 
     useEffect(() => {
         document.title = "Special Department | Login";
-        const getUserData = async () => {
-            const allUser = await getUsersFromDatabase();
-            setGetData(allUser);
-        }
-        getUserData();
     }, []);
 
     const navigation = useNavigate();
-    const [getData, setGetData] = useState([]);
-
-    const getUsersFromDatabase =
-        async () => {
-            const response = await fetch(
-                "http://localhost:8080/api/getAllUser"
-            );
-            return await response.json();
-        };
 
     return (
         <div className="container">
-            <LoginDesign navigation={navigation} getUserData={getData ? getData : null}/>
+            <LoginDesign navigation={navigation}/>
         </div>
     )
 
