@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,11 +20,7 @@ import java.util.List;
 public class Worker {
 
     @Id
-    @SequenceGenerator(
-            name = "worker_id_seq",
-            sequenceName = "worker_id_seq",
-            allocationSize = 1
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long user_id;
@@ -35,19 +30,9 @@ public class Worker {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id", referencedColumnName="id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonManagedReference
     private User user;
-
-    //TODO: connect with profession (multiple joinColumns)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "workerExperience",
-            joinColumns = @JoinColumn(name = "worker_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    @JsonManagedReference
-    private List<WorkerExperience> workerExperience;
 
     public void addUserDataToWorker(User user) {
         this.user = user;
