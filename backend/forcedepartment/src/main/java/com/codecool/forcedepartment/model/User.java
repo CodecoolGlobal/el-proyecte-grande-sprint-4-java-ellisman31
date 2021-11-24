@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -35,15 +35,31 @@ public class User {
     private String email;
     private boolean is_admin;
     private String password;
-    private Date registration_date;
+    private LocalDateTime registration_date;
     private String group_name;
-
-    //private String image = "profile-icon-empty.png";
-    //private String imageName;
-    //private static final boolean IS_ADMIN = false;
-    //private String profileImage;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Worker> worker;
+
+    private static final boolean IS_ADMIN = false;
+    //private String image = "profile-icon-empty.png";
+    //private String imageName;
+    //private String profileImage;
+
+
+    public User(String first_name, String last_name, Date birth_date, String email, String password, String group_name) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.birth_date = birth_date;
+        this.email = email;
+        this.is_admin = IS_ADMIN;
+        this.password = password;
+        this.registration_date = registrationDate();
+        this.group_name = group_name;
+    }
+
+    public LocalDateTime registrationDate() {
+        return java.time.LocalDateTime.now();
+    }
 }
