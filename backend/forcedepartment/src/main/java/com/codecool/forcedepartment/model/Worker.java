@@ -1,76 +1,48 @@
 package com.codecool.forcedepartment.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.List;
 
-public class Worker extends User {
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "worker", schema = "public")
+@JsonIgnoreProperties(value = {"id", "user_id"})
+public class Worker {
 
-    private String description;
-    private String phoneNumber;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long user_id;
+    private String phone_number;
+    private boolean is_available;
     private double rate;
-    //change into hashMap
-    private List<String> profession;
+    private String description;
 
-    public Worker(String firstName, String lastName, Date birthOfDate, String userType,
-                  String email, String description, String phoneNumber, List<String> profession, double rate) {
-        super(firstName, lastName, birthOfDate, userType, email);
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.profession = new ArrayList<>();
-        this.profession = profession;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonManagedReference
+    private User user;
+
+    public void addUserDataToWorker(User user) {
+        this.user = user;
+    }
+
+    public Worker(Long user_id, String phone_number, boolean is_available, double rate, String description) {
+        this.user_id = user_id;
+        this.phone_number = phone_number;
+        this.is_available = is_available;
         this.rate = rate;
-    }
-
-    public Worker(int userId, String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email,
-                  String description, String phoneNumber, List<String> profession, double rate) {
-        super(userId, firstName, lastName, registrationDate, birthOfDate, userType, email);
         this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.rate = rate;
-        this.profession = new ArrayList<>();
-        this.profession = profession;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public List<String> getProfession() {
-        return profession;
-    }
-
-    public void setProfession(List<String> profession) {
-        this.profession = profession;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    @Override
-    public String toString() {
-        return "Worker{" +
-                "description='" + description + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", rate=" + rate +
-                ", profession=" + profession +
-                '}';
     }
 }

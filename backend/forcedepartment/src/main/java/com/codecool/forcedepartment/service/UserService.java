@@ -1,48 +1,48 @@
 package com.codecool.forcedepartment.service;
 
+import com.codecool.forcedepartment.dal.UserRepository;
 import com.codecool.forcedepartment.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    //Dummy, it will be with DAO
+    UserRepository userRepository;
 
-    private List<User> test = new ArrayList<>();
-    private boolean userIsExist;
-
-    public void addUserTest(User user) {
-        test.add(user);
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public void getAllInformation() {
-        for (User user: test) {
-            System.out.println(user.toString());
-        }
+    public List<User> getAllUser() {
+        return userRepository.findAll();
     }
 
-    public void checkUserByEmailAndPassword(String email, String password) {
-
-        for (User user: test) {
-            if (user.getEmail().equals(email)) {
-                if(user.getPassword().equals(password)) {
-                    setUserIsExist(true);
-                }
-            }
-            else {
-                setUserIsExist(false);
-            }
-        }
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
     }
 
-    public boolean isUserIsExist() {
-        return userIsExist;
+    public void addUserToDatabase(User user) {
+        userRepository.save(user);
     }
 
-    public void setUserIsExist(boolean userIsExist) {
-        this.userIsExist = userIsExist;
+    public void deleteUserFromDatabase(Long id) {
+        userRepository.deleteById(id);
     }
+
+    public Long getTheLatestId() {
+        return userRepository.getLatestId();
+    }
+
+    public boolean isEmailAlreadyInExist(String email) {
+        return userRepository.isEmailAlreadyInExist(email) != null;
+    }
+
+    public boolean isUserInExist(String email, String password) {
+        return userRepository.isUserInExist(email, password) != null;
+    }
+
 }

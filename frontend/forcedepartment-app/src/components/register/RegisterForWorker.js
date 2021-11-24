@@ -7,8 +7,6 @@ function RegisterForWorker(props) {
     const [description, setDescription] = useState('');
     const [telephoneNumber, setTelephoneNumber] = useState('');
     const navigate = props.navigate;
-    const workerDataHandler = props.workerDataHandler;
-    const previousData = props.previousData;
     /* Feature needs to be worked out
     const selectedProfession = '';
     const selectedProfessionList = []; 
@@ -18,26 +16,10 @@ function RegisterForWorker(props) {
     const submitHandler = (e) => {
         e.preventDefault();
         const workerData = {description, telephoneNumber};
-        workerDataHandler(workerData);
-        saveRegularDataIntoTheDatabase();
         saveWorkerDataIntoTheDatabase(workerData);
         navigate('/login');
     }
 
-    const saveRegularDataIntoTheDatabase = () => {
-        fetch('http://localhost:8080/api/getAllUser', {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(previousData)
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.warn(responseJson);
-            })
-            .catch((error) => {
-                console.warn(error);
-            });
-    }
 
     const saveWorkerDataIntoTheDatabase = (workerData) => {
         fetch('http://localhost:8080/api/getAllWorker', {
@@ -45,7 +27,6 @@ function RegisterForWorker(props) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(workerData)
         })
-        
     }
 
     /* Feature needs to be worked out

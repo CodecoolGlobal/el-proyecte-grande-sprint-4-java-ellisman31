@@ -1,6 +1,5 @@
 package com.codecool.forcedepartment.controller.api;
 
-import com.codecool.forcedepartment.dao.DatabaseManager;
 import com.codecool.forcedepartment.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,25 +12,21 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class SidebarMenuPointApi {
 
-    DatabaseManager databaseManager;
 
-    @Autowired
-    public SidebarMenuPointApi(DatabaseManager databaseManager) {
-        this.databaseManager = databaseManager;
-    }
+    //@Autowired
 
 
     @RequestMapping(value = "/api/getAllWorkerByProfession/{profession}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Worker> getAllWorkerByProfession(
             @PathVariable("profession") String profession) {
-        return databaseManager.getWorkersByProfession(profession);
+        return null; //databaseManager.getWorkersByProfession(profession);
     }
 
 
     @RequestMapping(value = "/api/getAllWorkerByWorkObject/{workObject}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Worker> getAllWorkerByWorkObject(
             @PathVariable("workObject") String workObject) {
-        return databaseManager.getWorkersByWorkObject(workObject);
+        return null;//databaseManager.getWorkersByWorkObject(workObject);
     }
 
 
@@ -43,7 +38,7 @@ public class SidebarMenuPointApi {
             @PathVariable("profession") String profession,
             @PathVariable("rating") int rating
     ) {
-        return databaseManager.getAllByFilter(name, workObject, profession, rating);
+        return null;//databaseManager.getAllByFilter(name, workObject, profession, rating);
     }
 
 }

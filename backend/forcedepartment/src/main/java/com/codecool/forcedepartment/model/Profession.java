@@ -1,28 +1,28 @@
 package com.codecool.forcedepartment.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@JsonIgnoreProperties(value = {"id"})
 public class Profession {
 
-    //private Map<String, Double> professions = new HashMap<>();
-    private String professionName;
-    private double experience_year;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
-    public Profession() {
-    }
+    private String profession_name;
 
-    public void setProfessionName(String professionName) {
-        this.professionName = professionName;
-    }
-
-    public double getExperience_year() {
-        return experience_year;
-    }
-
-    public void setExperience_year(double experience_year) {
-        this.experience_year = experience_year;
-    }
-
-    public String getProfessionName() {
-        return professionName;
-    }
+    @OneToMany(mappedBy = "profession", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<WorkerExperience> workerExperience;
 }

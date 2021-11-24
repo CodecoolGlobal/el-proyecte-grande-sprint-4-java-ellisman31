@@ -1,150 +1,69 @@
 package com.codecool.forcedepartment.model;
 
-import java.util.Calendar;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "website_user", schema = "public")
 public class User {
 
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private int age;
-    private Date registrationDate;
-    private Date birthOfDate;
-    private boolean isAdmin;
-    private String userType;
-    private String password;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
+    private String first_name;
+    private String last_name;
+    private Date birth_date;
     private String email;
-    private String image = "profile-icon-empty.png";
-    private String imageName;
+    private boolean is_admin;
+    private String password;
+    private LocalDateTime registration_date;
+    private String group_name;
+
     private static final boolean IS_ADMIN = false;
+    //private String image = "profile-icon-empty.png";
+    //private String imageName;
     //private String profileImage;
 
-    public User() {
-    }
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Worker> worker;
 
-    public User(String firstName, String lastName, Date birthOfDate, String userType, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthOfDate = birthOfDate;
-        this.userType = userType;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "workerExperience",
+            joinColumns = @JoinColumn(name = "worker_id", foreignKey = @ForeignKey(name = "fk_worker_id", value = ConstraintMode.NO_CONSTRAINT)),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    @JsonManagedReference
+    private List<WorkerExperience> workerExperience;
+
+    public User(String first_name, String last_name, Date birth_date, String email, String password, String group_name) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.birth_date = birth_date;
         this.email = email;
-    }
-
-    public User(int id, String firstName, String lastName, Date registrationDate, Date birthOfDate, String userType, String email) {
-        this.userId = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.registrationDate = registrationDate;
-        this.birthOfDate = birthOfDate;
-        this.userType = userType;
-        this.email = email;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public String getImageName() {
-        return firstName + " " + lastName;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public int getAge() {
-
-        Calendar actualDate = Calendar.getInstance();
-        actualDate.setTime(getRegistrationDate());
-
-        Calendar birthOfDate = Calendar.getInstance();
-        birthOfDate.setTime(getBirthOfDate());
-
-        return actualDate.get(Calendar.YEAR) - birthOfDate.get(Calendar.YEAR);
-    }
-
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        //do regex to check the email
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+        this.is_admin = IS_ADMIN;
         this.password = password;
+        this.registration_date = registrationDate();
+        this.group_name = group_name;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", registrationDate='" + registrationDate + '\'' +
-                ", birthOfDate='" + birthOfDate + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", userType=" + userType +
-                ", email='" + email + '\'' +
-                "}\n";
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public Date getBirthOfDate() {
-        return birthOfDate;
-    }
-
-    public void setBirthOfDate(Date birthOfDate) {
-        this.birthOfDate = birthOfDate;
+    public LocalDateTime registrationDate() {
+        return java.time.LocalDateTime.now();
     }
 }

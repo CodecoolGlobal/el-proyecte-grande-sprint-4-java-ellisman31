@@ -18,8 +18,6 @@ function RegisterForEveryUser(props) {
 
     const navigate = props.navigate;
     const userTypeData = props.userTypeData
-    const previousDataHandler = props.previousDataHandler;
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -54,20 +52,18 @@ function RegisterForEveryUser(props) {
         }
     }
 
-
     useEffect(() => {
         const currentData = {firstName, lastName, email, birthOfDate, password, userType};
 
         const saveData = () => {
             if (userType === 'USER') {
                 setErrorMessage('');
-                saveDataIntoTheDatabase();
                 navigate('/login');
             } else {
                 props.userTypeHandler(userType);
                 setUserType(userType)
-                previousDataHandler(currentData);
             }
+            saveDataIntoTheDatabase();
         }
 
         const saveDataIntoTheDatabase = () => {
@@ -89,7 +85,7 @@ function RegisterForEveryUser(props) {
             saveData();
         }
 
-    }, [usedEmail, rightPasswords, navigate, previousDataHandler, props, userType, birthOfDate, email, firstName, lastName, password])
+    }, [usedEmail, rightPasswords, navigate , props, userType, birthOfDate, email, firstName, lastName, password])
 
     return (
         <div className="register-panel">
