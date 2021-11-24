@@ -5,7 +5,6 @@ import com.codecool.forcedepartment.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,5 +33,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public Long getTheLatestId() {
+        return userRepository.getLatestId() + 1;
+    }
 
 }
