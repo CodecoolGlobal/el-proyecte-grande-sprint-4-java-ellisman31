@@ -1,11 +1,11 @@
 package com.codecool.forcedepartment.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,18 +13,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties(value = {"id"})
 public class Profession {
 
     @Id
-    @JsonIgnore
-    @SequenceGenerator(
-            name = "profession_id_seq",
-            sequenceName = "profession_id_seq",
-            allocationSize = 1
-    )
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String profession_name;
 
-
+    @OneToMany(mappedBy = "profession", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<WorkerExperience> workerExperience;
 }
