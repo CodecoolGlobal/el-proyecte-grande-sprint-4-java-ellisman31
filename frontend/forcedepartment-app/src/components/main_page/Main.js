@@ -31,9 +31,9 @@ const Main = () => {
     }
 
     const fetchWorkersExtraSearch = async(name, workObject, profession, rate) => {
-        const response = await fetch(`http://localhost:8080/api/getWorkerByExtraSearch/${name}/${workObject}/${profession}/${rate}`)
-        const data = await response.json();
-        setWorkers(data);
+        //const response = await fetch(`http://localhost:8080/api/getWorkerByExtraSearch/${name}/${workObject}/${profession}/${rate}`)
+        //const data = await response.json();
+        //setWorkers(data);
     }
 
 
