@@ -1,8 +1,10 @@
 package com.codecool.forcedepartment.controller.api;
 
 import com.codecool.forcedepartment.model.Worker;
+import com.codecool.forcedepartment.model.WorkerExperience;
 import com.codecool.forcedepartment.service.ProfessionService;
 import com.codecool.forcedepartment.service.WorkObjectService;
+import com.codecool.forcedepartment.service.WorkerExperienceService;
 import com.codecool.forcedepartment.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,14 +21,17 @@ public class MainPageApi {
     private ProfessionService professionService;
     private WorkObjectService workObjectService;
     private WorkerService workerService;
+    private WorkerExperienceService workerExperienceService;
 
     @Autowired
     public MainPageApi(ProfessionService professionService,
                        WorkObjectService workObjectService,
-                       WorkerService workerService) {
+                       WorkerService workerService,
+                       WorkerExperienceService workerExperienceService) {
         this.professionService = professionService;
         this.workObjectService = workObjectService;
         this.workerService = workerService;
+        this.workerExperienceService = workerExperienceService;
     }
 
 
@@ -43,6 +48,11 @@ public class MainPageApi {
     @RequestMapping(value = "/api/getWorkersByRating", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Worker> getAllWorkersByRating() {
         return workerService.getAllWorkersByRating();
+    }
+
+    @RequestMapping(value = "/api/getAllWorkerExperience", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<WorkerExperience> getAllWorkerExperience() {
+        return workerExperienceService.getAllWorkerExperience();
     }
 
 }
