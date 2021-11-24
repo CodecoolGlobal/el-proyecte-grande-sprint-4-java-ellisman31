@@ -9,7 +9,7 @@ const WorkerFeed = (props) => {
                 <div > <p id="no-worker-found">No worker found!</p> </div> : 
                 <div id="worker-card-container">
                     {props.workers.map((worker) => (
-                    <WorkerCard key={worker.userId} worker={worker} />))} 
+                    <WorkerCard key={worker.user.id} worker={worker} />))} 
                 </div>
             }    
         </div>
