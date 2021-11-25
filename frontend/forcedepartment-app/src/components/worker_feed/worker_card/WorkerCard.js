@@ -14,9 +14,9 @@ const WorkerCard = (props) => {
             <h3>{`${currentWorker.first_name} ${currentWorker.last_name} (${workerAge})`}</h3><br />
             <h4>Professions(s):</h4><br />
             <span className="professions">
-                {props.worker.workerExperience.map((profession, i, arr) => {
-                    if (arr.length - 1 === i) { return <span key={profession.profession_id + currentWorker.first_name}>{profession.profession_id}</span>} 
-                    else { return <span key={profession.profession_id}>{`${profession.profession_id}, `}</span> }
+                {currentWorker.workerExperience.map((profession, i, arr) => {
+                    if (arr.length - 1 === i) { return <span >{profession.profession.profession_name}</span>} 
+                    else { return <span >{`${profession.profession.profession_name}, `}</span> }
                 })}
             </span>
         </div>
