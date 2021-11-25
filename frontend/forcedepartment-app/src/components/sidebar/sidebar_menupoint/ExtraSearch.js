@@ -3,11 +3,11 @@ import './ExtraSearch.css';
 
 const ExtraSearch = (props) => {
 
-    const [currentNamePart, setCurrentNamePart] = useState('no');
+    const [currentNamePart, setCurrentNamePart] = useState("");
     const [currentMinimumRate, setCurrentMinimumRate] = useState(0);
-    const [currentProfession, setCurrentProfession] = useState('no');
+    const [currentProfession, setCurrentProfession] = useState("");
     const [showCurrentProfessionMenu, setShowCurrentProfessionMenu] = useState(false);
-    const [currentWorkObject, setCurrentWorkObject] = useState('no');
+    const [currentWorkObject, setCurrentWorkObject] = useState("");
     const [showCurrentWorkObjectMenu, setShowCurrentWorkObjectMenu] = useState(false);
 
     useEffect(() => {
@@ -19,10 +19,10 @@ const ExtraSearch = (props) => {
         <div>
             <div className="mainMenuPoint" onClick={() => {
                 props.listMenuPoint();
-                setCurrentNamePart('no');
+                setCurrentNamePart("");
                 setCurrentMinimumRate(0);
-                setCurrentProfession('no');
-                setCurrentWorkObject('no');
+                setCurrentProfession("");
+                setCurrentWorkObject("");
             }}>Extra Search</div>
             {props.showMenuPoint && 
             <div>
@@ -30,10 +30,10 @@ const ExtraSearch = (props) => {
                     <label htmlFor="nameSearch" className="extraMenuPoint">Name Search</label>
                     <input 
                         onChange={(event) => {
-                            event.target.value === '' ? setCurrentNamePart('no') : setCurrentNamePart(event.target.value);
+                            event.target.value === '' ? setCurrentNamePart("") : setCurrentNamePart(event.target.value);
                         }}
                         type="text" id="nameSearch" name="nameSearch" className="nameSearch" value={
-                            currentNamePart === 'no' ? '' : currentNamePart}>
+                            currentNamePart === "" ? '' : currentNamePart}>
                     </input>
                 </div>
                 <div>
@@ -48,7 +48,7 @@ const ExtraSearch = (props) => {
                 <div id="professionExtraSearch">
                     <h4 className="extraMenuPoint" onClick={() => {
                         setShowCurrentProfessionMenu(!showCurrentProfessionMenu);
-                        setCurrentProfession('no');
+                        setCurrentProfession("");
                     }}>Professions</h4>
                     {showCurrentProfessionMenu &&
                         <div> 
@@ -70,7 +70,7 @@ const ExtraSearch = (props) => {
                 <div id="workObjectExtraSearch">
                     <h4 className="extraMenuPoint" onClick={() => {
                         setShowCurrentWorkObjectMenu(!showCurrentWorkObjectMenu);
-                        setCurrentWorkObject('no');
+                        setCurrentWorkObject("");
                     }}>Work Object</h4>
                     {showCurrentWorkObjectMenu && 
                         <div>
