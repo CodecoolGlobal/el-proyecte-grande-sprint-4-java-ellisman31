@@ -18,22 +18,22 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties(value = {"id", "workRequirement"})
-public class WorkObject {
+@JsonIgnoreProperties(value = {"id", "work_object_id", "profession_id"})
+@Table(name = "work_requirement", schema = "public")
+public class WorkRequirement {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    private String work_object;
+    private Long work_object_id;
+    private Long profession_id;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "workRequirement",
-            joinColumns = @JoinColumn(name = "work_object_id", foreignKey = @ForeignKey(name = "fk_work_object_id",
-                    value = ConstraintMode.NO_CONSTRAINT)),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    @JsonManagedReference
-    private List<WorkRequirement> workRequirement;
+    @ManyToMany(mappedBy = "workRequirement")
+    @JsonBackReference
+    private Set<Profession> profession;
+
+    @ManyToMany(mappedBy = "workRequirement")
+    @JsonBackReference
+    private Set<WorkObject> workObject;
 }
