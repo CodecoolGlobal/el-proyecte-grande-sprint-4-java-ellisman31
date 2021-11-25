@@ -34,4 +34,16 @@ public class WorkerService {
         worker.addUserDataToWorker(userRepository.findById(worker.getUser_id()).get());
     }
 
+    public List<Worker> getAllWorkersByProfession(String profession) {
+        return workerRepository.getAllWorkersByProfession(profession);
+    }
+
+    public List<Worker> getAllWorkersByWorkObject(String workObject) {
+        return workerRepository.getAllWorkersByWorkObject(workObject);
+    }
+
+    public List<Worker> getAllWorkersByExtraFilter(String name, String workObject, String profession, double rate) {
+        return workerRepository.getAllWorkersByExtraFilter(name, workObject, profession, rate);
+    }
+
 }
