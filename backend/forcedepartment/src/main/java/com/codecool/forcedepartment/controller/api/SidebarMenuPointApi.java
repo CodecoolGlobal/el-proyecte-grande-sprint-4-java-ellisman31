@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -35,16 +36,23 @@ public class SidebarMenuPointApi {
     }
 
 
-    @RequestMapping(value = "/api/getWorkerByExtraSearch/{name}/{workObject}/{profession}/{rating}",
+    @RequestMapping(value = "/api/getWorkerByExtraSearch/{name}{workObject}{profession}{rating}",
             method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<Worker> getWorkersByExtraFilter(
-            @PathVariable("name") String name,
-            @PathVariable("workObject") String workObject,
-            @PathVariable("profession") String profession,
-            @PathVariable("rating") double rating
+            @RequestParam("name") String requestName,
+            @RequestParam("workObject") String requestWorkObject,
+            @RequestParam("profession") String requestProfession,
+            @RequestParam("rating") String requestRating
     ) {
-        return workerService.getAllWorkersByExtraFilter(name, workObject, profession, rating);
+
+        double newRequestRating = 0;
+
+        if (!Objects.equals(requestRating, "")) {
+            newRequestRating = Double.parseDouble(requestRating);
+        }
+
+        return workerService.getAllWorkersByExtraFilter(requestName, requestWorkObject, requestProfession, newRequestRating);
     }
 
 }
