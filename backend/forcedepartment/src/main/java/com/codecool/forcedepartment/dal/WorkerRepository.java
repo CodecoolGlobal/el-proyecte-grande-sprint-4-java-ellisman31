@@ -38,4 +38,6 @@ public interface WorkerRepository extends JpaRepository<Worker, Long> {
                                 @Param("workObject") String workObject,
                                 @Param("profession") String profession,
                                 @Param("rate") double rate);
+    Worker findWorkerByUser_id(Long id);
+
 }

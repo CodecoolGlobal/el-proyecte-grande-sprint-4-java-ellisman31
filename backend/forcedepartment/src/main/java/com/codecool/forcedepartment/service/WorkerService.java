@@ -46,4 +46,8 @@ public class WorkerService {
         return workerRepository.getAllWorkersByExtraFilter(name, workObject, profession, rate);
     }
 
+    public Worker getWorkerById(Long id) {
+        return workerRepository.findWorkerByUser_id(id);
+    }
+
 }

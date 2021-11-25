@@ -51,6 +51,11 @@ public class MainPageApi {
         return workerService.getAllWorkersByRating();
     }
 
+    @RequestMapping(value = "/api/getWorkerById/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody  Worker getWorkerById(@PathVariable("userId") Long userId) {
+        return workerService.getWorkerById(userId);
+    }
+
     @RequestMapping(value = "/api/getAllWorkerExperience", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<WorkerExperience> getAllWorkerExperience() {
         return workerExperienceService.getAllWorkerExperience();
