@@ -2,10 +2,8 @@ package com.codecool.forcedepartment.controller.api;
 
 import com.codecool.forcedepartment.model.Worker;
 import com.codecool.forcedepartment.model.WorkerExperience;
-import com.codecool.forcedepartment.service.ProfessionService;
-import com.codecool.forcedepartment.service.WorkObjectService;
-import com.codecool.forcedepartment.service.WorkerExperienceService;
-import com.codecool.forcedepartment.service.WorkerService;
+import com.codecool.forcedepartment.model.WorkRequirement;
+import com.codecool.forcedepartment.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -22,16 +20,19 @@ public class MainPageApi {
     private WorkObjectService workObjectService;
     private WorkerService workerService;
     private WorkerExperienceService workerExperienceService;
+    private WorkRequirementService workRequirementService;
 
     @Autowired
     public MainPageApi(ProfessionService professionService,
                        WorkObjectService workObjectService,
                        WorkerService workerService,
-                       WorkerExperienceService workerExperienceService) {
+                       WorkerExperienceService workerExperienceService,
+                       WorkRequirementService workRequirementService) {
         this.professionService = professionService;
         this.workObjectService = workObjectService;
         this.workerService = workerService;
         this.workerExperienceService = workerExperienceService;
+        this.workRequirementService = workRequirementService;
     }
 
 
@@ -53,6 +54,11 @@ public class MainPageApi {
     @RequestMapping(value = "/api/getAllWorkerExperience", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<WorkerExperience> getAllWorkerExperience() {
         return workerExperienceService.getAllWorkerExperience();
+    }
+
+    @RequestMapping(value = "/api/getAllWorkerRequirement", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<WorkRequirement> getAllWorkerRequirement() {
+        return workRequirementService.getAllWorkRequirement();
     }
 
 }
