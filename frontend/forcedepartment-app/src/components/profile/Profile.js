@@ -13,7 +13,7 @@ const Profile = () => {
     const [currentProfessions, setCurrentProfessions] = useState([]);
 
     useEffect(()=> {
-        document.title = "Special Department |  "+ userId;
+        document.title = "Special Department |  Profile";
     },[userId]);
 
     useEffect(() => {
