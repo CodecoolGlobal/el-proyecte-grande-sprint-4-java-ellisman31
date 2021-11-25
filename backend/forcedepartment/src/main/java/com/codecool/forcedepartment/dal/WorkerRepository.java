@@ -15,4 +15,6 @@ public interface WorkerRepository extends JpaRepository<Worker, Long> {
     @Query(value = "SELECT w from Worker w order by w.rate desc")
     List<Worker> orderByRating();
 
+    Worker findWorkerByUser_id(Long id);
+
 }

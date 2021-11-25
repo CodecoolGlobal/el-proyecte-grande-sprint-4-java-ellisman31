@@ -34,4 +34,8 @@ public class WorkerService {
         worker.addUserDataToWorker(userRepository.findById(worker.getUser_id()).get());
     }
 
+    public Worker getWorkerById(Long id) {
+        return workerRepository.findWorkerByUser_id(id);
+    }
+
 }
