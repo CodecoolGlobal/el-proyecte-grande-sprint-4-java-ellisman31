@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,14 +29,15 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("Email not found in the database!");
         }
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getGroup_name()));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), passwordEncoder.encode(user.getPassword()), authorities);
+        authorities.add(new SimpleGrantedAuthority(user.get().getGroup_name()));
+        return new org.springframework.security.core.userdetails.User(user.get().getEmail(),
+                passwordEncoder.encode(user.get().getPassword()), authorities);
     }
 
     public List<User> getAllUser() {
@@ -67,7 +69,8 @@ public class UserService implements UserDetailsService {
         return userRepository.isUserInExist(email, password) != null;
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
 }
