@@ -67,4 +67,7 @@ public class UserService implements UserDetailsService {
         return userRepository.isUserInExist(email, password) != null;
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
