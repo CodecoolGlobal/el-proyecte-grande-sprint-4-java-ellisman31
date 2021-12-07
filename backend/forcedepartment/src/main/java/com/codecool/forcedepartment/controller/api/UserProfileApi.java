@@ -3,11 +3,9 @@ package com.codecool.forcedepartment.controller.api;
 import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserProfileApi {
 
@@ -18,9 +16,8 @@ public class UserProfileApi {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/api/getUserById/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    User getUserById(
+    @RequestMapping(value = "/api/getUserById/{userId}", method = RequestMethod.GET)
+    public User getUserById(
             @PathVariable("userId") Long userId
     ) {
         return userService.getUserById(userId);

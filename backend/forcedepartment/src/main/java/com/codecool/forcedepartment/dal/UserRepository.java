@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -21,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u.id\n FROM User u WHERE u.email =:email AND u.password =:password")
     Long isUserInExist(@Param("email") String email, @Param("password") String password);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }
