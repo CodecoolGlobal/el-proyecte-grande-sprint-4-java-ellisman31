@@ -6,47 +6,53 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.codecool.forcedepartment.model.User;
 import com.codecool.forcedepartment.model.Worker;
+import com.codecool.forcedepartment.security.JWT.JWTConfig;
+import com.codecool.forcedepartment.security.JWT.RefreshTokenDto;
 import com.codecool.forcedepartment.service.UserService;
 import com.codecool.forcedepartment.service.WorkerService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class GetAllUsersApi {
 
+    private static final int PLUS_DAY_AFTER_ACCESS_TOKEN = 14;
     private UserService userService;
     private WorkerService workerService;
+    private final SecretKey secretKey;
+    private final JWTConfig jwtConfig;
 
     @Autowired
-    public GetAllUsersApi(UserService userService, WorkerService workerService) {
+    public GetAllUsersApi(UserService userService, WorkerService workerService,
+                          SecretKey secretKey, JWTConfig jwtConfig) {
         this.userService = userService;
         this.workerService = workerService;
+        this.secretKey = secretKey;
+        this.jwtConfig = jwtConfig;
     }
 
-    @RequestMapping(value = "/api/getAllUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/getAllUser", method = RequestMethod.GET)
     public @ResponseBody
     List<User> getAllUser() {
         return userService.getAllUser();
     }
 
-    @ResponseBody @RequestMapping(value = "/api/getAllUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/getAllUser", method = RequestMethod.POST)
     public String addUser(@RequestBody String userJson) throws JSONException, ParseException {
         JSONObject user = new JSONObject(userJson);
 
@@ -64,13 +70,12 @@ public class GetAllUsersApi {
         return "User created";
     }
 
-    @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<Worker> getAllWorker() {
+    @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.GET)
+    public List<Worker> getAllWorker() {
         return workerService.getAllWorkers();
     }
 
-    @ResponseBody @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.POST)
     public String addWorker(@RequestBody String workerJson) throws JSONException {
         JSONObject workerData = new JSONObject(workerJson);
 
@@ -83,42 +88,40 @@ public class GetAllUsersApi {
         return "Worker created";
     }
 
-    @RequestMapping(value = "/api/token/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    void getRefreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/api/token/refresh", method = RequestMethod.GET)
+    public RefreshTokenDto getRefreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+
+        if (authorizationHeader != null && authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
             try {
-                String refreshToken = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                String refreshToken = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
+
+                Algorithm algorithm = Algorithm.HMAC256(String.valueOf(secretKey).getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
 
                 String email = decodedJWT.getSubject();
-                User user = userService.getUserByEmail(email);
+                Optional<User> user = userService.getUserByEmail(email);
 
                 String accessToken = JWT.create()
-                        .withSubject(user.getEmail())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                        .withSubject(user.get().getEmail())
+                        .withExpiresAt(java.sql.Date.valueOf(
+                                LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays()+PLUS_DAY_AFTER_ACCESS_TOKEN)))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("role", user.getGroup_name())
+                        .withClaim("role", user.get().getGroup_name())
                         .sign(algorithm);
 
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", accessToken);
-                tokens.put("refresh_token", refreshToken);
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                refreshTokenDto.setAccessToken(accessToken);
+                refreshTokenDto.setRefreshToken(refreshToken);
 
-            } catch(Exception e) {
+            } catch (Exception e) {
                 response.setHeader("error", e.getMessage());
                 response.sendError(FORBIDDEN.value());
             }
         }
-        else {
-            throw new RuntimeException("Refresh token is missing");
-        }
+        return refreshTokenDto;
     }
 
 }
