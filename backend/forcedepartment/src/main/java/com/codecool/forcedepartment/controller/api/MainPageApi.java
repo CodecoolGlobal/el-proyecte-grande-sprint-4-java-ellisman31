@@ -5,14 +5,11 @@ import com.codecool.forcedepartment.model.WorkerExperience;
 import com.codecool.forcedepartment.model.WorkRequirement;
 import com.codecool.forcedepartment.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class MainPageApi {
 
@@ -36,33 +33,33 @@ public class MainPageApi {
     }
 
 
-    @RequestMapping(value = "/api/getAllProfession", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<String> getAllProfession() {
+    @RequestMapping(value = "/api/getAllProfession", method = RequestMethod.GET)
+    public List<String> getAllProfession() {
         return professionService.getAllProfession();
     }
 
-    @RequestMapping(value = "/api/getAllWorkObject", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<String> getAllWorkObject() {
+    @RequestMapping(value = "/api/getAllWorkObject", method = RequestMethod.GET)
+    public List<String> getAllWorkObject() {
         return workObjectService.getAllWorkObjects();
     }
 
-    @RequestMapping(value = "/api/getWorkersByRating", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Worker> getAllWorkersByRating() {
+    @RequestMapping(value = "/api/getWorkersByRating", method = RequestMethod.GET)
+    public List<Worker> getAllWorkersByRating() {
         return workerService.getAllWorkersByRating();
     }
 
-    @RequestMapping(value = "/api/getWorkerById/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody  Worker getWorkerById(@PathVariable("userId") Long userId) {
+    @RequestMapping(value = "/api/getWorkerById/{userId}", method = RequestMethod.GET)
+    public Worker getWorkerById(@PathVariable("userId") Long userId) {
         return workerService.getWorkerById(userId);
     }
 
-    @RequestMapping(value = "/api/getAllWorkerExperience", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<WorkerExperience> getAllWorkerExperience() {
+    @RequestMapping(value = "/api/getAllWorkerExperience", method = RequestMethod.GET)
+    public List<WorkerExperience> getAllWorkerExperience() {
         return workerExperienceService.getAllWorkerExperience();
     }
 
-    @RequestMapping(value = "/api/getAllWorkerRequirement", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<WorkRequirement> getAllWorkerRequirement() {
+    @RequestMapping(value = "/api/getAllWorkerRequirement", method = RequestMethod.GET)
+    public List<WorkRequirement> getAllWorkerRequirement() {
         return workRequirementService.getAllWorkRequirement();
     }
 
