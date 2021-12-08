@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "website_user", schema = "public")
+@Table(name = "user", schema = "public")
 public class User {
 
     @Id
@@ -29,15 +29,10 @@ public class User {
     private String last_name;
     private Date birth_date;
     private String email;
-    private boolean is_admin;
     private String password;
     private LocalDateTime registration_date;
-    private String group_name;
+    private String role;
 
-    private static final boolean IS_ADMIN = false;
-    //private String image = "profile-icon-empty.png";
-    //private String imageName;
-    //private String profileImage;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
@@ -52,15 +47,14 @@ public class User {
     @JsonManagedReference
     private List<WorkerExperience> workerExperience;
 
-    public User(String first_name, String last_name, Date birth_date, String email, String password, String group_name) {
+    public User(String first_name, String last_name, Date birth_date, String email, String password, String role_name) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.birth_date = birth_date;
         this.email = email;
-        this.is_admin = IS_ADMIN;
         this.password = password;
         this.registration_date = registrationDate();
-        this.group_name = group_name;
+        this.role = role_name;
     }
 
     public LocalDateTime registrationDate() {
