@@ -1,16 +1,14 @@
-DROP TABLE IF EXISTS public.website_user CASCADE;
-CREATE TABLE public.website_user
+DROP TABLE IF EXISTS public."user" CASCADE;
+CREATE TABLE public."user"
 (
     id           serial  NOT NULL PRIMARY KEY,
     first_name varchar(100),
     last_name         varchar(100),
     birth_date          varchar(100) NOT NULL,
     email           varchar(150),
-    is_admin      boolean,
     password varchar(300),
     registration_date varchar(150) NOT NULL,
-    group_name     text
-    -- ,image text
+    role     text
 );
 
 ALTER TABLE IF EXISTS ONLY public.worker DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
@@ -21,13 +19,12 @@ CREATE TABLE public.worker
     id          serial  NOT NULL PRIMARY KEY,
     user_id     integer NOT NULL,
     phone_number varchar(200),
-    is_available boolean,
     rate numeric,
     description text
 );
 
 ALTER TABLE ONLY public.worker
-    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES public.website_user(id);
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
 
 DROP TABLE IF EXISTS public.profession CASCADE;
@@ -54,7 +51,7 @@ ALTER TABLE ONLY public.worker_experience
     ADD CONSTRAINT fk_profession_id FOREIGN KEY (profession_id) REFERENCES public.profession(id);
 
 ALTER TABLE ONLY public.worker_experience
-    ADD CONSTRAINT fk_worker_id FOREIGN KEY (worker_id) REFERENCES public.website_user(id);
+    ADD CONSTRAINT fk_worker_id FOREIGN KEY (worker_id) REFERENCES public."user"(id);
 
 
 DROP TABLE IF EXISTS public.work_object CASCADE;
@@ -82,31 +79,32 @@ ALTER TABLE ONLY public.work_requirement
 ALTER TABLE ONLY public.work_requirement
     ADD CONSTRAINT fk_work_object_id FOREIGN KEY (work_object_id) REFERENCES public.work_object(id);
 
-INSERT INTO public.website_user VALUES (1, 'Oakley', 'Burns', '2000-10-10', 'burns.oakley@gmail.com', false, '1234', '2021-10-10', 'USER');
-INSERT INTO public.website_user VALUES (2, 'Chase', 'Price', '1990-10-10', 'price.chase@gmail.com', false, '1234', '2021-10-10','WORKER');
-INSERT INTO public.website_user VALUES (3, 'Harris', 'Reynolds', '1980-10-10', 'reynolds.harris@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (4, 'Spencer', 'Hayes', '1970-10-10', 'hayes.spence@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (5, 'Teddy', 'Hill', '1973-10-10', 'hill.tedd@gmail.com', false, '1234', '2021-10-10', 'USER');
-INSERT INTO public.website_user VALUES (6, 'Lukas', 'Phillips', '1967-10-10', 'phillips.lukas@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (7, 'Maximus', 'Morris', '1978-10-10', 'morris.maximus@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (8, 'Franklin', 'Chambers', '1984-10-10', 'chambers.franklin@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (9, 'Lennox', 'Cole', '1976-10-10', 'cole.lennox@gmail.com', false, '1234', '2021-10-10', 'USER');
-INSERT INTO public.website_user VALUES (10, 'Elis', 'Cooper', '1984-10-10', 'cooper.elis@gmail.com', false, '1234', '2021-10-10', 'USER');
-INSERT INTO public.website_user VALUES (11, 'Tobias', 'Ball', '1974-10-10', 'ball.tobias@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (12, 'Jacob', 'Mccarthy', '1985-10-10', 'mccarthy.jacob@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-INSERT INTO public.website_user VALUES (13, 'Paul', 'Rodgers', '1960-10-10', 'rodgers.paul@gmail.com', false, '1234', '2021-10-10', 'WORKER');
-SELECT pg_catalog.setval('website_user_id_seq', 13, true);
+INSERT INTO public."user" VALUES (1, 'Oakley', 'Burns', '2000-10-10', 'burns.oakley@gmail.com', '1234', '2021-10-10', 'USER');
+INSERT INTO public."user" VALUES (2, 'Chase', 'Price', '1990-10-10', 'price.chase@gmail.com', '1234', '2021-10-10','WORKER');
+INSERT INTO public."user" VALUES (3, 'Harris', 'Reynolds', '1980-10-10', 'reynolds.harris@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (4, 'Spencer', 'Hayes', '1970-10-10', 'hayes.spence@gmail.com',  '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (5, 'Teddy', 'Hill', '1973-10-10', 'hill.tedd@gmail.com', '1234', '2021-10-10', 'USER');
+INSERT INTO public."user" VALUES (6, 'Lukas', 'Phillips', '1967-10-10', 'phillips.lukas@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (7, 'Maximus', 'Morris', '1978-10-10', 'morris.maximus@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (8, 'Franklin', 'Chambers', '1984-10-10', 'chambers.franklin@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (9, 'Lennox', 'Cole', '1976-10-10', 'cole.lennox@gmail.com', '1234', '2021-10-10', 'USER');
+INSERT INTO public."user" VALUES (10, 'Elis', 'Cooper', '1984-10-10', 'cooper.elis@gmail.com', '1234', '2021-10-10', 'USER');
+INSERT INTO public."user" VALUES (11, 'Tobias', 'Ball', '1974-10-10', 'ball.tobias@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (12, 'Jacob', 'Mccarthy', '1985-10-10', 'mccarthy.jacob@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (13, 'Paul', 'Rodgers', '1960-10-10', 'rodgers.paul@gmail.com', '1234', '2021-10-10', 'WORKER');
+INSERT INTO public."user" VALUES (14, 'Admin', 'Profile', '1960-10-10', 'admin.profile@gmail.com', '1234', '2021-10-10', 'ADMIN');
+SELECT pg_catalog.setval('user_id_seq', 14, true);
 
 
-INSERT INTO public.worker VALUES (1, 2, '+36305121220', false, 7.4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
-INSERT INTO public.worker VALUES (2, 3,'+36302548320', false, 5.2, 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
-INSERT INTO public.worker VALUES (3, 4, '+36305799390', false, 8.9, 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.');
-INSERT INTO public.worker VALUES (4, 6, '+36205739220', false, 7.1, 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.');
-INSERT INTO public.worker VALUES (5, 7, '+36301154960', false, 7.8, 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.');
-INSERT INTO public.worker VALUES (6, 8, '+36705792850', false, 6.3, 'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.');
-INSERT INTO public.worker VALUES (7, 11, '+36705792850', false, 9.1, 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.');
-INSERT INTO public.worker VALUES (8, 12, '+36709482320', false, 8.2, 'Vivamus vel ex vitae orci dictum feugiat quis et tortor. Ut vehicula metus diam, tempor vulputate metus bibendum et. Etiam rhoncus ex a mauris suscipit lacinia. Etiam pulvinar posuere leo, vel malesuada sapien tristique in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc fermentum nisi ac purus consectetur, in semper risus mollis.');
-INSERT INTO public.worker VALUES (9, 13, '+36305733321', false, 8.7, 'Vivamus vautem quibusdam et aut officiis debitis et tortor. Ut vehicula metus diam, tempor vulputate metus ut et voluptates repudiandae sint et molestiae non vel malesuada sapien tristique in. Interdum et malesuada fames.');
+INSERT INTO public.worker VALUES (1, 2, '+36305121220', 7.4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
+INSERT INTO public.worker VALUES (2, 3,'+36302548320', 5.2, 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+INSERT INTO public.worker VALUES (3, 4, '+36305799390', 8.9, 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.');
+INSERT INTO public.worker VALUES (4, 6, '+36205739220', 7.1, 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.');
+INSERT INTO public.worker VALUES (5, 7, '+36301154960', 7.8, 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.');
+INSERT INTO public.worker VALUES (6, 8, '+36705792850', 6.3, 'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.');
+INSERT INTO public.worker VALUES (7, 11, '+36705792850', 9.1, 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.');
+INSERT INTO public.worker VALUES (8, 12, '+36709482320', 8.2, 'Vivamus vel ex vitae orci dictum feugiat quis et tortor. Ut vehicula metus diam, tempor vulputate metus bibendum et. Etiam rhoncus ex a mauris suscipit lacinia. Etiam pulvinar posuere leo, vel malesuada sapien tristique in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc fermentum nisi ac purus consectetur, in semper risus mollis.');
+INSERT INTO public.worker VALUES (9, 13, '+36305733321', 8.7, 'Vivamus vautem quibusdam et aut officiis debitis et tortor. Ut vehicula metus diam, tempor vulputate metus ut et voluptates repudiandae sint et molestiae non vel malesuada sapien tristique in. Interdum et malesuada fames.');
 SELECT pg_catalog.setval('worker_id_seq', 9, true);
 
 
@@ -231,4 +229,4 @@ INSERT INTO public.work_requirement VALUES (71, 13, 1);
 INSERT INTO public.work_requirement VALUES (72, 13, 3);
 INSERT INTO public.work_requirement VALUES (73, 13, 7);
 INSERT INTO public.work_requirement VALUES (74, 13, 11);
-SELECT pg_catalog.setval('work_requirement_id_seq', 13, true);
+SELECT pg_catalog.setval('work_requirement_id_seq', 74, true);

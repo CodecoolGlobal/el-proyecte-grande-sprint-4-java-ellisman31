@@ -82,7 +82,7 @@ public class GetAllUsersApi {
         String description = workerData.getString("description");
         String phoneNumber = workerData.getString("telephoneNumber");
 
-        Worker worker = new Worker(userService.getTheLatestId(), phoneNumber, false, 0, description);
+        Worker worker = new Worker(userService.getTheLatestId(), phoneNumber, 0.0, description);
 
         workerService.addWorkerToDatabase(worker);
         return "Worker created";
@@ -110,7 +110,7 @@ public class GetAllUsersApi {
                         .withExpiresAt(java.sql.Date.valueOf(
                                 LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays()+PLUS_DAY_AFTER_ACCESS_TOKEN)))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("role", user.get().getGroup_name())
+                        .withClaim("role", user.get().getRole())
                         .sign(algorithm);
 
                 refreshTokenDto.setAccessToken(accessToken);

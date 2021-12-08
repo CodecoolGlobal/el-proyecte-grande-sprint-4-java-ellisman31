@@ -25,7 +25,6 @@ public class Worker {
 
     private Long user_id;
     private String phone_number;
-    private boolean is_available;
     private double rate;
     private String description;
 
@@ -38,10 +37,9 @@ public class Worker {
         this.user = user;
     }
 
-    public Worker(Long user_id, String phone_number, boolean is_available, double rate, String description) {
+    public Worker(Long user_id, String phone_number, double rate, String description) {
         this.user_id = user_id;
         this.phone_number = phone_number;
-        this.is_available = is_available;
         this.rate = rate;
         this.description = description;
     }
