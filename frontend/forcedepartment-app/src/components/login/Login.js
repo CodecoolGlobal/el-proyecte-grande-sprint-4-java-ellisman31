@@ -1,6 +1,7 @@
 import './Login.css';
+import React from 'react';
 import LoginDesign from "./LoginDesign";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useNavigate} from 'react-router';
 
 function Login() {

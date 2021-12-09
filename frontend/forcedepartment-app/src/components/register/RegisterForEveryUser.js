@@ -2,7 +2,6 @@ import './Register.css';
 import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
 
-//TODO: sent data to the database, get data from database
 function RegisterForEveryUser(props) {
 
     const [firstName, setFirstName] = useState('');
@@ -67,7 +66,7 @@ function RegisterForEveryUser(props) {
         }
 
         const saveDataIntoTheDatabase = () => {
-            fetch('http://localhost:8080/api/getAllUser', {
+            fetch('http://localhost:8080/api/register/user', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(currentData)

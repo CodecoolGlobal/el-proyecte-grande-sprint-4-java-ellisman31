@@ -3,7 +3,6 @@ package com.codecool.forcedepartment.security.Filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.codecool.forcedepartment.security.JWT.JWTConfig;
-import com.codecool.forcedepartment.security.JWT.RefreshTokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -5,12 +5,10 @@ import Profile from './components/profile/Profile';
 import Register from './components/register/Register'
 import Login from './components/login/Login'
 
-//refact
-import UserProvider from './components/login/UserContext'
-
+//TODO: add header and footer here to pass the logged user and for better accessibility!
 function App() {
+
     return (
-        <UserProvider>
             <Router>
                 <Routes>
                     <Route path="/" element={<Main/>}/>
@@ -20,7 +18,6 @@ function App() {
                     <Route path="/profile/:userId" element={<Profile/>}/>
                 </Routes>
             </Router>
-        </UserProvider>
     );
 }
 

@@ -16,8 +16,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.SecretKey;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -44,14 +51,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), secretKey, jwtConfig);
-        //customAuthenticationFilter.setFilterProcessesUrl("/new_login_path"); //custom login and pass this to the filter
+        customAuthenticationFilter.setFilterProcessesUrl("/api/login"); //custom login and pass this to the filter
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/", "/register", "/login").permitAll()
+                .authorizeRequests().antMatchers("/","/api/login","/api/register/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers(GET, "/api/**").hasAnyAuthority("ADMIN")
+                .authorizeRequests().antMatchers(GET, "/api/**").permitAll() //ask about this because of Frontend
                 .and()
                 .authorizeRequests().antMatchers(POST, "/api/**").hasAnyAuthority("ADMIN")
                 .and()
@@ -61,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), secretKey, jwtConfig))
+                .addFilter(customAuthenticationFilter)
                 .addFilterBefore(new CustomAuthorizationFilter(secretKey, jwtConfig), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -73,5 +82,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 }

@@ -1,41 +1,40 @@
-import {useContext, useEffect, useState} from "react";
+import {useState} from "react";
 import {Link} from 'react-router-dom'
-import {UserContext} from './UserContext'
+import axios from 'axios';
 
 function LoginDesign(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [userExist, setUserExist] = useState(false);
-    const user = useContext(UserContext);
     const navigation = props.navigation;
+    const Qs = require('qs');
 
-    useEffect(() => {
-    },[userExist])
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        checkIsUserExistFetch();
-    }
 
-    //TODO: Fix UsedEmail hook (first value always false after works normally)
-    const checkIsUserExistFetch = async () => {
-        const response = await fetch(`http://localhost:8080/api/checkUserIsExist/${email}:${password}`);
-        const data = await response.json();
-        if (data) {
-            user.toggleUserState();
-        }
-        setUserExist(data);
-        errorMessageSetter(data);
-    }
+        axios.post("http://localhost:8080/api/login",
+            Qs.stringify({
+            email: email,
+            password: password
+            }), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }})
+            .then(res => {
+                console.log(res);
+                if (res.data.accessToken) {
+                    localStorage.setItem('token', res.data.accessToken);
+                    navigation("/");
+                }
+                else {
+                    setErrorMessage("Wrong email address or password was given! Try again..")
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
 
-    const errorMessageSetter = (userExist) => {
-            if (!userExist) {
-                setErrorMessage("Wrong email address or password was given! Try again..")
-            } else if (userExist) {
-                navigation("/");
-            }
     }
 
     return (

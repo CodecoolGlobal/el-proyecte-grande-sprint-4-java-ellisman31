@@ -13,6 +13,7 @@ import com.codecool.forcedepartment.service.WorkerService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -47,12 +48,16 @@ public class GetAllUsersApi {
     }
 
     @RequestMapping(value = "/api/getAllUser", method = RequestMethod.GET)
-    public @ResponseBody
-    List<User> getAllUser() {
+    public List<User> getAllUser() {
         return userService.getAllUser();
     }
 
-    @RequestMapping(value = "/api/getAllUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/getUser", method = RequestMethod.GET)
+    public Object getCurrentUser() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    @RequestMapping(value = "/api/register/user", method = RequestMethod.POST)
     public String addUser(@RequestBody String userJson) throws JSONException, ParseException {
         JSONObject user = new JSONObject(userJson);
 
@@ -75,7 +80,7 @@ public class GetAllUsersApi {
         return workerService.getAllWorkers();
     }
 
-    @RequestMapping(value = "/api/getAllWorker", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/register/worker", method = RequestMethod.POST)
     public String addWorker(@RequestBody String workerJson) throws JSONException {
         JSONObject workerData = new JSONObject(workerJson);
 

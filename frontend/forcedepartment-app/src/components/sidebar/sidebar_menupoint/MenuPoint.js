@@ -1,11 +1,12 @@
 
 const MenuPoint = (props) => {
+
     return (
         <>
         <div className="mainMenuPoint" onClick={props.listMenuPoint}>{props.menuTitle}</div>
         {props.showMenuPoint && 
             <ul>
-                {props.allMenuPoints.map((menuPoint) => (
+                {props.allMenuPoints.data.map((menuPoint) => (
                     <li key={menuPoint}
                         onClick={() => {props.sideBarHandler(props.fetchRoutePart, menuPoint)}} 
                         className="menuPoint">
