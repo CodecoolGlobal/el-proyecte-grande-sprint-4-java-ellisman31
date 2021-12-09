@@ -3,7 +3,7 @@ import './sidebar_menupoint/MenuPoint';
 import { useState, useEffect } from 'react'
 import MenuPoint from './sidebar_menupoint/MenuPoint';
 import ExtraSearch from './sidebar_menupoint/ExtraSearch';
-
+import axios from 'axios';
 
 const Sidebar = (props) => {
     const [showProfessions, setShowProfessions] = useState(false);
@@ -24,10 +24,17 @@ const Sidebar = (props) => {
     }, [])
 
     const fetchMenuPoint = async(menuPoint) => {
-        const response = await(fetch(`http://localhost:8080/api/getAll${menuPoint}`));
-        const data = await response.json();
+        const response = await axios.get(`http://localhost:8080/api/getAll${menuPoint}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        });
+        const data = await response;
         return data;
     }
+
 
     return (
         <div id="sidebar" className="sidenav">
