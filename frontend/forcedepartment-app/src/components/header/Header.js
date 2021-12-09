@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 function Header(props) {
 
     const logout = async () => {
-        await fetch('http://localhost:8000/api/logout', {
+        await fetch('http://localhost:8080/api/logout', {
             method: 'POST',
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            headers: {"Content-Type": "application/json"},
             credentials: 'include',
         });
+        localStorage.clear();
     }
 
     let menu;
@@ -16,11 +17,11 @@ function Header(props) {
 
     //pass unique id
     
-    if (loggedUserName != '') {
+    if (loggedUserName !== undefined) {
         menu = (
         <ul className="navBar">
             <Link className="navbar-element" to="/profile/3">Profile</Link>
-            <Link className="navbar-element" to="/login">Logout</Link>
+            <Link className="navbar-element" to="/login" onClick={logout}>Logout</Link>
         </ul>
         )
     }
@@ -37,9 +38,11 @@ function Header(props) {
             <div className="logo">
                 <Link to="/">{props.title}</Link>
             </div>
+            {loggedUserName ? 
             <div className="logged-user">
                 <p>Logged user: {loggedUserName}</p>
-            </div>
+            </div>: null
+            }
             {menu}
         </div>
     )
