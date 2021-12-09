@@ -4,6 +4,7 @@ import profilePic from '../img/profile-icon-empty.png';
 import './Profile.css'
 import Header from '../header/Header';
 import Footer from '../footer/Footer';
+import axios from 'axios';
 
 const Profile = () => {
 
@@ -11,6 +12,7 @@ const Profile = () => {
     const [currentWorker, setCurrentWorker] = useState([]);
     const [currentUser, setCurrentUser] = useState([]);
     const [currentProfessions, setCurrentProfessions] = useState([]);
+    const [user, setUser] = useState([]);
 
     useEffect(()=> {
         document.title = "Special Department |  Profile";
@@ -28,14 +30,29 @@ const Profile = () => {
             getWorker();
         }, [userId]);
 
+    useEffect(async() => {
+
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+
+        axios.get("http://localhost:8080/api/getUser", config).then(
+            res => {
+                setUser(res.data);
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    },[])
 
     const workerAge = Math.floor(Math.floor(Math.abs(new Date - Date.parse(currentUser.birth_date))/ (24*60*60*1000)) / 365);
 
-    
-
     return (
         <>
-        <Header />
+        <Header loggedUser={user}/>
         <div className="user-profile-container">
             <div className="user-container">
                 <div className="user-personal">
