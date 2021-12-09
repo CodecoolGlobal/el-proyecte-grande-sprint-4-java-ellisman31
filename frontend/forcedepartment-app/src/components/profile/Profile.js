@@ -20,9 +20,10 @@ const Profile = () => {
 
     useEffect(() => {
             const getWorker = async () => {
-                const response = await fetch(`http://localhost:8080/api/getWorkerById/${userId}`);
+                const response = await fetch(`http://localhost:8080/api/getWorkerById/${userId}`, {
+                    withCredentials: true
+                });
                 const data = await response.json();
-                console.log(data);
                 setCurrentProfessions(data.user.workerExperience);
                 setCurrentUser(data.user);
                 setCurrentWorker(data);
@@ -35,7 +36,8 @@ const Profile = () => {
         const config = {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
+            },
+            withCredentials: true
         }
 
         axios.get("http://localhost:8080/api/getUser", config).then(

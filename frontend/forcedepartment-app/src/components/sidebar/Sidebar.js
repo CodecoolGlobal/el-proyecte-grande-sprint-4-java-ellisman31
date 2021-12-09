@@ -30,6 +30,7 @@ const Sidebar = (props) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         return data;

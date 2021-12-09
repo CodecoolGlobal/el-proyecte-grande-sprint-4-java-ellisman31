@@ -45,6 +45,7 @@ const Main = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         return data;
@@ -57,6 +58,7 @@ const Main = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         setWorkers(data);
@@ -69,6 +71,7 @@ const Main = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         setWorkers(data);
