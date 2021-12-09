@@ -14,7 +14,6 @@ const ExtraSearch = (props) => {
         props.listWorkers(currentNamePart, currentWorkObject, currentProfession, currentMinimumRate);
     }, [currentProfession, currentWorkObject, currentNamePart, currentMinimumRate])
 
-
     return (
         <div>
             <div className="mainMenuPoint" onClick={() => {
@@ -52,7 +51,7 @@ const ExtraSearch = (props) => {
                     }}>Professions</h4>
                     {showCurrentProfessionMenu &&
                         <div> 
-                            {props.allProfessions.map((profession) => (
+                            {props.allProfessions.data.map((profession) => (
                             <div key={profession}> 
                                 <label className="menuPoint" htmlFor={profession}>
                                     <input 
@@ -74,7 +73,7 @@ const ExtraSearch = (props) => {
                     }}>Work Object</h4>
                     {showCurrentWorkObjectMenu && 
                         <div>
-                            {props.allWorkObjects.map((workObject) => (
+                            {props.allWorkObjects.data.map((workObject) => (
                                 <div key={workObject}>
                                     <label className="menuPoint" htmlFor={workObject}>
                                         <input 
