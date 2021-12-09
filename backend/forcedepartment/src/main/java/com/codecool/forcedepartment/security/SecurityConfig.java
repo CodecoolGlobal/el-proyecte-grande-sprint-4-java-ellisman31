@@ -3,6 +3,7 @@ package com.codecool.forcedepartment.security;
 import com.codecool.forcedepartment.security.Filters.CustomAuthenticationFilter;
 import com.codecool.forcedepartment.security.Filters.CustomAuthorizationFilter;
 import com.codecool.forcedepartment.security.JWT.JWTConfig;
+import com.codecool.forcedepartment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,19 +39,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final SecretKey secretKey;
     private final JWTConfig jwtConfig;
+    private final UserService userService;
 
     @Autowired
     public SecurityConfig(PasswordEncoder passwordEncoder,
-                          UserDetailsService userDetailsService, SecretKey secretKey, JWTConfig jwtConfig) {
+                          UserDetailsService userDetailsService, SecretKey secretKey, JWTConfig jwtConfig, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
         this.secretKey = secretKey;
         this.jwtConfig = jwtConfig;
+        this.userService = userService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), secretKey, jwtConfig);
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), secretKey, jwtConfig, userService);
         customAuthenticationFilter.setFilterProcessesUrl("/api/login"); //custom login and pass this to the filter
         http
                 .cors()
@@ -58,9 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
+                //look up for this
                 .authorizeRequests().antMatchers("/","/api/login","/api/register/**","/api/logout").permitAll()
                 .and()
-                .authorizeRequests().antMatchers(GET, "/api/**").permitAll() //ask about this because of Frontend
+                .authorizeRequests().antMatchers(GET, "/api/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers(POST, "/api/**").hasAnyAuthority("ADMIN")
                 .and()
