@@ -12,15 +12,21 @@ function Header(props) {
         localStorage.clear();
     }
 
-    let menu;
-    const loggedUserName = props.loggedUser.name;
+    const loggedUserData = props.loggedUser.userPersonalInformation;
 
-    //pass unique id
+    let menu;
+    let loggedUserName;
+    let loggedUserId;
+    try{ 
+        loggedUserName = loggedUserData.firstName + " " +loggedUserData.lastName; 
+        loggedUserId = loggedUserData.userId;
+     } catch(e) { console.error(e); }
+    
     
     if (loggedUserName !== undefined) {
         menu = (
         <ul className="navBar">
-            <Link className="navbar-element" to="/profile/3">Profile</Link>
+            <Link className="navbar-element" to={`/profile/${loggedUserId}`}>Profile</Link>
             <Link className="navbar-element" to="/login" onClick={logout}>Logout</Link>
         </ul>
         )
