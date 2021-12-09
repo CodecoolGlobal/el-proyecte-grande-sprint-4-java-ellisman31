@@ -22,7 +22,6 @@ function LoginDesign(props) {
                 "Content-Type": "application/x-www-form-urlencoded"
             }})
             .then(res => {
-                console.log(res);
                 if (res.data.accessToken) {
                     localStorage.setItem('token', res.data.accessToken);
                     navigation("/");

@@ -10,16 +10,20 @@ import com.codecool.forcedepartment.security.JWT.JWTConfig;
 import com.codecool.forcedepartment.security.JWT.RefreshTokenDto;
 import com.codecool.forcedepartment.service.UserService;
 import com.codecool.forcedepartment.service.WorkerService;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -52,9 +56,17 @@ public class GetAllUsersApi {
         return userService.getAllUser();
     }
 
-    @RequestMapping(value = "/api/getUser", method = RequestMethod.GET)
-    public Object getCurrentUser() {
-        return SecurityContextHolder.getContext().getAuthentication();
+    @RequestMapping(value = "/api/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getCurrentUser(@RequestHeader (name="Authorization") String token) throws UnsupportedEncodingException {
+        String[] splitToken = token.split("\\.");
+        return new String(Base64.decodeBase64(splitToken[1]), "UTF-8");
+    }
+
+    @RequestMapping(value = "/api/logout", method = RequestMethod.POST)
+    public void logoutTheUser(HttpServletRequest request) throws ServletException {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        //TODO: blacklist JWT (entity)
+        request.logout();
     }
 
     @RequestMapping(value = "/api/register/user", method = RequestMethod.POST)

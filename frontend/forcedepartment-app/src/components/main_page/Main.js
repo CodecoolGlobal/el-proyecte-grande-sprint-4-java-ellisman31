@@ -25,7 +25,8 @@ const Main = () => {
         const config = {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
+            },
+            withCredentials: true
         }
 
         axios.get("http://localhost:8080/api/getUser", config).then(
@@ -45,6 +46,7 @@ const Main = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         return data;
@@ -57,6 +59,7 @@ const Main = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         setWorkers(data);
@@ -69,6 +72,7 @@ const Main = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+            withCredentials: true
         });
         const data = await response;
         setWorkers(data);
