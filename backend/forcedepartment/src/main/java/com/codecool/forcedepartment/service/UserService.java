@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUserToDatabase(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
