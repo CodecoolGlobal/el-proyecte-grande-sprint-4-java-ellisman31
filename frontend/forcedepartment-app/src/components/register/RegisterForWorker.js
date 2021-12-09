@@ -22,7 +22,7 @@ function RegisterForWorker(props) {
 
 
     const saveWorkerDataIntoTheDatabase = (workerData) => {
-        fetch('http://localhost:8080/api/getAllWorker', {
+        fetch('http://localhost:8080/api/register/worker', {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(workerData)
