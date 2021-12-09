@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -55,6 +56,12 @@ public class GetAllUsersApi {
     @RequestMapping(value = "/api/getUser", method = RequestMethod.GET)
     public Object getCurrentUser() {
         return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    @RequestMapping(value = "/api/logout", method = RequestMethod.POST)
+    public void logoutTheUser(HttpServletRequest request) throws ServletException {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        request.logout();
     }
 
     @RequestMapping(value = "/api/register/user", method = RequestMethod.POST)
