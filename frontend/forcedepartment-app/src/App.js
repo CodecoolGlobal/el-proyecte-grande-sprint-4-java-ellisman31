@@ -5,6 +5,7 @@ import Profile from './components/profile/Profile';
 import Register from './components/register/Register'
 import Login from './components/login/Login'
 
+//TODO: add header and footer here to pass the logged user and for better accessibility!
 function App() {
 
     return (
