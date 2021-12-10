@@ -10,7 +10,7 @@ This project is meant for 4 sprints at least, but it may keep you company until 
 
 ## Tasks
 
-1.Technical requirements - backend.
+1. Technical requirements - backend.
     - A user can register into the application by setting at least their username, e-mail address, and password.
     - A user can log in to the application.
     - The user can log out from the application.
