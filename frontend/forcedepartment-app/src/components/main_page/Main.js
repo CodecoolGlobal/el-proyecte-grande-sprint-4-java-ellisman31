@@ -22,12 +22,16 @@ const Main = () => {
 
     useEffect(async() => {
 
+
         const config = {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             },
             withCredentials: true
         }
+
+                //header = "Access-Control-Origin-Allow = *"
+
 
         axios.get("http://localhost:8080/api/getUser", config).then(
             res => {
