@@ -48,7 +48,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
             return authenticationManager.authenticate(authenticationToken);
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             response.setHeader("errorMessage", "The given user is not valid or exist!");
             return null;
         }
