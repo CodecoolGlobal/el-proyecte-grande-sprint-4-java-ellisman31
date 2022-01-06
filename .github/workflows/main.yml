@@ -1,0 +1,58 @@
+name: CI-CD
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ feature/Docker ]
+  pull_request:
+    branches: [ development ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This job runs only if the commit message says build app
+
+  # Steps represent a sequence of tasks that will be executed as part of the job
+  push_to_DockerHub:
+      name: Push Images to DockerHub
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+      # build Docker image and push to docker hub
+      # only if the app build and test successfully
+      if: "contains(github.event.commits[0].message, '[build app]')"
+      steps:
+        - name: checkout repo
+          uses: actions/checkout@v2
+
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v1
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+
+        - name: Login to DockerHub
+          uses: docker/login-action@v1
+          with:
+            username: akos99
+            password: cba92140-2bca-4154-863a-42e8e5a805eb
+
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./
+            file: ./Dockerfile
+            push: true
+            tags: akos99/express-demo:latest
+
+        - name: Run the image in a container
+          uses: addnab/docker-run-action@v3
+          with:
+            image: akos99/express-demo:latest
+            run: |
+              echo "runing the docker image"
+              echo "Testing the nodejs  app endpoints"
+              echo ${{ steps.docker_build.outputs.digest }}
+
